@@ -2,7 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import { Image } from 'astro:assets';
 
-import heroImg from '../assets/images/hero-illustration.png';
+import heroImg from '../assets/images/hero-illustration.gif';
 import story1Img from '../assets/images/story-1.png';
 import story2Img from '../assets/images/story-2.png';
 import story3Img from '../assets/images/story-3.png';
@@ -10,57 +10,56 @@ import story3Img from '../assets/images/story-3.png';
 
 <Layout title="Home">
   <!-- Hero Section -->
-  <section class="flex flex-col-reverse lg:flex-row items-center justify-between gap-12 py-12 md:py-20">
-    <div class="flex-1 flex flex-col items-start gap-6">
-      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-surface border border-border shadow-sm text-sm font-medium">
-        <span class="w-5 h-5 rounded-full bg-black"></span>
-        Hi, I'm Jinyeong
-      </div>
-      
-      <h1 class="text-[36px] md:text-[56px] font-[800] leading-tight tracking-tight text-text-title">
-        Learning more,<br/>
-        <span class="text-primary">Growing better.</span>
-      </h1>
-      
-      <p class="text-[var(--text-body)] text-text-body font-[var(--font-weight-body-light)] leading-relaxed max-w-lg">
-        작은 아이디어를 현실로 만드는 것을 좋아합니다.<br/>
-        AI를 활용해 사람들의 일상에 도움이 되는<br/>
-        제품을 만들고 싶습니다.
-      </p>
-
-      <div class="font-['Caveat'] text-4xl text-secondary-blue opacity-80 mt-2 mb-4">
-        Carpe diem.
-      </div>
-
-      <div class="flex flex-wrap gap-4">
-        <a href="/projects" class="flex items-center gap-2 px-6 py-3 rounded-[var(--radius-btn)] bg-surface border border-border shadow-sm hover:shadow-[var(--shadow-card-hover)] hover:border-primary/30 transition-all font-medium text-sm">
-          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
-          프로젝트 보기
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ml-1 opacity-50"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-        </a>
-        <a href="/notes" class="flex items-center gap-2 px-6 py-3 rounded-[var(--radius-btn)] bg-surface border border-border shadow-sm hover:shadow-[var(--shadow-card-hover)] hover:border-primary/30 transition-all font-medium text-sm">
-          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
-          개인 공부 기록
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ml-1 opacity-50"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-        </a>
-        <a href="/stories" class="flex items-center gap-2 px-6 py-3 rounded-[var(--radius-btn)] bg-surface border border-border shadow-sm hover:shadow-[var(--shadow-card-hover)] hover:border-primary/30 transition-all font-medium text-sm">
-          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary"><path d="M12 19l7-7 3 3-7 7-3-3z"></path><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path><path d="M2 2l7.586 7.586"></path><circle cx="11" cy="11" r="2"></circle></svg>
-          스토리 보기
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ml-1 opacity-50"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-        </a>
-      </div>
+  <section class="flex flex-col gap-6 py-12 md:py-20">
+    <div class="inline-flex self-start items-center gap-2 px-3 py-1 rounded-full bg-surface border border-border shadow-sm text-sm font-medium">
+      <span class="w-5 h-5 rounded-full bg-black"></span>
+      Hi, I'm Jinyeong
     </div>
-    <div class="flex-1 w-full flex justify-center lg:justify-end">
-      <!-- 
-        Replace this placeholder with your actual illustration.
-        Target path: src/assets/images/hero-illustration.png 
-      -->
-      <div class="w-full max-w-md aspect-square bg-gray-100 dark:bg-slate-700/50 rounded-3xl overflow-hidden border border-border/50 relative shadow-sm">
-        <Image src={heroImg} alt="Hero Illustration" class="w-full h-full object-cover opacity-0" />
-        <div class="absolute inset-0 flex items-center justify-center text-text-muted text-sm p-8 text-center flex-col">
-          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mb-4 opacity-50"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
-          <p>Hero Illustration Placeholder</p>
-          <p class="text-xs mt-1">Replace `src/assets/images/hero-illustration.png`</p>
+    
+    <div class="relative w-full rounded-[24px] overflow-hidden bg-gray-100 dark:bg-slate-700/50 shadow-sm border border-border/50 min-h-[480px] flex items-center p-8 md:p-12 lg:p-16">
+      <!-- Background Image Layer -->
+      {heroImg.format === 'gif' ? (
+        <img src={heroImg.src} alt="Hero Illustration" width={heroImg.width} height={heroImg.height} class="absolute inset-0 w-full h-full object-cover" />
+      ) : (
+        <Image src={heroImg} alt="Hero Illustration" class="absolute inset-0 w-full h-full object-cover" />
+      )}
+      
+      <!-- Gradient Overlay -->
+      <div class="absolute inset-0 bg-gradient-to-r from-white/90 via-white/70 to-transparent dark:from-slate-900/90 dark:via-slate-900/70 dark:to-transparent"></div>
+      
+      <!-- Content Layer -->
+      <div class="relative z-10 flex flex-col items-start gap-6 max-w-2xl">
+        <h1 class="text-[36px] md:text-[56px] font-[800] leading-tight tracking-tight text-text-title">
+          Learning more,<br/>
+          <span class="text-primary">Growing better.</span>
+        </h1>
+        
+        <p class="text-[var(--text-body)] text-text-body font-[var(--font-weight-body-light)] leading-relaxed max-w-lg">
+          작은 아이디어를 현실로 만드는 것을 좋아합니다.<br/>
+          AI를 활용해 사람들의 일상에 도움이 되는<br/>
+          제품을 만들고 싶습니다.
+        </p>
+
+        <div class="font-['Caveat'] text-4xl text-secondary-blue opacity-80 mt-2 mb-4">
+          Carpe diem.
+        </div>
+
+        <div class="flex flex-wrap gap-4">
+          <a href="/projects" class="flex items-center gap-2 px-6 py-3 rounded-[var(--radius-btn)] bg-surface border border-border shadow-sm hover:shadow-[var(--shadow-card-hover)] hover:border-primary/30 transition-all font-medium text-sm">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+            프로젝트 보기
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ml-1 opacity-50"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+          </a>
+          <a href="/notes" class="flex items-center gap-2 px-6 py-3 rounded-[var(--radius-btn)] bg-surface border border-border shadow-sm hover:shadow-[var(--shadow-card-hover)] hover:border-primary/30 transition-all font-medium text-sm">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
+            개인 공부 기록
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ml-1 opacity-50"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+          </a>
+          <a href="/stories" class="flex items-center gap-2 px-6 py-3 rounded-[var(--radius-btn)] bg-surface border border-border shadow-sm hover:shadow-[var(--shadow-card-hover)] hover:border-primary/30 transition-all font-medium text-sm">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary"><path d="M12 19l7-7 3 3-7 7-3-3z"></path><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path><path d="M2 2l7.586 7.586"></path><circle cx="11" cy="11" r="2"></circle></svg>
+            스토리 보기
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ml-1 opacity-50"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+          </a>
         </div>
       </div>
     </div>

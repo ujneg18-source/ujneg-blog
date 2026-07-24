@@ -8,15 +8,20 @@ import workingOnImg from '../assets/images/working-on-illustration.png';
 
 <Layout title="About">
   <div class="flex flex-col gap-12">
-    <!-- Header Title -->
-    <div>
-      <h1 class="text-[36px] font-[800] text-text-title mb-8">About</h1>
-    </div>
-
     <!-- Intro Section -->
-    <section class="flex flex-col-reverse md:flex-row items-start justify-between gap-12">
-      <!-- Text & Socials -->
-      <div class="flex-1 flex flex-col gap-6">
+    <section class="relative w-full rounded-[24px] overflow-hidden bg-gray-100 dark:bg-slate-700/50 shadow-sm border border-border/50 min-h-[400px] flex items-center p-8 md:p-12 lg:p-16">
+      <!-- Background Image Layer -->
+      {profileImg.format === 'gif' ? (
+        <img src={profileImg.src} alt="Profile Background" width={profileImg.width} height={profileImg.height} class="absolute inset-0 w-full h-full object-cover" />
+      ) : (
+        <Image src={profileImg} alt="Profile Background" class="absolute inset-0 w-full h-full object-cover" />
+      )}
+      
+      <!-- Gradient Overlay -->
+      <div class="absolute inset-0 bg-gradient-to-r from-white/90 via-white/70 to-transparent dark:from-slate-900/90 dark:via-slate-900/70 dark:to-transparent"></div>
+      
+      <!-- Text & Socials Layer -->
+      <div class="relative z-10 flex flex-col gap-6 max-w-xl">
         <h2 class="text-sm font-bold tracking-widest text-text-secondary uppercase">AI ENGINEER</h2>
         
         <ul class="text-[16px] text-text-body font-[500] leading-relaxed space-y-2 list-disc list-inside">
@@ -40,16 +45,6 @@ import workingOnImg from '../assets/images/working-on-illustration.png';
           <a href="#" class="w-10 h-10 rounded-full bg-surface border border-border flex items-center justify-center text-text-secondary hover:text-text-title hover:border-text-secondary transition-colors shadow-sm">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
           </a>
-        </div>
-      </div>
-
-      <!-- Profile Image -->
-      <div class="w-full md:w-[320px] aspect-[3/4] bg-gray-100 dark:bg-slate-700/50 rounded-[var(--radius-card)] overflow-hidden relative shadow-sm border border-border/50 shrink-0">
-        <Image src={profileImg} alt="Profile" class="w-full h-full object-cover opacity-0" />
-        <div class="absolute inset-0 flex items-center justify-center text-text-muted text-xs flex-col p-6 text-center">
-          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mb-4 opacity-50"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-          <p>Profile Image</p>
-          <p class="mt-1">Replace `src/assets/images/profile-image.png`</p>
         </div>
       </div>
     </section>
