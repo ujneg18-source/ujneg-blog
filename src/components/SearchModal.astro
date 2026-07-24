@@ -1,0 +1,232 @@
+---
+---
+
+<div id="search-modal" class="fixed inset-0 z-[100] hidden">
+  <!-- Backdrop -->
+  <div id="search-backdrop" class="absolute inset-0 bg-gray-900/40 backdrop-blur-sm dark:bg-black/60 transition-opacity opacity-0"></div>
+  
+  <!-- Modal -->
+  <div id="search-dialog" class="absolute top-[15%] left-1/2 -translate-x-1/2 w-full max-w-[600px] bg-white dark:bg-slate-800 rounded-2xl shadow-2xl border border-gray-100 dark:border-slate-700 flex flex-col overflow-hidden transition-all scale-95 opacity-0">
+    
+    <!-- Search Input Area -->
+    <div class="flex items-center gap-3 px-4 py-4 border-b border-gray-100 dark:border-slate-700">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-gray-400 dark:text-slate-400"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+      <input type="text" id="search-input" placeholder="제목이나 내용으로 검색해 보세요" class="flex-1 bg-transparent border-none outline-none text-[16px] text-gray-900 dark:text-slate-100 placeholder:text-gray-400 dark:placeholder:text-slate-500" autocomplete="off" />
+      <button id="search-close" class="p-1.5 rounded-md hover:bg-gray-100 dark:hover:bg-slate-700 text-gray-400 dark:text-slate-400 transition-colors">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
+    </div>
+
+    <!-- Results Area -->
+    <div id="search-results-container" class="flex flex-col flex-1 max-h-[400px] overflow-y-auto p-2">
+      <!-- Empty State -->
+      <div id="search-empty" class="flex flex-col items-center justify-center py-12 gap-3 text-center">
+        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="text-gray-300 dark:text-slate-600 mb-2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        <p class="text-[15px] font-[600] text-gray-600 dark:text-slate-300">어떤 글을 찾고 있나요?</p>
+        <p class="text-[13px] text-gray-400 dark:text-slate-500">키워드를 입력해 관련 콘텐츠를 찾아보세요.</p>
+      </div>
+
+      <!-- Loading State -->
+      <div id="search-loading" class="hidden py-12 text-center text-[14px] text-gray-500 dark:text-slate-400">
+        검색 중...
+      </div>
+
+      <!-- No Results State -->
+      <div id="search-no-results" class="hidden py-12 text-center text-[14px] text-gray-500 dark:text-slate-400">
+        검색 결과가 없습니다.
+      </div>
+
+      <!-- Actual Results List -->
+      <ul id="search-results-list" class="flex flex-col gap-1"></ul>
+    </div>
+
+    <!-- Footer Shortcuts -->
+    <div class="px-4 py-3 bg-gray-50 dark:bg-slate-800/50 border-t border-gray-100 dark:border-slate-700 flex items-center justify-center gap-6 text-[12px] font-medium text-gray-400 dark:text-slate-500">
+      <div class="flex items-center gap-1.5">
+        <span class="w-5 h-5 rounded border border-gray-200 dark:border-slate-600 bg-white dark:bg-slate-700 flex items-center justify-center shadow-sm">↑</span>
+        <span class="w-5 h-5 rounded border border-gray-200 dark:border-slate-600 bg-white dark:bg-slate-700 flex items-center justify-center shadow-sm">↓</span>
+        <span>이동</span>
+      </div>
+      <div class="flex items-center gap-1.5">
+        <span class="w-6 h-5 rounded border border-gray-200 dark:border-slate-600 bg-white dark:bg-slate-700 flex items-center justify-center shadow-sm text-[10px]">↵</span>
+        <span>선택</span>
+      </div>
+      <div class="flex items-center gap-1.5">
+        <span class="w-7 h-5 rounded border border-gray-200 dark:border-slate-600 bg-white dark:bg-slate-700 flex items-center justify-center shadow-sm text-[10px]">Esc</span>
+        <span>닫기</span>
+      </div>
+    </div>
+    
+  </div>
+</div>
+
+
+
+<script>
+  let pagefind: any;
+  
+  document.addEventListener('DOMContentLoaded', () => {
+    const modal = document.getElementById('search-modal');
+    const backdrop = document.getElementById('search-backdrop');
+    const dialog = document.getElementById('search-dialog');
+    const input = document.getElementById('search-input') as HTMLInputElement;
+    const closeBtn = document.getElementById('search-close');
+    const emptyState = document.getElementById('search-empty');
+    const loadingState = document.getElementById('search-loading');
+    const noResultsState = document.getElementById('search-no-results');
+    const resultsList = document.getElementById('search-results-list');
+    
+    let isModalOpen = false;
+    let selectedIndex = -1;
+    let currentResults = [];
+
+    const openModal = () => {
+      isModalOpen = true;
+      modal?.classList.remove('hidden');
+      
+      // trigger reflow
+      void modal?.offsetWidth;
+      
+      backdrop?.classList.remove('opacity-0');
+      dialog?.classList.remove('opacity-0', 'scale-95');
+      
+      input?.focus();
+    };
+
+    const closeModal = () => {
+      isModalOpen = false;
+      backdrop?.classList.add('opacity-0');
+      dialog?.classList.add('opacity-0', 'scale-95');
+      
+      setTimeout(() => {
+        modal?.classList.add('hidden');
+        if (input) input.value = '';
+        resetResults();
+      }, 200);
+    };
+
+    const resetResults = () => {
+      emptyState?.classList.remove('hidden');
+      loadingState?.classList.add('hidden');
+      noResultsState?.classList.add('hidden');
+      if (resultsList) resultsList.innerHTML = '';
+      currentResults = [];
+      selectedIndex = -1;
+    };
+
+    // Toggle via Header button
+    const headerSearchBtn = document.getElementById('header-search-btn');
+    headerSearchBtn?.addEventListener('click', openModal);
+
+    // Keyboard Shortcuts
+    document.addEventListener('keydown', (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+        e.preventDefault();
+        isModalOpen ? closeModal() : openModal();
+      }
+      
+      if (!isModalOpen) return;
+      
+      if (e.key === 'Escape') {
+        closeModal();
+      } else if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        moveSelection(1);
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        moveSelection(-1);
+      } else if (e.key === 'Enter' && selectedIndex >= 0) {
+        e.preventDefault();
+        const items = resultsList?.querySelectorAll('a');
+        if (items && items[selectedIndex]) {
+          items[selectedIndex].click();
+        }
+      }
+    });
+
+    backdrop?.addEventListener('click', closeModal);
+    closeBtn?.addEventListener('click', closeModal);
+
+    const moveSelection = (direction: number) => {
+      const items = resultsList?.querySelectorAll('a');
+      if (!items || items.length === 0) return;
+      
+      items.forEach(item => {
+        item.classList.remove('bg-gray-100', 'dark:bg-slate-700');
+        item.classList.add('hover:bg-gray-50', 'dark:hover:bg-slate-700/50');
+      });
+      
+      selectedIndex += direction;
+      if (selectedIndex < 0) selectedIndex = items.length - 1;
+      if (selectedIndex >= items.length) selectedIndex = 0;
+      
+      const target = items[selectedIndex] as HTMLElement;
+      target.classList.remove('hover:bg-gray-50', 'dark:hover:bg-slate-700/50');
+      target.classList.add('bg-gray-100', 'dark:bg-slate-700');
+      target.scrollIntoView({ block: 'nearest' });
+    };
+
+    let searchTimeout: any;
+    input?.addEventListener('input', (e) => {
+      const query = (e.target as HTMLInputElement).value.trim();
+      
+      clearTimeout(searchTimeout);
+      
+      if (!query) {
+        resetResults();
+        return;
+      }
+      
+      searchTimeout = setTimeout(() => {
+        performSearch(query);
+      }, 300);
+    });
+
+    const performSearch = async (query: string) => {
+      emptyState?.classList.add('hidden');
+      noResultsState?.classList.add('hidden');
+      loadingState?.classList.remove('hidden');
+      if (resultsList) resultsList.innerHTML = '';
+      selectedIndex = -1;
+      
+      try {
+        if (!pagefind) {
+          // Initialize pagefind only when searching
+          const pfPath = '/pagefind/pagefind.js';
+          pagefind = await import(/* @vite-ignore */ pfPath);
+          await pagefind.options({
+            excerptLength: 30
+          });
+        }
+        
+        const searchRes = await pagefind.search(query);
+        const results = await Promise.all(searchRes.results.slice(0, 8).map(r => r.data()));
+        currentResults = results;
+        
+        loadingState?.classList.add('hidden');
+        
+        if (results.length === 0) {
+          noResultsState?.classList.remove('hidden');
+          return;
+        }
+        
+        if (resultsList) {
+          resultsList.innerHTML = results.map((res: any, idx: number) => `
+            <li>
+              <a href="${res.url}" class="w-full text-left p-3 rounded-lg transition-colors flex flex-col gap-1 cursor-pointer ${idx === 0 ? 'bg-gray-100 dark:bg-slate-700' : 'hover:bg-gray-50 dark:hover:bg-slate-700/50'}">
+                <div class="text-[15px] font-[600] text-gray-900 dark:text-slate-100">${res.meta.title || res.url}</div>
+                <div class="text-[13px] text-gray-500 dark:text-slate-400 line-clamp-2 leading-[1.6] [&>mark]:bg-blue-100 [&>mark]:dark:bg-blue-900/50 [&>mark]:text-blue-800 [&>mark]:dark:text-blue-200 [&>mark]:font-medium [&>mark]:px-1 [&>mark]:rounded-sm">${res.excerpt}</div>
+              </a>
+            </li>
+          `).join('');
+          selectedIndex = 0; // Select first item by default
+        }
+        
+      } catch (err) {
+        console.error('Pagefind search error:', err);
+        loadingState?.classList.add('hidden');
+        noResultsState?.classList.remove('hidden');
+      }
+    };
+  });
+</script>

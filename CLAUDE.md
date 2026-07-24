@@ -20,3 +20,7 @@ Consult these guides before working on related tasks:
 - [Adding or managing content](https://docs.astro.build/en/guides/content-collections/)
 - [Adding styles or using Tailwind](https://docs.astro.build/en/guides/styling/)
 - [Supporting multiple languages](https://docs.astro.build/en/guides/internationalization/)
+
+## Workflow Rules
+
+- **Implementation Plans**: Always save future phase implementation plans as markdown files in the `docs/plans/` directory (e.g., `phase-4-notes.md`). Do not overwrite previous plans.

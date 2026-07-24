@@ -1,49 +1,161 @@
 ---
-import BaseHead from '../components/BaseHead.astro';
-import Footer from '../components/Footer.astro';
-import Header from '../components/Header.astro';
-import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+import Layout from '../layouts/Layout.astro';
+import { Image } from 'astro:assets';
+
+import heroImg from '../assets/images/hero-illustration.png';
+import story1Img from '../assets/images/story-1.png';
+import story2Img from '../assets/images/story-2.png';
+import story3Img from '../assets/images/story-3.png';
 ---
 
-<!doctype html>
-<html lang="en">
-	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-	</head>
-	<body>
-		<Header />
-		<main>
-			<h1>🧑‍🚀 Hello, Astronaut!</h1>
-			<p>
-				Welcome to the official <a href="https://astro.build/">Astro</a> blog starter template. This template
-				serves as a lightweight, minimally-styled starting point for anyone looking to build a personal
-				website, blog, or portfolio with Astro.
-			</p>
-			<p>
-				This template comes with a few integrations already configured in your
-				<code>astro.config.mjs</code> file. You can customize your setup with
-				<a href="https://astro.build/integrations">Astro Integrations</a> to add tools like Tailwind,
-				React, or Vue to your project.
-			</p>
-			<p>Here are a few ideas on how to get started with the template:</p>
-			<ul>
-				<li>Edit this page in <code>src/pages/index.astro</code></li>
-				<li>Edit the site header items in <code>src/components/Header.astro</code></li>
-				<li>Add your name to the footer in <code>src/components/Footer.astro</code></li>
-				<li>Check out the included blog posts in <code>src/content/blog/</code></li>
-				<li>Customize the blog post page layout in <code>src/layouts/BlogPost.astro</code></li>
-			</ul>
-			<p>
-				Have fun! If you get stuck, remember to
-				<a href="https://docs.astro.build/">read the docs</a>
-				or <a href="https://astro.build/chat">join us on Discord</a> to ask questions.
-			</p>
-			<p>
-				Looking for a blog template with a bit more personality? Check out
-				<a href="https://github.com/Charca/astro-blog-template">astro-blog-template</a>
-				by <a href="https://twitter.com/Charca">Maxi Ferreira</a>.
-			</p>
-		</main>
-		<Footer />
-	</body>
-</html>
+<Layout title="Home">
+  <!-- Hero Section -->
+  <section class="flex flex-col-reverse lg:flex-row items-center justify-between gap-12 py-12 md:py-20">
+    <div class="flex-1 flex flex-col items-start gap-6">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-surface border border-border shadow-sm text-sm font-medium">
+        <span class="w-5 h-5 rounded-full bg-black"></span>
+        Hi, I'm Jinyeong
+      </div>
+      
+      <h1 class="text-[36px] md:text-[56px] font-[800] leading-tight tracking-tight text-text-title">
+        Learning more,<br/>
+        <span class="text-primary">Growing better.</span>
+      </h1>
+      
+      <p class="text-[var(--text-body)] text-text-body font-[var(--font-weight-body-light)] leading-relaxed max-w-lg">
+        작은 아이디어를 현실로 만드는 것을 좋아합니다.<br/>
+        AI를 활용해 사람들의 일상에 도움이 되는<br/>
+        제품을 만들고 싶습니다.
+      </p>
+
+      <div class="font-['Caveat'] text-4xl text-secondary-blue opacity-80 mt-2 mb-4">
+        Carpe diem.
+      </div>
+
+      <div class="flex flex-wrap gap-4">
+        <a href="/projects" class="flex items-center gap-2 px-6 py-3 rounded-[var(--radius-btn)] bg-surface border border-border shadow-sm hover:shadow-[var(--shadow-card-hover)] hover:border-primary/30 transition-all font-medium text-sm">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+          프로젝트 보기
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ml-1 opacity-50"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+        </a>
+        <a href="/notes" class="flex items-center gap-2 px-6 py-3 rounded-[var(--radius-btn)] bg-surface border border-border shadow-sm hover:shadow-[var(--shadow-card-hover)] hover:border-primary/30 transition-all font-medium text-sm">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
+          개인 공부 기록
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ml-1 opacity-50"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+        </a>
+        <a href="/stories" class="flex items-center gap-2 px-6 py-3 rounded-[var(--radius-btn)] bg-surface border border-border shadow-sm hover:shadow-[var(--shadow-card-hover)] hover:border-primary/30 transition-all font-medium text-sm">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary"><path d="M12 19l7-7 3 3-7 7-3-3z"></path><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path><path d="M2 2l7.586 7.586"></path><circle cx="11" cy="11" r="2"></circle></svg>
+          스토리 보기
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ml-1 opacity-50"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+        </a>
+      </div>
+    </div>
+    <div class="flex-1 w-full flex justify-center lg:justify-end">
+      <!-- 
+        Replace this placeholder with your actual illustration.
+        Target path: src/assets/images/hero-illustration.png 
+      -->
+      <div class="w-full max-w-md aspect-square bg-gray-100 dark:bg-slate-700/50 rounded-3xl overflow-hidden border border-border/50 relative shadow-sm">
+        <Image src={heroImg} alt="Hero Illustration" class="w-full h-full object-cover opacity-0" />
+        <div class="absolute inset-0 flex items-center justify-center text-text-muted text-sm p-8 text-center flex-col">
+          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mb-4 opacity-50"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+          <p>Hero Illustration Placeholder</p>
+          <p class="text-xs mt-1">Replace `src/assets/images/hero-illustration.png`</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats Section -->
+  <section class="py-12 border-t border-b border-border border-dashed">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-8 divide-x divide-transparent md:divide-border/50">
+      <div class="flex flex-col items-center justify-center text-center">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary mb-3"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+        <span class="text-[36px] font-[700] text-text-title leading-none mb-1">8</span>
+        <span class="text-[14px] text-text-secondary">Projects</span>
+      </div>
+      <div class="flex flex-col items-center justify-center text-center">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary mb-3"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
+        <span class="text-[36px] font-[700] text-text-title leading-none mb-1">126</span>
+        <span class="text-[14px] text-text-secondary">Notes</span>
+      </div>
+      <div class="flex flex-col items-center justify-center text-center">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary mb-3"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+        <span class="text-[36px] font-[700] text-text-title leading-none mb-1">4</span>
+        <span class="text-[14px] text-text-secondary">Research</span>
+      </div>
+      <div class="flex flex-col items-center justify-center text-center">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary mb-3"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+        <span class="text-[36px] font-[700] text-text-title leading-none mb-1">312</span>
+        <span class="text-[14px] text-text-secondary">GitHub Contributions</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Latest Stories Section -->
+  <section class="py-16">
+    <h2 class="text-sm font-bold tracking-widest text-text-secondary uppercase mb-8">Latest Stories</h2>
+    
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <!-- Story Card 1 -->
+      <a href="/stories/1" class="group flex flex-col bg-surface rounded-[var(--radius-card)] overflow-hidden border border-border/50 hover:shadow-[var(--shadow-card-hover)] transition-all">
+        <div class="aspect-video bg-gray-100 dark:bg-slate-700/50 relative overflow-hidden">
+          <Image src={story1Img} alt="Story Thumbnail" class="w-full h-full object-cover opacity-0" />
+          <div class="absolute inset-0 flex items-center justify-center text-text-muted text-xs flex-col">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mb-2 opacity-50"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+            <p>Replace `story-1.png`</p>
+          </div>
+        </div>
+        <div class="p-6 flex flex-col flex-grow">
+          <div class="flex items-center gap-2 mb-3">
+            <span class="px-2 py-0.5 rounded-[var(--radius-tag)] bg-[#EFF6FF] text-[#2563EB] text-[var(--text-small)] font-medium">개발 일기</span>
+          </div>
+          <h3 class="text-lg font-[700] text-text-title mb-4 group-hover:text-primary transition-colors">오랜만에 블로그, 다시 시작합니다</h3>
+          <div class="mt-auto text-[14px] text-text-secondary">
+            2024.05.20
+          </div>
+        </div>
+      </a>
+
+      <!-- Story Card 2 -->
+      <a href="/stories/2" class="group flex flex-col bg-surface rounded-[var(--radius-card)] overflow-hidden border border-border/50 hover:shadow-[var(--shadow-card-hover)] transition-all">
+        <div class="aspect-video bg-gray-100 dark:bg-slate-700/50 relative overflow-hidden">
+          <Image src={story2Img} alt="Story Thumbnail" class="w-full h-full object-cover opacity-0" />
+          <div class="absolute inset-0 flex items-center justify-center text-text-muted text-xs flex-col">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mb-2 opacity-50"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+            <p>Replace `story-2.png`</p>
+          </div>
+        </div>
+        <div class="p-6 flex flex-col flex-grow">
+          <div class="flex items-center gap-2 mb-3">
+            <span class="px-2 py-0.5 rounded-[var(--radius-tag)] bg-[#EFF6FF] text-[#2563EB] text-[var(--text-small)] font-medium">프로젝트 회고</span>
+          </div>
+          <h3 class="text-lg font-[700] text-text-title mb-4 group-hover:text-primary transition-colors">환희 v0.2 회고</h3>
+          <div class="mt-auto text-[14px] text-text-secondary">
+            2024.05.18
+          </div>
+        </div>
+      </a>
+
+      <!-- Story Card 3 -->
+      <a href="/stories/3" class="group flex flex-col bg-surface rounded-[var(--radius-card)] overflow-hidden border border-border/50 hover:shadow-[var(--shadow-card-hover)] transition-all">
+        <div class="aspect-video bg-gray-100 dark:bg-slate-700/50 relative overflow-hidden">
+          <Image src={story3Img} alt="Story Thumbnail" class="w-full h-full object-cover opacity-0" />
+          <div class="absolute inset-0 flex items-center justify-center text-text-muted text-xs flex-col">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mb-2 opacity-50"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+            <p>Replace `story-3.png`</p>
+          </div>
+        </div>
+        <div class="p-6 flex flex-col flex-grow">
+          <div class="flex items-center gap-2 mb-3">
+            <span class="px-2 py-0.5 rounded-[var(--radius-tag)] bg-[#F5F3FF] text-[#7C3AED] text-[var(--text-small)] font-medium">연구 기록</span>
+          </div>
+          <h3 class="text-lg font-[700] text-text-title mb-4 group-hover:text-primary transition-colors">Tokenizer 비교 실험 정리</h3>
+          <div class="mt-auto text-[14px] text-text-secondary">
+            2024.05.15
+          </div>
+        </div>
+      </a>
+    </div>
+  </section>
+</Layout>

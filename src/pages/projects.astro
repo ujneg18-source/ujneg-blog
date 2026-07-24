@@ -1,0 +1,183 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { Image } from 'astro:assets';
+import hwanheeMockupImg from '../assets/images/hwanhee-mockup.png';
+---
+
+<Layout title="Projects">
+  <div class="flex flex-col gap-12">
+    <!-- Header Title -->
+    <div>
+      <h1 class="font-extrabold leading-[1.1] text-text-title tracking-tight" style="font-size: 56px; font-weight: 800;">
+        IDEAS,<br/>
+        <span class="text-primary">MADE REAL.</span>
+      </h1>
+      
+      <h2 class="font-bold text-text-title mt-16 tracking-wide uppercase" style="font-size: 36px;">
+        4 PROJECTS
+      </h2>
+    </div>
+
+    <!-- Grid Projects -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8" data-pagefind-body>
+      
+      <!-- Project 1: 환희 -->
+      <div class="bg-surface rounded-[var(--radius-card)] overflow-hidden shadow-sm border border-border/50 flex flex-col group">
+        <!-- Thumbnail -->
+        <div class="w-full bg-gray-100 dark:bg-slate-700/50 relative border-b border-border/50 flex flex-col items-center justify-center overflow-hidden" style="aspect-ratio: 16/10;">
+          <Image src={hwanheeMockupImg} alt="HWANHEE" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 absolute inset-0 z-0" />
+          <!-- Status Badge -->
+          <div class="absolute bottom-3 right-3 bg-white dark:bg-slate-800/90 backdrop-blur-sm text-gray-900 dark:text-slate-100 text-[12px] font-bold px-3 py-1.5 rounded-full flex items-center gap-1.5 shadow-sm border border-gray-100 dark:border-slate-700 z-10">
+            <span class="w-2 h-2 rounded-full bg-blue-500"></span>Live
+          </div>
+        </div>
+        <!-- Content -->
+        <div class="p-[28px] flex flex-col flex-1">
+          <h3 class="text-[22px] font-[700] text-gray-900 dark:text-slate-100 mb-1">환희 (HWANHEE)</h3>
+          <div class="text-[14px] text-gray-400 dark:text-slate-400 mb-4">2024.01 - 2024.06</div>
+          <p class="text-[16px] text-gray-700 dark:text-slate-300 mb-3 leading-[1.7]">
+            LLM 기반 한국어 가독성 분석 및 글쓰기 피드백 서비스
+          </p>
+          <ul class="list-disc list-inside text-[15px] text-gray-700 dark:text-slate-300 space-y-1.5 mb-5 leading-[1.6]">
+            <li>RAG 파이프라인 구축 및 프롬프트 엔지니어링</li>
+            <li>팀 프로젝트 리딩, 일정 관리 및 GitHub 형상 관리</li>
+          </ul>
+          <!-- Tags -->
+          <div class="flex flex-wrap gap-2 mb-6">
+            <span class="px-3 py-1 rounded-full bg-gray-100 dark:bg-slate-700/50 text-gray-700 dark:text-slate-300 text-sm font-medium">Python</span>
+            <span class="px-3 py-1 rounded-full bg-gray-100 dark:bg-slate-700/50 text-gray-700 dark:text-slate-300 text-sm font-medium">FastAPI</span>
+            <span class="px-3 py-1 rounded-full bg-gray-100 dark:bg-slate-700/50 text-gray-700 dark:text-slate-300 text-sm font-medium">RAG</span>
+            <span class="px-3 py-1 rounded-full bg-gray-100 dark:bg-slate-700/50 text-gray-700 dark:text-slate-300 text-sm font-medium">LLM</span>
+          </div>
+          <!-- Link Button -->
+          <div class="mt-auto">
+            <a href="#" class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-border/50 text-gray-900 dark:text-slate-100 text-[13px] font-[600] hover:bg-gray-50 dark:bg-slate-800/50 transition-colors">
+              View Project
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Project 2: Bookly -->
+      <div class="bg-surface rounded-[var(--radius-card)] overflow-hidden shadow-sm border border-border/50 flex flex-col group">
+        <!-- Thumbnail -->
+        <div class="w-full bg-gray-100 dark:bg-slate-700/50 relative border-b border-border/50 flex flex-col items-center justify-center overflow-hidden" style="aspect-ratio: 16/10;">
+          <div class="text-gray-400 dark:text-slate-400 text-[13px] font-medium z-0">Thumbnail Placeholder</div>
+          <!-- Status Badge -->
+          <div class="absolute bottom-3 right-3 bg-white dark:bg-slate-800/90 backdrop-blur-sm text-gray-900 dark:text-slate-100 text-[12px] font-bold px-3 py-1.5 rounded-full flex items-center gap-1.5 shadow-sm border border-gray-100 dark:border-slate-700 z-10">
+            <span class="w-2 h-2 rounded-full bg-green-500"></span>Completed
+          </div>
+        </div>
+        <!-- Content -->
+        <div class="p-[28px] flex flex-col flex-1">
+          <h3 class="text-[22px] font-[700] text-gray-900 dark:text-slate-100 mb-1">Bookly</h3>
+          <div class="text-[14px] text-gray-400 dark:text-slate-400 mb-4">2023.08 - 2023.12</div>
+          <p class="text-[16px] text-gray-700 dark:text-slate-300 mb-3 leading-[1.7]">
+            독서 기록 및 추천 서비스
+          </p>
+          <ul class="list-disc list-inside text-[15px] text-gray-700 dark:text-slate-300 space-y-1.5 mb-5 leading-[1.6]">
+            <li>사용자 맞춤형 도서 추천 알고리즘 구현</li>
+            <li>Next.js 기반 반응형 웹 프론트엔드 개발</li>
+          </ul>
+          <!-- Tags -->
+          <div class="flex flex-wrap gap-2 mb-6">
+            <span class="px-3 py-1 rounded-full bg-gray-100 dark:bg-slate-700/50 text-gray-700 dark:text-slate-300 text-sm font-medium">Next.js</span>
+            <span class="px-3 py-1 rounded-full bg-gray-100 dark:bg-slate-700/50 text-gray-700 dark:text-slate-300 text-sm font-medium">Typescript</span>
+            <span class="px-3 py-1 rounded-full bg-gray-100 dark:bg-slate-700/50 text-gray-700 dark:text-slate-300 text-sm font-medium">MongoDB</span>
+          </div>
+          <!-- Link Button -->
+          <div class="mt-auto">
+            <a href="#" class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-border/50 text-gray-900 dark:text-slate-100 text-[13px] font-[600] hover:bg-gray-50 dark:bg-slate-800/50 transition-colors">
+              View Project
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Project 3: Korean NLP Toolkit -->
+      <div class="bg-surface rounded-[var(--radius-card)] overflow-hidden shadow-sm border border-border/50 flex flex-col group">
+        <!-- Thumbnail -->
+        <div class="w-full bg-gray-100 dark:bg-slate-700/50 relative border-b border-border/50 flex flex-col items-center justify-center overflow-hidden" style="aspect-ratio: 16/10;">
+          <div class="text-gray-400 dark:text-slate-400 text-[13px] font-medium z-0">Thumbnail Placeholder</div>
+          <!-- Status Badge -->
+          <div class="absolute bottom-3 right-3 bg-white dark:bg-slate-800/90 backdrop-blur-sm text-gray-900 dark:text-slate-100 text-[12px] font-bold px-3 py-1.5 rounded-full flex items-center gap-1.5 shadow-sm border border-gray-100 dark:border-slate-700 z-10">
+            <span class="w-2 h-2 rounded-full bg-green-500"></span>Completed
+          </div>
+        </div>
+        <!-- Content -->
+        <div class="p-[28px] flex flex-col flex-1">
+          <h3 class="text-[22px] font-[700] text-gray-900 dark:text-slate-100 mb-1">Korean NLP Toolkit</h3>
+          <div class="text-[14px] text-gray-400 dark:text-slate-400 mb-4">2023.01 - 2023.05</div>
+          <p class="text-[16px] text-gray-700 dark:text-slate-300 mb-3 leading-[1.7]">
+            한국어 NLP 연구 및 실험 도구 모음
+          </p>
+          <ul class="list-disc list-inside text-[15px] text-gray-700 dark:text-slate-300 space-y-1.5 mb-5 leading-[1.6]">
+            <li>KoNLPy 형태소 분석기 래퍼 클래스 구현</li>
+            <li>PyTorch 기반 기초 딥러닝 모델 학습 스크립트 작성</li>
+          </ul>
+          <!-- Tags -->
+          <div class="flex flex-wrap gap-2 mb-6">
+            <span class="px-3 py-1 rounded-full bg-gray-100 dark:bg-slate-700/50 text-gray-700 dark:text-slate-300 text-sm font-medium">Python</span>
+            <span class="px-3 py-1 rounded-full bg-gray-100 dark:bg-slate-700/50 text-gray-700 dark:text-slate-300 text-sm font-medium">KoNLPy</span>
+            <span class="px-3 py-1 rounded-full bg-gray-100 dark:bg-slate-700/50 text-gray-700 dark:text-slate-300 text-sm font-medium">PyTorch</span>
+          </div>
+          <!-- Link Button -->
+          <div class="mt-auto">
+            <a href="#" class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-border/50 text-gray-900 dark:text-slate-100 text-[13px] font-[600] hover:bg-gray-50 dark:bg-slate-800/50 transition-colors">
+              View Project
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Project 4: AI Study Helper -->
+      <div class="bg-surface rounded-[var(--radius-card)] overflow-hidden shadow-sm border border-border/50 flex flex-col group">
+        <!-- Thumbnail -->
+        <div class="w-full bg-gray-100 dark:bg-slate-700/50 relative border-b border-border/50 flex flex-col items-center justify-center overflow-hidden" style="aspect-ratio: 16/10;">
+          <div class="text-gray-400 dark:text-slate-400 text-[13px] font-medium z-0">Thumbnail Placeholder</div>
+          <!-- Status Badge -->
+          <div class="absolute bottom-3 right-3 bg-white dark:bg-slate-800/90 backdrop-blur-sm text-gray-900 dark:text-slate-100 text-[12px] font-bold px-3 py-1.5 rounded-full flex items-center gap-1.5 shadow-sm border border-gray-100 dark:border-slate-700 z-10">
+            <span class="w-2 h-2 rounded-full bg-blue-500"></span>Live
+          </div>
+        </div>
+        <!-- Content -->
+        <div class="p-[28px] flex flex-col flex-1">
+          <h3 class="text-[22px] font-[700] text-gray-900 dark:text-slate-100 mb-1">AI Study Helper</h3>
+          <div class="text-[14px] text-gray-400 dark:text-slate-400 mb-4">2022.09 - 2022.12</div>
+          <p class="text-[16px] text-gray-700 dark:text-slate-300 mb-3 leading-[1.7]">
+            AI 기반 학습 도우미 챗봇
+          </p>
+          <ul class="list-disc list-inside text-[15px] text-gray-700 dark:text-slate-300 space-y-1.5 mb-5 leading-[1.6]">
+            <li>OpenAI API를 활용한 질의응답 챗봇 구현</li>
+            <li>Streamlit을 이용한 빠른 프로토타이핑</li>
+          </ul>
+          <!-- Tags -->
+          <div class="flex flex-wrap gap-2 mb-6">
+            <span class="px-3 py-1 rounded-full bg-gray-100 dark:bg-slate-700/50 text-gray-700 dark:text-slate-300 text-sm font-medium">Streamlit</span>
+            <span class="px-3 py-1 rounded-full bg-gray-100 dark:bg-slate-700/50 text-gray-700 dark:text-slate-300 text-sm font-medium">LangChain</span>
+            <span class="px-3 py-1 rounded-full bg-gray-100 dark:bg-slate-700/50 text-gray-700 dark:text-slate-300 text-sm font-medium">OpenAI</span>
+          </div>
+          <!-- Link Button -->
+          <div class="mt-auto">
+            <a href="#" class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-border/50 text-gray-900 dark:text-slate-100 text-[13px] font-[600] hover:bg-gray-50 dark:bg-slate-800/50 transition-colors">
+              View Project
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Bottom Button -->
+    <div class="flex justify-center mt-4 mb-8">
+      <a href="#" class="inline-flex items-center gap-2 bg-[#F9FAFB] border border-border text-gray-900 dark:text-slate-100 font-semibold text-sm px-6 py-3 rounded-full hover:bg-gray-100 dark:bg-slate-700/50 hover:border-gray-300 dark:border-slate-600 transition-colors shadow-sm">
+        View All Projects
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-text-secondary"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+      </a>
+    </div>
+  </div>
+</Layout>
