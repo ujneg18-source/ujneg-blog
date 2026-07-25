@@ -17,4 +17,41 @@ const blog = defineCollection({
 		}),
 });
 
-export const collections = { blog };
+const notes = defineCollection({
+  loader: glob({ pattern: "**/*.md", base: "./src/content/notes" }),
+  schema: ({ image }) => z.object({
+    title: z.string(),
+    category: z.enum(['Tech', 'Infra', 'Tools', 'Me']),
+    subcategory: z.string().optional(),
+    tags: z.array(z.string()).default([]),
+    date: z.coerce.date(),
+    thumbnail: image().optional(),
+  }),
+});
+
+const projects = defineCollection({
+  loader: glob({ pattern: "**/*.md", base: "./src/content/projects" }),
+  schema: ({ image }) => z.object({
+    title: z.string(),
+    period: z.string(),
+    description: z.string(),
+    techStack: z.array(z.string()).default([]),
+    githubUrl: z.string().optional(),
+    thumbnail: image().optional(),
+    status: z.enum(['Live', 'Completed']).default('Completed'),
+  }),
+});
+
+const stories = defineCollection({
+  loader: glob({ pattern: "**/*.md", base: "./src/content/stories" }),
+  schema: ({ image }) => z.object({
+    title: z.string(),
+    date: z.coerce.date(),
+    category: z.string(),
+    description: z.string().optional(),
+    tags: z.array(z.string()).default([]),
+    thumbnail: image().optional(),
+  }),
+});
+
+export const collections = { blog, notes, projects, stories };

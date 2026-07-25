@@ -1,183 +1,171 @@
 ---
+import { getCollection } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
 import { Image } from 'astro:assets';
-import hwanheeMockupImg from '../assets/images/hwanhee-mockup.png';
+
+const allProjects = await getCollection('projects');
+
+// Order projects (newest period first)
+const projects = allProjects.sort((a, b) => b.data.period.localeCompare(a.data.period));
 ---
 
 <Layout title="Projects">
   <div class="flex flex-col gap-12">
     <!-- Header Title -->
     <div>
-      <h1 class="font-extrabold leading-[1.1] text-text-title tracking-tight" style="font-size: 56px; font-weight: 800;">
+      <h1 class="text-hero-heading">
         IDEAS,<br/>
-        <span class="text-primary">MADE REAL.</span>
+        <span class="text-gradient-hero">MADE REAL.</span>
       </h1>
       
       <h2 class="font-bold text-text-title mt-16 tracking-wide uppercase" style="font-size: 36px;">
-        4 PROJECTS
+        {projects.length} PROJECTS
       </h2>
     </div>
 
     <!-- Grid Projects -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8" data-pagefind-body>
+    <div id="projects-list" class="grid grid-cols-1 md:grid-cols-2 gap-8" data-pagefind-body>
       
-      <!-- Project 1: 환희 -->
-      <div class="bg-surface rounded-[var(--radius-card)] overflow-hidden shadow-sm border border-border/50 flex flex-col group">
-        <!-- Thumbnail -->
-        <div class="w-full bg-gray-100 dark:bg-slate-700/50 relative border-b border-border/50 flex flex-col items-center justify-center overflow-hidden" style="aspect-ratio: 16/10;">
-          <Image src={hwanheeMockupImg} alt="HWANHEE" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 absolute inset-0 z-0" />
-          <!-- Status Badge -->
-          <div class="absolute bottom-3 right-3 bg-white dark:bg-slate-800/90 backdrop-blur-sm text-gray-900 dark:text-slate-100 text-[12px] font-bold px-3 py-1.5 rounded-full flex items-center gap-1.5 shadow-sm border border-gray-100 dark:border-slate-700 z-10">
-            <span class="w-2 h-2 rounded-full bg-blue-500"></span>Live
-          </div>
-        </div>
-        <!-- Content -->
-        <div class="p-[28px] flex flex-col flex-1">
-          <h3 class="text-[22px] font-[700] text-gray-900 dark:text-slate-100 mb-1">환희 (HWANHEE)</h3>
-          <div class="text-[14px] text-gray-400 dark:text-slate-400 mb-4">2024.01 - 2024.06</div>
-          <p class="text-[16px] text-gray-700 dark:text-slate-300 mb-3 leading-[1.7]">
-            LLM 기반 한국어 가독성 분석 및 글쓰기 피드백 서비스
-          </p>
-          <ul class="list-disc list-inside text-[15px] text-gray-700 dark:text-slate-300 space-y-1.5 mb-5 leading-[1.6]">
-            <li>RAG 파이프라인 구축 및 프롬프트 엔지니어링</li>
-            <li>팀 프로젝트 리딩, 일정 관리 및 GitHub 형상 관리</li>
-          </ul>
-          <!-- Tags -->
-          <div class="flex flex-wrap gap-2 mb-6">
-            <span class="px-3 py-1 rounded-full bg-gray-100 dark:bg-slate-700/50 text-gray-700 dark:text-slate-300 text-sm font-medium">Python</span>
-            <span class="px-3 py-1 rounded-full bg-gray-100 dark:bg-slate-700/50 text-gray-700 dark:text-slate-300 text-sm font-medium">FastAPI</span>
-            <span class="px-3 py-1 rounded-full bg-gray-100 dark:bg-slate-700/50 text-gray-700 dark:text-slate-300 text-sm font-medium">RAG</span>
-            <span class="px-3 py-1 rounded-full bg-gray-100 dark:bg-slate-700/50 text-gray-700 dark:text-slate-300 text-sm font-medium">LLM</span>
-          </div>
-          <!-- Link Button -->
-          <div class="mt-auto">
-            <a href="#" class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-border/50 text-gray-900 dark:text-slate-100 text-[13px] font-[600] hover:bg-gray-50 dark:bg-slate-800/50 transition-colors">
-              View Project
-              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
-            </a>
-          </div>
-        </div>
-      </div>
+      {projects.map((project, idx) => {
+        const isLive = project.data.status === 'Live';
+        return (
+          <div 
+            class="project-item bg-surface rounded-[var(--radius-card)] overflow-hidden shadow-sm border border-border/60 flex flex-col group transition-all duration-300 hover:shadow-md"
+            style={idx >= 4 ? 'display: none;' : ''}
+          >
+            <!-- Thumbnail -->
+            <div class="w-full bg-gray-100 dark:bg-slate-800/80 relative border-b border-border/60 flex flex-col items-center justify-center overflow-hidden aspect-[16/10]">
+              {project.data.thumbnail ? (
+                <Image src={project.data.thumbnail} alt={project.data.title} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 absolute inset-0 z-0" />
+              ) : (
+                <div class="text-gray-400 dark:text-slate-400 text-[14px] font-medium z-0">No Thumbnail</div>
+              )}
+              <!-- Status Badge -->
+              <div class="absolute bottom-3 right-3 bg-white/90 dark:bg-slate-800/90 backdrop-blur-md text-text-title text-[12px] font-[700] px-3 py-1.5 rounded-full flex items-center gap-1.5 shadow-sm border border-border/70 z-10">
+                <span class={`w-2 h-2 rounded-full ${isLive ? 'bg-green-500' : 'bg-blue-500'}`}></span>
+                {project.data.status}
+              </div>
+            </div>
 
-      <!-- Project 2: Bookly -->
-      <div class="bg-surface rounded-[var(--radius-card)] overflow-hidden shadow-sm border border-border/50 flex flex-col group">
-        <!-- Thumbnail -->
-        <div class="w-full bg-gray-100 dark:bg-slate-700/50 relative border-b border-border/50 flex flex-col items-center justify-center overflow-hidden" style="aspect-ratio: 16/10;">
-          <div class="text-gray-400 dark:text-slate-400 text-[13px] font-medium z-0">Thumbnail Placeholder</div>
-          <!-- Status Badge -->
-          <div class="absolute bottom-3 right-3 bg-white dark:bg-slate-800/90 backdrop-blur-sm text-gray-900 dark:text-slate-100 text-[12px] font-bold px-3 py-1.5 rounded-full flex items-center gap-1.5 shadow-sm border border-gray-100 dark:border-slate-700 z-10">
-            <span class="w-2 h-2 rounded-full bg-green-500"></span>Completed
-          </div>
-        </div>
-        <!-- Content -->
-        <div class="p-[28px] flex flex-col flex-1">
-          <h3 class="text-[22px] font-[700] text-gray-900 dark:text-slate-100 mb-1">Bookly</h3>
-          <div class="text-[14px] text-gray-400 dark:text-slate-400 mb-4">2023.08 - 2023.12</div>
-          <p class="text-[16px] text-gray-700 dark:text-slate-300 mb-3 leading-[1.7]">
-            독서 기록 및 추천 서비스
-          </p>
-          <ul class="list-disc list-inside text-[15px] text-gray-700 dark:text-slate-300 space-y-1.5 mb-5 leading-[1.6]">
-            <li>사용자 맞춤형 도서 추천 알고리즘 구현</li>
-            <li>Next.js 기반 반응형 웹 프론트엔드 개발</li>
-          </ul>
-          <!-- Tags -->
-          <div class="flex flex-wrap gap-2 mb-6">
-            <span class="px-3 py-1 rounded-full bg-gray-100 dark:bg-slate-700/50 text-gray-700 dark:text-slate-300 text-sm font-medium">Next.js</span>
-            <span class="px-3 py-1 rounded-full bg-gray-100 dark:bg-slate-700/50 text-gray-700 dark:text-slate-300 text-sm font-medium">Typescript</span>
-            <span class="px-3 py-1 rounded-full bg-gray-100 dark:bg-slate-700/50 text-gray-700 dark:text-slate-300 text-sm font-medium">MongoDB</span>
-          </div>
-          <!-- Link Button -->
-          <div class="mt-auto">
-            <a href="#" class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-border/50 text-gray-900 dark:text-slate-100 text-[13px] font-[600] hover:bg-gray-50 dark:bg-slate-800/50 transition-colors">
-              View Project
-              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
-            </a>
-          </div>
-        </div>
-      </div>
+            <!-- Content -->
+            <div class="p-[28px] flex flex-col flex-1">
+              <h3 class="text-[22px] font-[700] text-text-title mb-1 group-hover:text-primary transition-colors">
+                <a href={`/projects/${project.id}`} class="no-underline text-inherit hover:text-primary">
+                  {project.data.title}
+                </a>
+              </h3>
+              <div class="text-[14px] text-text-muted mb-4 font-medium">{project.data.period}</div>
+              <p class="text-[15.5px] text-text-body mb-6 leading-[1.65] break-keep">
+                {project.data.description}
+              </p>
 
-      <!-- Project 3: Korean NLP Toolkit -->
-      <div class="bg-surface rounded-[var(--radius-card)] overflow-hidden shadow-sm border border-border/50 flex flex-col group">
-        <!-- Thumbnail -->
-        <div class="w-full bg-gray-100 dark:bg-slate-700/50 relative border-b border-border/50 flex flex-col items-center justify-center overflow-hidden" style="aspect-ratio: 16/10;">
-          <div class="text-gray-400 dark:text-slate-400 text-[13px] font-medium z-0">Thumbnail Placeholder</div>
-          <!-- Status Badge -->
-          <div class="absolute bottom-3 right-3 bg-white dark:bg-slate-800/90 backdrop-blur-sm text-gray-900 dark:text-slate-100 text-[12px] font-bold px-3 py-1.5 rounded-full flex items-center gap-1.5 shadow-sm border border-gray-100 dark:border-slate-700 z-10">
-            <span class="w-2 h-2 rounded-full bg-green-500"></span>Completed
-          </div>
-        </div>
-        <!-- Content -->
-        <div class="p-[28px] flex flex-col flex-1">
-          <h3 class="text-[22px] font-[700] text-gray-900 dark:text-slate-100 mb-1">Korean NLP Toolkit</h3>
-          <div class="text-[14px] text-gray-400 dark:text-slate-400 mb-4">2023.01 - 2023.05</div>
-          <p class="text-[16px] text-gray-700 dark:text-slate-300 mb-3 leading-[1.7]">
-            한국어 NLP 연구 및 실험 도구 모음
-          </p>
-          <ul class="list-disc list-inside text-[15px] text-gray-700 dark:text-slate-300 space-y-1.5 mb-5 leading-[1.6]">
-            <li>KoNLPy 형태소 분석기 래퍼 클래스 구현</li>
-            <li>PyTorch 기반 기초 딥러닝 모델 학습 스크립트 작성</li>
-          </ul>
-          <!-- Tags -->
-          <div class="flex flex-wrap gap-2 mb-6">
-            <span class="px-3 py-1 rounded-full bg-gray-100 dark:bg-slate-700/50 text-gray-700 dark:text-slate-300 text-sm font-medium">Python</span>
-            <span class="px-3 py-1 rounded-full bg-gray-100 dark:bg-slate-700/50 text-gray-700 dark:text-slate-300 text-sm font-medium">KoNLPy</span>
-            <span class="px-3 py-1 rounded-full bg-gray-100 dark:bg-slate-700/50 text-gray-700 dark:text-slate-300 text-sm font-medium">PyTorch</span>
-          </div>
-          <!-- Link Button -->
-          <div class="mt-auto">
-            <a href="#" class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-border/50 text-gray-900 dark:text-slate-100 text-[13px] font-[600] hover:bg-gray-50 dark:bg-slate-800/50 transition-colors">
-              View Project
-              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
-            </a>
-          </div>
-        </div>
-      </div>
+              <!-- Tags / Tech Stack -->
+              <div class="flex flex-wrap gap-2 mb-8">
+                {project.data.techStack && project.data.techStack.map((tech: string) => (
+                  <span class="px-3 py-1 rounded-full bg-gray-100 dark:bg-slate-700/60 text-text-secondary text-sm font-[500] border border-border/40">
+                    {tech}
+                  </span>
+                ))}
+              </div>
 
-      <!-- Project 4: AI Study Helper -->
-      <div class="bg-surface rounded-[var(--radius-card)] overflow-hidden shadow-sm border border-border/50 flex flex-col group">
-        <!-- Thumbnail -->
-        <div class="w-full bg-gray-100 dark:bg-slate-700/50 relative border-b border-border/50 flex flex-col items-center justify-center overflow-hidden" style="aspect-ratio: 16/10;">
-          <div class="text-gray-400 dark:text-slate-400 text-[13px] font-medium z-0">Thumbnail Placeholder</div>
-          <!-- Status Badge -->
-          <div class="absolute bottom-3 right-3 bg-white dark:bg-slate-800/90 backdrop-blur-sm text-gray-900 dark:text-slate-100 text-[12px] font-bold px-3 py-1.5 rounded-full flex items-center gap-1.5 shadow-sm border border-gray-100 dark:border-slate-700 z-10">
-            <span class="w-2 h-2 rounded-full bg-blue-500"></span>Live
+              <!-- Link Buttons Area -->
+              <div class="mt-auto pt-4 border-t border-border/40 flex items-center gap-3 flex-wrap">
+                <!-- View Project Button -->
+                <a 
+                  href={`/projects/${project.id}`} 
+                  class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-border text-text-title text-[13.5px] font-[600] hover:border-primary hover:text-primary bg-white dark:bg-slate-800/80 transition-all shadow-sm no-underline"
+                >
+                  View Project
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+                </a>
+
+                <!-- GitHub Button (Active or Dimmed/Disabled) -->
+                {project.data.githubUrl ? (
+                  <a 
+                    href={project.data.githubUrl} 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    class="inline-flex items-center gap-2 px-4.5 py-2 rounded-full bg-[#24292E] text-white text-[13.5px] font-[600] hover:bg-[#24292E]/90 transition-all shadow-sm no-underline"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
+                    GitHub
+                  </a>
+                ) : (
+                  <button 
+                    disabled 
+                    class="inline-flex items-center gap-2 px-4.5 py-2 rounded-full border border-border/60 bg-surface text-text-muted text-[13.5px] font-[600] opacity-40 cursor-not-allowed select-none pointer-events-none shadow-none"
+                    aria-disabled="true"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
+                    GitHub
+                  </button>
+                )}
+              </div>
+
+            </div>
           </div>
-        </div>
-        <!-- Content -->
-        <div class="p-[28px] flex flex-col flex-1">
-          <h3 class="text-[22px] font-[700] text-gray-900 dark:text-slate-100 mb-1">AI Study Helper</h3>
-          <div class="text-[14px] text-gray-400 dark:text-slate-400 mb-4">2022.09 - 2022.12</div>
-          <p class="text-[16px] text-gray-700 dark:text-slate-300 mb-3 leading-[1.7]">
-            AI 기반 학습 도우미 챗봇
-          </p>
-          <ul class="list-disc list-inside text-[15px] text-gray-700 dark:text-slate-300 space-y-1.5 mb-5 leading-[1.6]">
-            <li>OpenAI API를 활용한 질의응답 챗봇 구현</li>
-            <li>Streamlit을 이용한 빠른 프로토타이핑</li>
-          </ul>
-          <!-- Tags -->
-          <div class="flex flex-wrap gap-2 mb-6">
-            <span class="px-3 py-1 rounded-full bg-gray-100 dark:bg-slate-700/50 text-gray-700 dark:text-slate-300 text-sm font-medium">Streamlit</span>
-            <span class="px-3 py-1 rounded-full bg-gray-100 dark:bg-slate-700/50 text-gray-700 dark:text-slate-300 text-sm font-medium">LangChain</span>
-            <span class="px-3 py-1 rounded-full bg-gray-100 dark:bg-slate-700/50 text-gray-700 dark:text-slate-300 text-sm font-medium">OpenAI</span>
-          </div>
-          <!-- Link Button -->
-          <div class="mt-auto">
-            <a href="#" class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-border/50 text-gray-900 dark:text-slate-100 text-[13px] font-[600] hover:bg-gray-50 dark:bg-slate-800/50 transition-colors">
-              View Project
-              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
-            </a>
-          </div>
-        </div>
-      </div>
+        );
+      })}
 
     </div>
 
-    <!-- Bottom Button -->
-    <div class="flex justify-center mt-4 mb-8">
-      <a href="#" class="inline-flex items-center gap-2 bg-[#F9FAFB] border border-border text-gray-900 dark:text-slate-100 font-semibold text-sm px-6 py-3 rounded-full hover:bg-gray-100 dark:bg-slate-700/50 hover:border-gray-300 dark:border-slate-600 transition-colors shadow-sm">
-        View All Projects
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-text-secondary"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
-      </a>
+    <!-- View More Toggle Button Container -->
+    <div id="projects-view-more-container" class="w-full flex justify-center mt-2 mb-8" style={projects.length <= 4 ? 'display: none;' : ''}>
+      <button 
+        id="projects-view-more-btn" 
+        class="inline-flex items-center gap-2.5 px-8 py-3.5 rounded-full bg-surface border border-border/80 hover:border-primary text-text-title text-[15px] font-[700] hover:text-primary transition-all shadow-sm hover:shadow-md cursor-pointer select-none group"
+      >
+        <span>View More</span>
+        <svg id="projects-view-more-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="text-primary transition-transform duration-300 ease-in-out"><path d="m6 9 6 6 6-6"></path></svg>
+      </button>
     </div>
   </div>
 </Layout>
+
+<script>
+  function setupProjectsViewMore() {
+    const container = document.getElementById('projects-list');
+    const btn = document.getElementById('projects-view-more-btn') as HTMLElement | null;
+    const btnContainer = document.getElementById('projects-view-more-container') as HTMLElement | null;
+    const icon = document.getElementById('projects-view-more-icon') as HTMLElement | null;
+    
+    if (!container || !btn || !btnContainer) return;
+    
+    let isExpanded = false;
+    
+    function updateVisibility() {
+      const items = Array.from(container!.querySelectorAll('.project-item')) as HTMLElement[];
+      
+      if (items.length <= 4) {
+        btnContainer!.style.display = 'none';
+        items.forEach(item => item.style.display = '');
+        return;
+      }
+
+      btnContainer!.style.display = 'flex';
+
+      items.forEach((item, idx) => {
+        if (!isExpanded && idx >= 4) {
+          item.style.display = 'none';
+        } else {
+          item.style.display = '';
+        }
+      });
+      
+      if (icon) {
+        icon.style.transform = isExpanded ? 'rotate(180deg)' : 'rotate(0deg)';
+      }
+    }
+    
+    // Initial check
+    updateVisibility();
+    
+    btn.addEventListener('click', () => {
+      isExpanded = !isExpanded;
+      updateVisibility();
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', setupProjectsViewMore);
+  document.addEventListener('astro:page-load', setupProjectsViewMore);
+</script>

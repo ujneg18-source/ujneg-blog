@@ -1,0 +1,157 @@
+---
+import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
+import Layout from '../../../layouts/Layout.astro';
+import NoteCard from '../../../components/NoteCard.astro';
+import Pagination from '../../../components/Pagination.astro';
+
+export async function getStaticPaths({ paginate }) {
+  const allNotes = await getCollection('notes');
+  const allProjects = await getCollection('projects');
+  const allStories = await getCollection('stories');
+  
+  const combinedItems = [
+    ...allNotes.map(post => ({
+      ...post,
+      collectionType: 'notes',
+      tagList: post.data.tags || [],
+      sortDate: post.data.date.valueOf()
+    })),
+    ...allProjects.map(post => ({
+      ...post,
+      collectionType: 'projects',
+      tagList: post.data.techStack || [],
+      sortDate: Date.now() // Newest priority for projects
+    })),
+    ...allStories.map(post => ({
+      ...post,
+      collectionType: 'stories',
+      tagList: post.data.tags || [],
+      sortDate: post.data.date.valueOf()
+    }))
+  ].sort((a, b) => b.sortDate - a.sortDate);
+
+  // Extract all unique tags
+  const allTags = [...new Set(combinedItems.flatMap(item => item.tagList))];
+  
+  // Generate pages for each tag
+  return allTags.flatMap(tag => {
+    const filteredItems = combinedItems.filter(item => item.tagList.includes(tag));
+    return paginate(filteredItems, {
+      params: { tag },
+      pageSize: 6,
+      props: { tag }
+    });
+  });
+}
+
+const { page, tag } = Astro.props;
+---
+
+<Layout title={`Tag: #${tag}`}>
+  <div class="max-w-4xl mx-auto flex flex-col pt-[32px] md:pt-[64px]">
+    
+    <!-- Header -->
+    <div class="flex items-center justify-between mb-12 border-b border-border/50 pb-6">
+      <div class="flex items-center gap-4">
+        <h1 class="text-[32px] md:text-[40px] font-[800] text-text-title">#{tag}</h1>
+        <div class="px-3.5 py-1 bg-primary/10 text-primary rounded-full text-sm font-semibold mt-2">
+          {page.total} Articles & Projects
+        </div>
+      </div>
+      <a href="/tags" class="text-text-secondary hover:text-primary transition-colors font-medium no-underline hover:underline">
+        모든 태그 &rarr;
+      </a>
+    </div>
+
+    <!-- Main Content (Post/Project/Story List) -->
+    <main class="flex flex-col" data-pagefind-body>
+      {page.data.length === 0 ? (
+        <div class="py-12 text-center text-text-muted">이 태그에 등록된 콘텐츠가 없습니다.</div>
+      ) : (
+        <div class="flex flex-col divide-y divide-border/50">
+          {page.data.map((item: any) => {
+            if (item.collectionType === 'notes') {
+              return <NoteCard post={item} />;
+            }
+
+            if (item.collectionType === 'projects') {
+              const { title, period, description, thumbnail, techStack } = item.data;
+              return (
+                <article class="note-item py-8 flex flex-col-reverse md:flex-row gap-6 md:gap-12 items-start md:items-center group">
+                  <div class="flex-1 flex flex-col gap-3">
+                    <h2 class="text-[22px] font-[700] text-text-title group-hover:text-primary transition-colors leading-[1.4]">
+                      <a href={`/projects/${item.id}`} class="no-underline text-inherit hover:text-primary">{title}</a>
+                    </h2>
+                    <p class="text-[15px] text-text-body leading-[1.7] line-clamp-2">
+                      {description}
+                    </p>
+                    <div class="flex items-center flex-wrap gap-2 text-[13px] text-text-muted mt-2 font-[500]">
+                      <span class="font-[600] text-primary">Project</span>
+                      <span>·</span>
+                      <span>{period}</span>
+                      {techStack && techStack.length > 0 && (
+                        <>
+                          <span>·</span>
+                          <span class="text-text-muted">#{techStack[0]}</span>
+                        </>
+                      )}
+                    </div>
+                  </div>
+                  {thumbnail && (
+                    <a href={`/projects/${item.id}`} class="w-full md:w-[140px] aspect-square rounded-[var(--radius-card)] bg-gray-100 dark:bg-slate-800 border border-border/50 flex-shrink-0 flex items-center justify-center overflow-hidden group-hover:shadow-md transition-all">
+                      <Image src={thumbnail} alt={title} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                    </a>
+                  )}
+                </article>
+              );
+            }
+
+            if (item.collectionType === 'stories') {
+              const { title, category, date, description, thumbnail, tags } = item.data;
+              const dateStr = new Date(date).toLocaleDateString('ko-KR', { year: 'numeric', month: 'numeric', day: 'numeric' });
+              return (
+                <article class="note-item py-8 flex flex-col-reverse md:flex-row gap-6 md:gap-12 items-start md:items-center group">
+                  <div class="flex-1 flex flex-col gap-3">
+                    <h2 class="text-[22px] font-[700] text-text-title group-hover:text-primary transition-colors leading-[1.4]">
+                      <a href={`/stories/${item.id}`} class="no-underline text-inherit hover:text-primary">{title}</a>
+                    </h2>
+                    <p class="text-[15px] text-text-body leading-[1.7] line-clamp-2">
+                      {description || item.body?.substring(0, 140)}
+                    </p>
+                    <div class="flex items-center flex-wrap gap-2 text-[13px] text-text-muted mt-2 font-[500]">
+                      <span class="font-[600] text-primary">Story · {category}</span>
+                      <span>·</span>
+                      <span>{dateStr}</span>
+                      {tags && tags.length > 0 && (
+                        <>
+                          <span>·</span>
+                          <span class="text-text-muted">#{tags[0]}</span>
+                        </>
+                      )}
+                    </div>
+                  </div>
+                  {thumbnail && (
+                    <a href={`/stories/${item.id}`} class="w-full md:w-[140px] aspect-square rounded-[var(--radius-card)] bg-gray-100 dark:bg-slate-800 border border-border/50 flex-shrink-0 flex items-center justify-center overflow-hidden group-hover:shadow-md transition-all">
+                      <Image src={thumbnail} alt={title} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                    </a>
+                  )}
+                </article>
+              );
+            }
+            return null;
+          })}
+        </div>
+      )}
+
+      <!-- Pagination -->
+      {page.lastPage > 1 && (
+        <Pagination 
+          page={page} 
+          baseUrl={`/tags/${tag}`} 
+        />
+      )}
+    </main>
+
+  </div>
+</Layout>

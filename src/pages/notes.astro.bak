@@ -1,0 +1,268 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { Image } from 'astro:assets';
+import noteThumb1Img from '../assets/images/note-thumb-1.png';
+import noteThumb2Img from '../assets/images/note-thumb-2.png';
+import noteThumb3Img from '../assets/images/note-thumb-3.png';
+import noteThumb4Img from '../assets/images/note-thumb-4.png';
+---
+
+<Layout title="Notes">
+  <div class="grid grid-cols-1 md:grid-cols-[260px_1fr] gap-12 lg:gap-16 items-start">
+    
+    <!-- Left Sidebar -->
+    <aside class="w-full flex flex-col gap-10">
+      
+      <!-- Category Tree -->
+      <section>
+        <h3 class="text-[18px] font-[700] text-text-title mb-5 border-b border-border/50 pb-3">전체 카테고리</h3>
+        <div class="flex flex-col gap-4" id="category-tree">
+          
+          <!-- Category Item: Tech -->
+          <div>
+            <button data-filter="Tech" class="category-filter w-full text-left text-[16px] font-[600] text-text-title hover:text-primary transition-colors flex items-center gap-1.5">
+              Tech <span class="text-[13px] text-text-muted font-normal">(28)</span>
+            </button>
+            <div class="flex flex-col gap-2.5 pl-3 border-l-2 border-border/50 ml-1.5 mt-3 mb-1">
+              <button data-filter="Data Engineering" class="category-filter w-full text-left text-[14px] text-text-secondary hover:text-primary transition-colors flex items-center justify-between">
+                Data Engineering <span class="text-[12px] text-text-muted">(7)</span>
+              </button>
+              <button data-filter="Backend" class="category-filter w-full text-left text-[14px] text-text-secondary hover:text-primary transition-colors flex items-center justify-between">
+                Backend <span class="text-[12px] text-text-muted">(6)</span>
+              </button>
+              <button data-filter="Python" class="category-filter w-full text-left text-[14px] text-text-secondary hover:text-primary transition-colors flex items-center justify-between">
+                Python <span class="text-[12px] text-text-muted">(5)</span>
+              </button>
+              <button data-filter="Algorithm" class="category-filter w-full text-left text-[14px] text-text-secondary hover:text-primary transition-colors flex items-center justify-between">
+                Algorithm <span class="text-[12px] text-text-muted">(5)</span>
+              </button>
+              <button data-filter="Etc (Tech)" class="category-filter w-full text-left text-[14px] text-text-secondary hover:text-primary transition-colors flex items-center justify-between">
+                Etc <span class="text-[12px] text-text-muted">(5)</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Category Item: Infra -->
+          <div>
+            <button data-filter="Infra" class="category-filter w-full text-left text-[16px] font-[600] text-text-title hover:text-primary transition-colors flex items-center gap-1.5">
+              Infra <span class="text-[13px] text-text-muted font-normal">(33)</span>
+            </button>
+            <div class="flex flex-col gap-2.5 pl-3 border-l-2 border-border/50 ml-1.5 mt-3 mb-1">
+              <button data-filter="Cloud" class="category-filter w-full text-left text-[14px] text-text-secondary hover:text-primary transition-colors flex items-center justify-between">
+                Cloud <span class="text-[12px] text-text-muted">(5)</span>
+              </button>
+              <button data-filter="Kubernetes" class="category-filter w-full text-left text-[14px] text-text-secondary hover:text-primary transition-colors flex items-center justify-between">
+                Kubernetes <span class="text-[12px] text-text-muted">(14)</span>
+              </button>
+              <button data-filter="Linux" class="category-filter w-full text-left text-[14px] text-text-secondary hover:text-primary transition-colors flex items-center justify-between">
+                Linux <span class="text-[12px] text-text-muted">(6)</span>
+              </button>
+              <button data-filter="Etc (Infra)" class="category-filter w-full text-left text-[14px] text-text-secondary hover:text-primary transition-colors flex items-center justify-between">
+                Etc <span class="text-[12px] text-text-muted">(8)</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Category Item: Tools -->
+          <div>
+            <button data-filter="Tools" class="category-filter w-full text-left text-[16px] font-[600] text-text-title hover:text-primary transition-colors flex items-center gap-1.5">
+              Tools <span class="text-[13px] text-text-muted font-normal">(14)</span>
+            </button>
+            <div class="flex flex-col gap-2.5 pl-3 border-l-2 border-border/50 ml-1.5 mt-3 mb-1">
+              <button data-filter="Obsidian" class="category-filter w-full text-left text-[14px] text-text-secondary hover:text-primary transition-colors flex items-center justify-between">
+                Obsidian <span class="text-[12px] text-text-muted">(6)</span>
+              </button>
+              <button data-filter="Etc (Tools)" class="category-filter w-full text-left text-[14px] text-text-secondary hover:text-primary transition-colors flex items-center justify-between">
+                Etc <span class="text-[12px] text-text-muted">(8)</span>
+              </button>
+            </div>
+          </div>
+          
+          <!-- Category Item: Me -->
+          <div>
+            <button data-filter="Me" class="category-filter w-full text-left text-[16px] font-[600] text-text-title hover:text-primary transition-colors flex items-center gap-1.5">
+              Me <span class="text-[13px] text-text-muted font-normal">(16)</span>
+            </button>
+          </div>
+
+        </div>
+      </section>
+    </aside>
+
+    <!-- Main Content (Post List) -->
+    <main class="flex flex-col" data-pagefind-body>
+      <div id="notes-list" class="flex flex-col divide-y divide-border/50">
+        
+        <!-- Post Item 1 -->
+        <article data-categories="Tech,Backend" class="note-item py-8 flex flex-col-reverse md:flex-row gap-6 md:gap-12 items-start md:items-center group">
+          <div class="flex-1 flex flex-col gap-3">
+            <h2 class="text-[22px] font-[700] text-text-title group-hover:text-primary transition-colors leading-[1.4]">
+              <a href="#">FastAPI와 Uvicorn의 관계, ASGI</a>
+            </h2>
+            <p class="text-[15px] text-text-body leading-[1.7] line-clamp-2">
+              Python Web Server 및 Application Framework의 개념에 대해서 공부하면서 헷갈렸던 개념들을 정리하고자 한다. 현재 회사에서 운영 과정에서 발생하는 수동 업무들을 시스템화하고자 간단한 스택으로...
+            </p>
+            <div class="flex items-center gap-2 text-[13px] text-text-muted mt-2 font-[500]">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+              <span>Backend</span>
+              <span>·</span>
+              <span>2026. 6. 16.</span>
+              <span>·</span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+              <span>0</span>
+            </div>
+          </div>
+          <a href="#" class="w-full md:w-[140px] aspect-square rounded-[var(--radius-card)] bg-gray-100 dark:bg-slate-700/50 border border-border/50 flex-shrink-0 flex items-center justify-center overflow-hidden group-hover:shadow-md transition-all">
+            <Image src={noteThumb1Img} alt="Thumbnail 1" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+          </a>
+        </article>
+
+        <!-- Post Item 2 -->
+        <article data-categories="Tech,Etc (Tech)" class="note-item py-8 flex flex-col-reverse md:flex-row gap-6 md:gap-12 items-start md:items-center group">
+          <div class="flex-1 flex flex-col gap-3">
+            <h2 class="text-[22px] font-[700] text-text-title group-hover:text-primary transition-colors leading-[1.4]">
+              <a href="#">Next Arc Browser; Dia Browser 둘러보기 (현재 무료 !!!)</a>
+            </h2>
+            <p class="text-[15px] text-text-body leading-[1.7] line-clamp-2">
+              Main Browser로 Chrome을 주력으로 사용하고 있었는데, 문득 Arc Browser는 요즘 어떤지 싶은 생각이 들어 검색해보았다. 최초 Arc Browser 출시 되어 사용했을 때 램을 많이 차지했던 경험이 있었고...
+            </p>
+            <div class="flex items-center gap-2 text-[13px] text-text-muted mt-2 font-[500]">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+              <span>Etc</span>
+              <span>·</span>
+              <span>2026. 6. 15.</span>
+              <span>·</span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+              <span>0</span>
+            </div>
+          </div>
+          <a href="#" class="w-full md:w-[140px] aspect-square rounded-[var(--radius-card)] bg-gray-100 dark:bg-slate-700/50 border border-border/50 flex-shrink-0 flex items-center justify-center overflow-hidden group-hover:shadow-md transition-all">
+            <Image src={noteThumb2Img} alt="Thumbnail 2" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+          </a>
+        </article>
+
+        <!-- Post Item 3 -->
+        <article data-categories="Tech,Etc (Tech)" class="note-item py-8 flex flex-col-reverse md:flex-row gap-6 md:gap-12 items-start md:items-center group">
+          <div class="flex-1 flex flex-col gap-3">
+            <h2 class="text-[22px] font-[700] text-text-title group-hover:text-primary transition-colors leading-[1.4]">
+              <a href="#">Browser 살펴보기 #1 - Chrome Process</a>
+            </h2>
+            <p class="text-[15px] text-text-body leading-[1.7] line-clamp-2">
+              자동화 및 스크래핑 관련 업무를 진행하면서, 브라우저 자체에 대한 이해도가 낮았음을 알 수 있었고, 이를 제대로 살펴봐야겠다 생각했다. 오랜 기간동안 소식이 없던 포스팅도 같이 이어가려고 한다. 단계적으로 실...
+            </p>
+            <div class="flex items-center gap-2 text-[13px] text-text-muted mt-2 font-[500]">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+              <span>Etc</span>
+              <span>·</span>
+              <span>2026. 6. 7.</span>
+              <span>·</span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+              <span>0</span>
+            </div>
+          </div>
+          <a href="#" class="w-full md:w-[140px] aspect-square rounded-[var(--radius-card)] bg-gray-100 dark:bg-slate-700/50 border border-border/50 flex-shrink-0 flex items-center justify-center overflow-hidden group-hover:shadow-md transition-all">
+            <Image src={noteThumb3Img} alt="Thumbnail 3" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+          </a>
+        </article>
+
+        <!-- Post Item 4 -->
+        <article data-categories="Tech,Data Engineering" class="note-item py-8 flex flex-col-reverse md:flex-row gap-6 md:gap-12 items-start md:items-center group">
+          <div class="flex-1 flex flex-col gap-3">
+            <h2 class="text-[22px] font-[700] text-text-title group-hover:text-primary transition-colors leading-[1.4]">
+              <a href="#">Spark Join Strategy 로컬에서 확인해보기</a>
+            </h2>
+            <p class="text-[15px] text-text-body leading-[1.7] line-clamp-2">
+              금일 포스팅에선 Spark의 몇가지 조인 전략에 대해 어떤 상황에서 사용하면 좋은지 실습을 하며 확인한 과정을 공유하고자 한다. 사용한 실습 코드들은 다음 레포에 존재한...
+            </p>
+            <div class="flex items-center gap-2 text-[13px] text-text-muted mt-2 font-[500]">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+              <span>Data Engineering</span>
+              <span>·</span>
+              <span>2025. 9. 10.</span>
+              <span>·</span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+              <span>1</span>
+            </div>
+          </div>
+          <a href="#" class="w-full md:w-[140px] aspect-square rounded-[var(--radius-card)] bg-gray-100 dark:bg-slate-700/50 border border-border/50 flex-shrink-0 flex items-center justify-center overflow-hidden group-hover:shadow-md transition-all">
+            <Image src={noteThumb4Img} alt="Thumbnail 4" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+          </a>
+        </article>
+
+      </div>
+
+      <!-- Pagination -->
+      <div class="flex items-center justify-center gap-2 mt-12 mb-8">
+        <button class="w-10 h-10 rounded-full flex items-center justify-center border border-border text-text-secondary hover:bg-surface hover:text-primary transition-colors hover:border-primary/50 shadow-sm">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"></path></svg>
+        </button>
+        <button class="w-10 h-10 rounded-full flex items-center justify-center bg-primary text-white font-[600] shadow-sm">1</button>
+        <button class="w-10 h-10 rounded-full flex items-center justify-center text-text-secondary hover:bg-gray-100 dark:bg-slate-700/50 font-[500] transition-colors">2</button>
+        <button class="w-10 h-10 rounded-full flex items-center justify-center text-text-secondary hover:bg-gray-100 dark:bg-slate-700/50 font-[500] transition-colors">3</button>
+        <button class="w-10 h-10 rounded-full flex items-center justify-center border border-border text-text-secondary hover:bg-surface hover:text-primary transition-colors hover:border-primary/50 shadow-sm">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"></path></svg>
+        </button>
+      </div>
+
+    </main>
+
+  </div>
+</Layout>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const categoryBtns = document.querySelectorAll('.category-filter');
+    const noteItems = document.querySelectorAll('.note-item');
+    let activeCategory = 'all';
+
+    categoryBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const targetCategory = btn.getAttribute('data-filter');
+
+        // Toggle logic: If clicking the already active category, reset to 'all'
+        if (activeCategory === targetCategory) {
+          activeCategory = 'all';
+        } else {
+          activeCategory = targetCategory;
+        }
+
+        // Update UI states for buttons
+        categoryBtns.forEach(b => {
+          if (b.getAttribute('data-filter') === activeCategory) {
+            b.classList.add('text-primary');
+            b.classList.remove('text-text-secondary', 'text-text-title');
+            
+            // For main category titles
+            if (b.classList.contains('text-[16px]')) {
+              b.classList.add('font-[700]');
+              b.classList.remove('font-[600]');
+            } else {
+              b.classList.add('font-[600]');
+            }
+          } else {
+            b.classList.remove('text-primary', 'font-[700]', 'font-[600]');
+            
+            // Restore default text colors
+            if (b.classList.contains('text-[16px]')) {
+              b.classList.add('text-text-title', 'font-[600]');
+            } else {
+              b.classList.add('text-text-secondary');
+            }
+          }
+        });
+
+        // Filter note items
+        noteItems.forEach(item => {
+          const categoriesAttr = item.getAttribute('data-categories');
+          const categories = categoriesAttr ? categoriesAttr.split(',') : [];
+          
+          if (activeCategory === 'all' || categories.includes(activeCategory)) {
+            item.style.display = '';
+          } else {
+            item.style.display = 'none';
+          }
+        });
+      });
+    });
+  });
+</script>

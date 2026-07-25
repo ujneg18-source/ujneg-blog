@@ -1,0 +1,137 @@
+---
+import { Image } from 'astro:assets';
+
+export interface Props {
+  slug: string;
+}
+
+const { slug = '' } = Astro.props;
+const allImages = import.meta.glob<{ default: any }>('/src/assets/images/projects/*/*.{jpg,jpeg,png,webp}', { eager: true });
+
+// Filter images belonging to this project slug and sort alphabetically/numerically (1.jpg, 2.jpg, 3.jpg...)
+const projectImages = Object.entries(allImages)
+  .filter(([path]) => path.includes(`/projects/${slug}/`))
+  .sort(([pathA], [pathB]) => {
+    const nameA = pathA.split('/').pop() || '';
+    const nameB = pathB.split('/').pop() || '';
+    return nameA.localeCompare(nameB, undefined, { numeric: true });
+  })
+  .map(([_, mod]) => mod.default);
+---
+
+{projectImages.length > 0 && (
+  <div id="project-carousel" class="my-10">
+    <h3 class="text-[20px] md:text-[22px] font-[800] text-text-title mb-4 flex items-center gap-2">
+      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+      스크린샷 갤러리
+    </h3>
+
+    <div class="carousel-container relative w-full overflow-hidden rounded-2xl bg-gray-900/5 dark:bg-slate-800/60 border border-border/70 shadow-md group select-none" data-total-slides={projectImages.length}>
+      
+      <!-- Slide track -->
+      <div class="carousel-track flex transition-transform duration-500 ease-out w-full aspect-[16/10] md:aspect-[16/9]">
+        {projectImages.map((img, idx) => (
+          <div class="carousel-slide w-full h-full shrink-0 flex items-center justify-center bg-gray-100 dark:bg-slate-900 overflow-hidden relative">
+            <Image src={img} alt={`${slug} screenshot ${idx + 1}`} class="w-full h-full object-cover" />
+            <!-- Number tag inside placeholder -->
+            <div class="absolute top-4 right-4 bg-black/60 backdrop-blur-sm text-white px-3 py-1 rounded-full text-xs font-semibold tracking-wider">
+              {idx + 1} / {projectImages.length}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <!-- Left / Right Navigation Arrows -->
+      <button class="carousel-prev absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/80 dark:bg-slate-800/80 hover:bg-white dark:hover:bg-slate-800 text-text-title shadow-lg flex items-center justify-center transition-all opacity-0 group-hover:opacity-100 focus:opacity-100 disabled:opacity-30 disabled:pointer-events-none" aria-label="이전 스크린샷">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+      </button>
+
+      <button class="carousel-next absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/80 dark:bg-slate-800/80 hover:bg-white dark:hover:bg-slate-800 text-text-title shadow-lg flex items-center justify-center transition-all opacity-0 group-hover:opacity-100 focus:opacity-100 disabled:opacity-30 disabled:pointer-events-none" aria-label="다음 스크린샷">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+      </button>
+
+      <!-- Bottom Indicator Dots -->
+      <div class="carousel-dots absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2 z-10 bg-black/30 backdrop-blur-md px-3 py-1.5 rounded-full">
+        {projectImages.map((_, idx) => (
+          <button 
+            data-index={idx} 
+            class={`carousel-dot w-2 h-2 rounded-full transition-all duration-300 ${idx === 0 ? 'w-6 bg-primary' : 'bg-white/60 hover:bg-white'}`}
+            aria-label={`${idx + 1}번 슬라이드`}
+          />
+        ))}
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    function initCarousels() {
+      const containers = document.querySelectorAll('.carousel-container');
+      
+      containers.forEach(container => {
+        const track = container.querySelector('.carousel-track') as HTMLElement;
+        const prevBtn = container.querySelector('.carousel-prev') as HTMLButtonElement;
+        const nextBtn = container.querySelector('.carousel-next') as HTMLButtonElement;
+        const dots = container.querySelectorAll('.carousel-dot');
+        const total = parseInt(container.getAttribute('data-total-slides') || '0', 10);
+        
+        if (!track || total <= 1) {
+          if (prevBtn) prevBtn.style.display = 'none';
+          if (nextBtn) nextBtn.style.display = 'none';
+          return;
+        }
+
+        let currentIdx = 0;
+
+        function updateSlide(newIndex: number) {
+          if (newIndex < 0) newIndex = total - 1;
+          if (newIndex >= total) newIndex = 0;
+          currentIdx = newIndex;
+          
+          track.style.transform = `translateX(-${currentIdx * 100}%)`;
+          
+          dots.forEach((dot, idx) => {
+            if (idx === currentIdx) {
+              dot.classList.add('w-6', 'bg-primary');
+              dot.classList.remove('bg-white/60', 'hover:bg-white', 'w-2');
+            } else {
+              dot.classList.remove('w-6', 'bg-primary');
+              dot.classList.add('bg-white/60', 'hover:bg-white', 'w-2');
+            }
+          });
+        }
+
+        if (prevBtn) prevBtn.addEventListener('click', () => updateSlide(currentIdx - 1));
+        if (nextBtn) nextBtn.addEventListener('click', () => updateSlide(currentIdx + 1));
+
+        dots.forEach((dot) => {
+          dot.addEventListener('click', (e) => {
+            const idx = parseInt((e.currentTarget as HTMLElement).getAttribute('data-index') || '0', 10);
+            updateSlide(idx);
+          });
+        });
+
+        // Touch / Swipe support
+        let startX = 0;
+        let endX = 0;
+
+        track.addEventListener('touchstart', (e) => {
+          startX = e.touches[0].clientX;
+        }, { passive: true });
+
+        track.addEventListener('touchend', (e) => {
+          endX = e.changedTouches[0].clientX;
+          const diff = startX - endX;
+          if (Math.abs(diff) > 50) {
+            if (diff > 0) updateSlide(currentIdx + 1);
+            else updateSlide(currentIdx - 1);
+          }
+        }, { passive: true });
+      });
+    }
+
+    // Support standard DOM load & Astro view transitions
+    document.addEventListener('DOMContentLoaded', initCarousels);
+    document.addEventListener('astro:page-load', initCarousels);
+  </script>
+)}

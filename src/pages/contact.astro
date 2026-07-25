@@ -49,27 +49,18 @@ const projects = [
 ---
 
 <Layout title="Contact">
-  <div class="flex flex-col gap-24 py-12">
+  <div class="flex flex-col gap-24">
     
     <!-- 1. Hero Section -->
-    <section class="flex flex-col md:flex-row gap-12 items-center justify-between">
-      <div class="flex-1 flex flex-col gap-6">
-        <h1 class="text-[44px] md:text-[56px] font-[800] leading-[1.15] tracking-tight text-text-title">
-          Let's build something <br class="hidden md:block"/>
-          <span class="bg-gradient-to-r from-primary to-blue-400 bg-clip-text text-transparent">meaningful</span> together.
-        </h1>
-        <p class="text-[16px] md:text-[18px] text-text-body leading-[1.7] max-w-xl">
-          새로운 아이디어, 협업 제안, 연구, 혹은 단순한 대화도 언제나 환영합니다! 오픈소스 생태계에 기여하고 지식을 나누는 것을 즐깁니다.
-        </p>
-      </div>
-      <div class="hidden md:flex flex-1 justify-end">
-        <!-- Placeholder for Illustration -->
-        <div class="w-[320px] h-[240px] bg-gradient-to-br from-indigo-50 to-blue-50 rounded-2xl border border-indigo-100 flex items-center justify-center shadow-sm relative overflow-hidden">
-          <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="text-indigo-200"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
-          <div class="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-white/40 to-transparent"></div>
-        </div>
-      </div>
-    </section>
+    <div>
+      <h1 class="text-hero-heading">
+        Let's build something <br class="hidden md:block"/>
+        <span class="text-gradient-hero">meaningful</span> together.
+      </h1>
+      <p class="text-[16px] md:text-[18px] text-text-body leading-[1.7] max-w-2xl mt-6">
+        새로운 아이디어, 협업 제안, 연구, 혹은 단순한 대화도 언제나 환영합니다! 오픈소스 생태계에 기여하고 지식을 나누는 것을 즐깁니다.
+      </p>
+    </div>
 
     <!-- 2. Interactive Open Source Carousel -->
     <section class="flex flex-col gap-8">
@@ -167,7 +158,7 @@ const projects = [
 
 <script>
   document.addEventListener('DOMContentLoaded', () => {
-    // ---- Carousel Drag Logic ----
+    // ---- Carousel Drag Logic (Enhanced with hold-only & click suppression) ----
     const track = document.getElementById('carousel-track');
     const btnPrev = document.getElementById('btn-prev');
     const btnNext = document.getElementById('btn-next');
@@ -176,31 +167,54 @@ const projects = [
       let isDown = false;
       let startX: number;
       let scrollLeft: number;
+      let suppressClick = false;
+      let downTimestamp = 0;
+
+      track.querySelectorAll('a, img').forEach(el => {
+        el.addEventListener('dragstart', (e) => e.preventDefault());
+      });
 
       track.addEventListener('mousedown', (e) => {
         isDown = true;
+        suppressClick = false;
+        downTimestamp = Date.now();
         track.classList.add('active');
-        // Type assertion for MouseEvent
         startX = (e as MouseEvent).pageX - track.offsetLeft;
         scrollLeft = track.scrollLeft;
       });
 
-      track.addEventListener('mouseleave', () => {
+      const stopDragging = () => {
+        if (!isDown) return;
         isDown = false;
         track.classList.remove('active');
-      });
+      };
 
-      track.addEventListener('mouseup', () => {
-        isDown = false;
-        track.classList.remove('active');
-      });
+      track.addEventListener('mouseleave', stopDragging);
+      track.addEventListener('mouseup', stopDragging);
+      window.addEventListener('mouseup', stopDragging);
 
       track.addEventListener('mousemove', (e) => {
-        if (!isDown) return;
+        if (!isDown || (e as MouseEvent).buttons === 0) {
+          stopDragging();
+          return;
+        }
         e.preventDefault();
         const x = (e as MouseEvent).pageX - track.offsetLeft;
-        const walk = (x - startX) * 2; // Scroll-fast
+        const walk = (x - startX) * 1.5;
+        if (Math.abs(walk) > 3) {
+          suppressClick = true;
+        }
         track.scrollLeft = scrollLeft - walk;
+      });
+
+      track.querySelectorAll('a').forEach(anchor => {
+        anchor.addEventListener('click', (e) => {
+          const holdDuration = Date.now() - downTimestamp;
+          if (suppressClick || holdDuration > 250) {
+            e.preventDefault();
+            e.stopPropagation();
+          }
+        });
       });
 
       // Button controls
@@ -218,12 +232,9 @@ const projects = [
     }
 
     // ---- Mobile Touch Flip Logic ----
-    // Make cards flip on touch for mobile devices where hover doesn't work well
     const cardInners = document.querySelectorAll('.card-inner');
     cardInners.forEach(inner => {
       inner.addEventListener('click', () => {
-        // We toggle a rotate class on click for mobile
-        // Tailwind's group-hover already handles desktop
         if (window.matchMedia('(max-width: 768px)').matches) {
           inner.classList.toggle('[transform:rotateY(180deg)]');
         }

@@ -18,6 +18,9 @@
   --color-text-secondary: #6B7280;
   --color-text-muted: #9CA3AF;
 
+  /* Layout */
+  --layout-max-width: 1024px;
+
   /* Badge colors */
   --color-badge-python-bg: #ECFDF5;
   --color-badge-python-text: #15803D;
@@ -77,7 +80,22 @@
     --color-text-muted: #64748B;
   }
 
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 100px;
+  }
+
   body {
     @apply bg-bg-base text-text-body font-sans transition-colors duration-300;
+  }
+}
+
+@layer components {
+  .text-hero-heading {
+    @apply font-[800] leading-[1.1] tracking-tight text-text-title text-[44px] md:text-[56px];
+  }
+  
+  .text-gradient-hero {
+    @apply bg-gradient-to-br from-indigo-800 via-indigo-500 to-sky-400 dark:from-indigo-400 dark:via-blue-400 dark:to-cyan-300 bg-clip-text text-transparent;
   }
 }

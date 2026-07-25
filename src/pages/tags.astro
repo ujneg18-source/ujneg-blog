@@ -1,29 +1,35 @@
 ---
+import { getCollection } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
 
-// Dummy Data
-const projects = [
-  { date: '12월 04일', title: 'Astro로 만들어 본 나만의 블로그', href: '/projects', tags: ['Astro', '블로그', '프로젝트'] },
-  { date: '08월 15일', title: 'Bookly - 독서 기록 서비스', href: '/projects', tags: ['Next.js', 'Typescript', '프로젝트'] },
-  { date: '04월 20일', title: '환희 (HWANHEE) 포트폴리오', href: '/projects', tags: ['React', 'CSS', '웹'] },
-];
+// Fetch all Content Collections
+const allProjects = await getCollection('projects');
+const allNotes = await getCollection('notes');
+const allStories = await getCollection('stories');
 
-const notes = [
-  { date: '06월 16일', title: 'FastAPI와 Uvicorn의 관계, ASGI', href: '/notes', tags: ['Python', 'Backend', '웹'] },
-  { date: '06월 15일', title: 'Next Arc Browser 둘러보기', href: '/notes', tags: ['웹', '브라우저'] },
-  { date: '06월 07일', title: 'Browser 살펴보기 #1', href: '/notes', tags: ['웹', '브라우저'] },
-  { date: '09월 10일', title: 'Spark Join Strategy 로컬에서 확인해보기', href: '/notes', tags: ['Data Engineering', 'Spark'] },
-  { date: '05월 20일', title: 'Pandas groupby 완벽 정리', href: '/notes', tags: ['Python', 'Data Engineering'] },
-];
+const formattedProjects = allProjects.sort((a, b) => b.data.period.localeCompare(a.data.period)).map(item => ({
+  date: item.data.period.split(' - ')[0] || item.data.period,
+  title: item.data.title,
+  href: `/projects/${item.id}`,
+  tags: item.data.techStack || []
+}));
 
-const stories = [
-  { date: '08월 04일', title: '최근 근황과 블로그 방향에 대해', href: '/stories', tags: ['일상', '블로그'] },
-  { date: '12월 04일', title: 'Astro 블로그 회고', href: '/stories', tags: ['프로젝트', '회고'] },
-  { date: '01월 09일', title: 'Slick 같은 무한 루프 슬라이드 만들기', href: '/stories', tags: ['JavaScript', 'CSS', '슬라이드'] },
-];
+const formattedNotes = allNotes.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf()).map(note => ({
+  date: note.data.date.toLocaleDateString('ko-KR', { month: '2-digit', day: '2-digit' }),
+  title: note.data.title,
+  href: `/notes/${note.id}`,
+  tags: note.data.tags || []
+}));
 
-// Extract Tags & Frequencies
-const allTags = [...projects, ...notes, ...stories].flatMap(item => item.tags);
+const formattedStories = allStories.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf()).map(story => ({
+  date: story.data.date.toLocaleDateString('ko-KR', { month: '2-digit', day: '2-digit' }),
+  title: story.data.title,
+  href: `/stories/${story.id}`,
+  tags: story.data.tags || []
+}));
+
+// Extract Tags & Frequencies from ALL content collections
+const allTags = [...formattedProjects, ...formattedNotes, ...formattedStories].flatMap(item => item.tags);
 const tagCounts = allTags.reduce((acc, tag) => {
   acc[tag] = (acc[tag] || 0) + 1;
   return acc;
@@ -33,70 +39,63 @@ const sortedTags = Object.entries(tagCounts).sort((a, b) => b[1] - a[1]); // sor
 const totalTags = sortedTags.length;
 
 // Helper to calculate styling based on frequency
-const getMaxFreq = () => Math.max(...Object.values(tagCounts));
+const getMaxFreq = () => Math.max(...Object.values(tagCounts), 1);
 const maxFreq = getMaxFreq();
 
 function getTagStyles(freq: number) {
-  // Simple heuristic for weighting, using muted colors and compact padding
-  if (freq >= maxFreq) return "text-[14px] font-[600] text-gray-500 dark:text-slate-400 px-3 py-1";
-  if (freq >= 2) return "text-[13.5px] font-[500] text-gray-500 dark:text-slate-400 px-2.5 py-1";
+  if (freq >= maxFreq) return "text-[14px] font-[600] text-gray-700 dark:text-slate-300 px-3 py-1";
+  if (freq >= 2) return "text-[13.5px] font-[500] text-gray-600 dark:text-slate-400 px-2.5 py-1";
   return "text-[13px] font-[400] text-gray-500 dark:text-slate-400 px-2 py-1";
 }
 ---
 
-<Layout title="Tags">
-  <div class="flex flex-col gap-16 md:gap-24 py-8">
+<Layout title="Tags & Archives">
+  <div class="w-full flex flex-col">
     
-    <!-- Top Section: Content Archive -->
-    <section>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8">
+    <!-- Top Section: Projects / Notes / Stories Columns -->
+    <section class="mb-6">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 md:gap-6">
         
         <!-- Projects Column -->
-        <div class="flex flex-col">
-          <h2 class="text-[24px] font-[800] text-text-title mb-6 border-b border-border/50 pb-4">Projects</h2>
-          <ul class="flex flex-col gap-1">
-            {projects.map((item) => (
-              <li 
-                class="archive-item flex items-start gap-4 p-2 -ml-2 rounded-lg hover:bg-surface cursor-pointer transition-colors group" 
-                data-href={item.href} 
-                data-tags={item.tags.join(',')}
-              >
-                <span class="text-[14.5px] text-text-muted font-medium w-[70px] shrink-0 pt-0.5">{item.date}</span>
-                <span class="text-[15.5px] text-text-title group-hover:text-primary transition-colors leading-[1.4]">{item.title}</span>
+        <div class="flex flex-col min-w-0">
+          <h2 class="text-[22px] font-[800] text-text-title mb-5 border-b border-border/60 pb-3">Projects</h2>
+          <ul class="flex flex-col gap-1.5 m-0 p-0 list-none">
+            {formattedProjects.map((item) => (
+              <li class="m-0">
+                <a href={item.href} class="flex items-start gap-3 py-1.5 px-2 -mx-2 rounded-lg hover:bg-surface/80 transition-colors group no-underline">
+                  <span class="text-[13.5px] text-text-muted font-[400] shrink-0 pt-[2px]">{item.date}</span>
+                  <span class="text-[14.5px] font-[500] text-text-body group-hover:text-primary transition-colors leading-[1.45] break-keep">{item.title}</span>
+                </a>
               </li>
             ))}
           </ul>
         </div>
 
         <!-- Notes Column -->
-        <div class="flex flex-col">
-          <h2 class="text-[24px] font-[800] text-text-title mb-6 border-b border-border/50 pb-4">Notes</h2>
-          <ul class="flex flex-col gap-1">
-            {notes.map((item) => (
-              <li 
-                class="archive-item flex items-start gap-4 p-2 -ml-2 rounded-lg hover:bg-surface cursor-pointer transition-colors group" 
-                data-href={item.href} 
-                data-tags={item.tags.join(',')}
-              >
-                <span class="text-[14.5px] text-text-muted font-medium w-[70px] shrink-0 pt-0.5">{item.date}</span>
-                <span class="text-[15.5px] text-text-title group-hover:text-primary transition-colors leading-[1.4]">{item.title}</span>
+        <div class="flex flex-col min-w-0">
+          <h2 class="text-[22px] font-[800] text-text-title mb-5 border-b border-border/60 pb-3">Notes</h2>
+          <ul class="flex flex-col gap-1.5 m-0 p-0 list-none">
+            {formattedNotes.map((item) => (
+              <li class="m-0">
+                <a href={item.href} class="flex items-start gap-3 py-1.5 px-2 -mx-2 rounded-lg hover:bg-surface/80 transition-colors group no-underline">
+                  <span class="text-[13.5px] text-text-muted font-[400] shrink-0 pt-[2px]">{item.date}</span>
+                  <span class="text-[14.5px] font-[500] text-text-body group-hover:text-primary transition-colors leading-[1.45] break-keep">{item.title}</span>
+                </a>
               </li>
             ))}
           </ul>
         </div>
 
         <!-- Stories Column -->
-        <div class="flex flex-col">
-          <h2 class="text-[24px] font-[800] text-text-title mb-6 border-b border-border/50 pb-4">Stories</h2>
-          <ul class="flex flex-col gap-1">
-            {stories.map((item) => (
-              <li 
-                class="archive-item flex items-start gap-4 p-2 -ml-2 rounded-lg hover:bg-surface cursor-pointer transition-colors group" 
-                data-href={item.href} 
-                data-tags={item.tags.join(',')}
-              >
-                <span class="text-[14.5px] text-text-muted font-medium w-[70px] shrink-0 pt-0.5">{item.date}</span>
-                <span class="text-[15.5px] text-text-title group-hover:text-primary transition-colors leading-[1.4]">{item.title}</span>
+        <div class="flex flex-col min-w-0">
+          <h2 class="text-[22px] font-[800] text-text-title mb-5 border-b border-border/60 pb-3">Stories</h2>
+          <ul class="flex flex-col gap-1.5 m-0 p-0 list-none">
+            {formattedStories.map((item) => (
+              <li class="m-0">
+                <a href={item.href} class="flex items-start gap-3 py-1.5 px-2 -mx-2 rounded-lg hover:bg-surface/80 transition-colors group no-underline">
+                  <span class="text-[13.5px] text-text-muted font-[400] shrink-0 pt-[2px]">{item.date}</span>
+                  <span class="text-[14.5px] font-[500] text-text-body group-hover:text-primary transition-colors leading-[1.45] break-keep">{item.title}</span>
+                </a>
               </li>
             ))}
           </ul>
@@ -110,102 +109,18 @@ function getTagStyles(freq: number) {
       <h2 class="text-[28px] font-[800] text-text-title mb-8">{totalTags} TAGS</h2>
       <div class="flex flex-wrap items-center gap-3 md:gap-4">
         {sortedTags.map(([tag, count]) => (
-          <button 
-            data-tag={tag}
-            class={`tag-filter inline-flex items-center gap-1.5 bg-white dark:bg-slate-800 border border-border/70 hover:border-primary/50 shadow-sm rounded-full transition-all ${getTagStyles(count)}`}
+          <a 
+            href={`/tags/${tag}`}
+            class={`inline-flex items-center gap-1.5 bg-white dark:bg-slate-800 border border-border/70 hover:border-primary/50 shadow-sm rounded-full transition-all no-underline ${getTagStyles(count)}`}
           >
             #{tag}
             <span class="tag-badge bg-gray-100 dark:bg-slate-700/50 text-text-muted px-2 py-0.5 rounded-full text-[12px] font-medium transition-colors">
               {count}
             </span>
-          </button>
+          </a>
         ))}
       </div>
     </section>
 
   </div>
 </Layout>
-
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    // ---- 1. Explicit Navigation Logic ----
-    const archiveItems = document.querySelectorAll('.archive-item');
-    
-    archiveItems.forEach(item => {
-      item.addEventListener('click', () => {
-        const targetUrl = item.getAttribute('data-href');
-        if (targetUrl) {
-          window.location.href = targetUrl; // Explicit programmatic navigation
-        }
-      });
-    });
-
-    // ---- 2. Tag Filtering Logic ----
-    const tagFilters = document.querySelectorAll('.tag-filter');
-    let activeTag = '';
-
-    // Active state styling classes
-    const activeBtnClasses = ['border-primary', 'bg-indigo-50', 'text-primary'];
-    const activeBadgeClasses = ['bg-primary', 'text-white'];
-    
-    // Default badge styling classes (we preserve the specific font sizes applied via astro)
-    const defaultBadgeClasses = ['bg-gray-100 dark:bg-slate-700/50', 'text-text-muted'];
-
-    tagFilters.forEach(btn => {
-      btn.addEventListener('click', () => {
-        const selectedTag = btn.getAttribute('data-tag') || '';
-        
-        // Toggle logic
-        if (activeTag === selectedTag) {
-          activeTag = ''; // Reset if clicked again
-        } else {
-          activeTag = selectedTag;
-        }
-
-        // Update Tag Cloud UI
-        tagFilters.forEach(t => {
-          const badge = t.querySelector('.tag-badge');
-          
-          if (t.getAttribute('data-tag') === activeTag) {
-            // Activate
-            t.classList.add(...activeBtnClasses);
-            t.classList.remove('bg-white dark:bg-slate-800', 'border-border/70');
-            
-            if (badge) {
-              badge.classList.remove(...defaultBadgeClasses);
-              badge.classList.add(...activeBadgeClasses);
-            }
-          } else {
-            // Deactivate
-            t.classList.remove(...activeBtnClasses);
-            t.classList.add('bg-white dark:bg-slate-800', 'border-border/70');
-            
-            if (badge) {
-              badge.classList.remove(...activeBadgeClasses);
-              badge.classList.add(...defaultBadgeClasses);
-            }
-          }
-        });
-
-        // Update Archive Items Visibility
-        archiveItems.forEach(item => {
-          const tagsAttr = item.getAttribute('data-tags') || '';
-          const tags = tagsAttr.split(',');
-          
-          if (activeTag === '' || tags.includes(activeTag)) {
-            // Show item
-            item.style.display = '';
-            // Add a subtle highlight animation when showing
-            item.animate([
-              { opacity: 0, transform: 'translateY(5px)' },
-              { opacity: 1, transform: 'translateY(0)' }
-            ], { duration: 300, easing: 'ease-out' });
-          } else {
-            // Hide item
-            item.style.display = 'none';
-          }
-        });
-      });
-    });
-  });
-</script>

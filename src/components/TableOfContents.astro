@@ -1,0 +1,95 @@
+---
+export interface Props {
+  headings: Array<{ depth: number; slug: string; text: string }>;
+  variant?: 'box' | 'sticky';
+}
+
+const { headings = [], variant = 'box' } = Astro.props;
+// h2와 h3 헤딩만 필터링
+const toc = headings.filter(h => h.depth === 2 || h.depth === 3);
+---
+
+{toc.length > 0 && (
+  variant === 'box' ? (
+    <div class="my-10 p-6 bg-surface border border-border/70 rounded-2xl shadow-sm hover:shadow-md transition-shadow">
+      <div class="flex items-center gap-2 mb-4 text-text-title font-[700] text-[18px]">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+        <span>목차</span>
+      </div>
+      <ul class="flex flex-col gap-3 list-none m-0 p-0 text-[15px]">
+        {toc.map((heading) => (
+          <li class={heading.depth === 3 ? "pl-6 m-0" : "m-0"}>
+            <a 
+              href={`#${heading.slug}`} 
+              class="text-text-secondary hover:text-primary transition-colors flex items-start gap-2.5 no-underline hover:underline py-0.5"
+            >
+              <span class={`shrink-0 font-[700] select-none mt-[2px] ${heading.depth === 2 ? 'text-primary' : 'text-text-muted'}`}>
+                {heading.depth === 2 ? '> #' : '-'}
+              </span>
+              <span class="flex-1 font-[500] text-text-body hover:text-primary transition-colors leading-[1.5] break-keep">
+                {heading.text}
+              </span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  ) : (
+    <nav class="sticky top-28 w-64 p-4 max-h-[calc(100vh-140px)] overflow-y-auto hidden xl:block font-sans select-none">
+      <div class="text-[13px] font-[700] text-text-muted uppercase tracking-wider mb-3 pl-3 flex items-center gap-1.5">
+        <span>ON THIS PAGE</span>
+      </div>
+      <ul class="flex flex-col gap-1.5 list-none m-0 p-0 text-[14px] border-l border-border/70 pl-3">
+        {toc.map((heading) => (
+          <li class={heading.depth === 3 ? "pl-3 m-0" : "m-0"}>
+            <a 
+              href={`#${heading.slug}`} 
+              data-toc-link
+              class="block text-text-muted hover:text-primary transition-all duration-200 no-underline py-1 truncate leading-[1.4] -ml-px border-l-2 border-transparent hover:border-primary pl-2"
+              title={heading.text}
+            >
+              {heading.text}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  )
+)}
+
+<script>
+  // IntersectionObserver 설정 (Sticky TOC 활성화 애니메이션)
+  document.addEventListener('DOMContentLoaded', () => {
+    const tocLinks = document.querySelectorAll('a[data-toc-link]');
+    if (tocLinks.length === 0) return;
+
+    const sections = Array.from(tocLinks).map(link => {
+      const id = link.getAttribute('href')?.slice(1);
+      return id ? document.getElementById(id) : null;
+    }).filter(Boolean) as HTMLElement[];
+
+    if (sections.length === 0) return;
+
+    const callback: IntersectionObserverCallback = (entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          tocLinks.forEach(link => {
+            link.classList.remove('text-primary', 'font-[700]', 'border-primary');
+            link.classList.add('text-text-muted', 'border-transparent');
+            if (link.getAttribute('href') === `#${entry.target.id}`) {
+              link.classList.remove('text-text-muted', 'border-transparent');
+              link.classList.add('text-primary', 'font-[700]', 'border-primary');
+            }
+          });
+        }
+      });
+    };
+
+    const observer = new IntersectionObserver(callback, {
+      rootMargin: '-100px 0px -70% 0px',
+      threshold: 0.1
+    });
+
+    sections.forEach(sec => observer.observe(sec));
+  });
+</script>

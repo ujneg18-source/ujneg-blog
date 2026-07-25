@@ -1,0 +1,353 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import NoteCard from '../../components/NoteCard.astro';
+import Pagination from '../../components/Pagination.astro';
+import TableOfContents from '../../components/TableOfContents.astro';
+
+export async function getStaticPaths() {
+  const allPosts = await getCollection('notes');
+  const sortedPosts = allPosts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+  const generatePaginatedPaths = (posts: any[], basePathSlug: string | undefined, category: string, subcategory: string | null) => {
+    const pageSize = 4;
+    const totalPages = Math.ceil(posts.length / pageSize) || 1;
+    const paths = [];
+
+    for (let i = 1; i <= totalPages; i++) {
+      const slug = i === 1 ? basePathSlug : (basePathSlug ? `${basePathSlug}/${i}` : `${i}`);
+      
+      const getUrl = (pageNum: number) => {
+        if (pageNum === 1) return basePathSlug ? `/notes/${basePathSlug}` : `/notes`;
+        return basePathSlug ? `/notes/${basePathSlug}/${pageNum}` : `/notes/${pageNum}`;
+      };
+
+      const pageObj = {
+        data: posts.slice((i - 1) * pageSize, i * pageSize),
+        start: (i - 1) * pageSize,
+        end: Math.min(i * pageSize - 1, posts.length - 1),
+        total: posts.length,
+        currentPage: i,
+        size: pageSize,
+        lastPage: totalPages,
+        url: {
+          current: getUrl(i),
+          prev: i > 1 ? getUrl(i - 1) : undefined,
+          next: i < totalPages ? getUrl(i + 1) : undefined,
+        }
+      };
+
+      paths.push({
+        params: { slug },
+        props: {
+          type: 'list',
+          page: pageObj,
+          currentCategory: category,
+          currentSubcategory: subcategory,
+          basePath: getUrl(1)
+        }
+      });
+    }
+    return paths;
+  };
+
+  const paths = [];
+
+  // 1. Root pagination (/notes, /notes/2)
+  paths.push(...generatePaginatedPaths(sortedPosts, undefined, 'all', null));
+
+  // Group by category and subcategory for routing
+  const categories = ['Tech', 'Infra', 'Tools', 'Me'];
+  const subcatsMap: Record<string, string[]> = {
+    'Tech': ['Data Engineering', 'Backend', 'Python', 'Algorithm', 'Etc (Tech)'],
+    'Infra': ['Cloud', 'Kubernetes', 'Linux', 'Etc (Infra)'],
+    'Tools': ['Obsidian', 'Etc (Tools)'],
+    'Me': []
+  };
+
+  for (const cat of categories) {
+    const catPosts = sortedPosts.filter(p => p.data.category === cat);
+    paths.push(...generatePaginatedPaths(catPosts, cat.toLowerCase(), cat, null));
+
+    for (const subcat of subcatsMap[cat]) {
+      const subcatPosts = catPosts.filter(p => p.data.subcategory === subcat);
+      const subcatSlug = subcat.toLowerCase().replace(/\s+/g, '-');
+      paths.push(...generatePaginatedPaths(subcatPosts, `${cat.toLowerCase()}/${subcatSlug}`, cat, subcat));
+    }
+  }
+
+  // 3. Post Detail paths
+  const categorySlugs = categories.map(c => c.toLowerCase());
+  for (const post of allPosts) {
+    let postSlug = post.id;
+    if (categorySlugs.includes(postSlug)) {
+      console.warn(`[WARNING] Post slug "${postSlug}" conflicts with a category name. Prefixing with "post-".`);
+      postSlug = `post-${postSlug}`;
+    }
+    
+    paths.push({
+      params: { slug: postSlug },
+      props: { type: 'post', post }
+    });
+  }
+
+  return paths;
+}
+
+import { render } from 'astro:content';
+
+const { type, page, currentCategory, currentSubcategory, post, basePath } = Astro.props;
+const slug = Astro.params.slug || '';
+
+let Content;
+let headings = [];
+let relatedPosts = [];
+let relatedTitle = '';
+
+if (type === 'post' && post) {
+  const rendered = await render(post);
+  Content = rendered.Content;
+  headings = rendered.headings;
+  
+  const allPostsTemp = await getCollection('notes');
+  
+  // 1순위: 소분류 기준 필터링
+  if (post.data.subcategory) {
+    relatedPosts = allPostsTemp.filter(p => p.data.subcategory === post.data.subcategory);
+    if (relatedPosts.length >= 2) {
+      relatedTitle = `'Notes - ${post.data.subcategory}'의 다른 글`;
+    }
+  }
+
+  // 2순위: 소분류 결과가 2개 미만이거나 소분류가 없으면 대분류 기준으로 자동 확장
+  if (relatedPosts.length < 2) {
+    relatedPosts = allPostsTemp.filter(p => p.data.category === post.data.category);
+    relatedTitle = `'Notes - ${post.data.category}'의 다른 글`;
+  }
+
+  relatedPosts = relatedPosts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+}
+
+const allPosts = await getCollection('notes');
+
+const getCount = (cat?: string, subcat?: string) => {
+  if (!cat) return allPosts.length;
+  if (!subcat) return allPosts.filter(p => p.data.category === cat).length;
+  return allPosts.filter(p => p.data.category === cat && p.data.subcategory === subcat).length;
+};
+
+// Helper for active styles
+const getCategoryClass = (cat: string, isSub = false) => {
+  const isActive = !isSub ? currentCategory === cat && !currentSubcategory : currentSubcategory === cat;
+  
+  // Align count closely to title using gap-1.5 instead of justify-between
+  let base = isSub 
+    ? "w-full text-left text-[14px] transition-colors flex items-center gap-1.5 "
+    : "w-full text-left text-[16px] transition-colors flex items-center gap-1.5 ";
+    
+  if (isActive) {
+    base += "text-primary " + (isSub ? "font-[600]" : "font-[700]");
+  } else {
+    base += "hover:text-primary " + (isSub ? "text-text-secondary" : "font-[600] text-text-title");
+  }
+  return base;
+};
+---
+
+{type === 'list' ? (
+<Layout title="Notes">
+  <div class="grid grid-cols-1 md:grid-cols-[180px_1fr] gap-8 lg:gap-12 items-start">
+    
+    <!-- Left Sidebar (Compressed Width) -->
+    <aside class="w-full flex flex-col gap-10">
+      <section>
+        <a href="/notes" class={`block text-[18px] mb-5 border-b border-border/50 pb-3 hover:text-primary transition-colors ${currentCategory === 'all' ? 'font-[800] text-primary' : 'font-[700] text-text-title'}`}>
+          전체 카테고리 <span class="text-[14px] text-text-muted font-normal ml-1">({getCount()})</span>
+        </a>
+        <div class="flex flex-col gap-4">
+          
+          <!-- Category: Tech -->
+          <div>
+            <a href="/notes/tech" class={getCategoryClass('Tech')}>
+              Tech <span class="text-[13px] text-text-muted font-normal">({getCount('Tech')})</span>
+            </a>
+            <div class="flex flex-col gap-2.5 pl-3 border-l-2 border-border/50 ml-1.5 mt-3 mb-1">
+              {['Data Engineering', 'Backend', 'Python', 'Algorithm', 'Etc (Tech)'].map(sub => (
+                <a href={`/notes/tech/${sub.toLowerCase().replace(/\s+/g, '-')}`} class={getCategoryClass(sub, true)}>
+                  {sub} <span class="text-[12px] text-text-muted">({getCount('Tech', sub)})</span>
+                </a>
+              ))}
+            </div>
+          </div>
+
+          <!-- Category: Infra -->
+          <div>
+            <a href="/notes/infra" class={getCategoryClass('Infra')}>
+              Infra <span class="text-[13px] text-text-muted font-normal">({getCount('Infra')})</span>
+            </a>
+            <div class="flex flex-col gap-2.5 pl-3 border-l-2 border-border/50 ml-1.5 mt-3 mb-1">
+              {['Cloud', 'Kubernetes', 'Linux', 'Etc (Infra)'].map(sub => (
+                <a href={`/notes/infra/${sub.toLowerCase().replace(/\s+/g, '-')}`} class={getCategoryClass(sub, true)}>
+                  {sub} <span class="text-[12px] text-text-muted">({getCount('Infra', sub)})</span>
+                </a>
+              ))}
+            </div>
+          </div>
+
+          <!-- Category: Tools -->
+          <div>
+            <a href="/notes/tools" class={getCategoryClass('Tools')}>
+              Tools <span class="text-[13px] text-text-muted font-normal">({getCount('Tools')})</span>
+            </a>
+            <div class="flex flex-col gap-2.5 pl-3 border-l-2 border-border/50 ml-1.5 mt-3 mb-1">
+              {['Obsidian', 'Etc (Tools)'].map(sub => (
+                <a href={`/notes/tools/${sub.toLowerCase().replace(/\s+/g, '-')}`} class={getCategoryClass(sub, true)}>
+                  {sub} <span class="text-[12px] text-text-muted">({getCount('Tools', sub)})</span>
+                </a>
+              ))}
+            </div>
+          </div>
+          
+          <!-- Category: Me -->
+          <div>
+            <a href="/notes/me" class={getCategoryClass('Me')}>
+              Me <span class="text-[13px] text-text-muted font-normal">({getCount('Me')})</span>
+            </a>
+          </div>
+
+        </div>
+      </section>
+    </aside>
+
+    <!-- Main Content (Post List with expanded width) -->
+    <main class="flex flex-col min-w-0 flex-1" data-pagefind-body>
+      {page.data.length === 0 ? (
+        <div class="py-12 text-center text-text-muted">이 카테고리에 아직 등록된 글이 없습니다.</div>
+      ) : (
+        <div class="flex flex-col divide-y divide-border/50">
+          {page.data.map(post => (
+            <NoteCard post={post} />
+          ))}
+        </div>
+      )}
+    </main>
+
+  </div>
+
+  <!-- Horizontally Centered Pagination relative to whole screen / footer -->
+  {page.lastPage > 1 && (
+    <div class="w-full flex justify-center mt-12 mb-6">
+      <Pagination 
+        page={page} 
+        baseUrl={basePath || '/notes'} 
+      />
+    </div>
+  )}
+</Layout>
+) : (
+<Layout title={post.data.title}>
+  <div class="flex items-start justify-between gap-12 w-full">
+    
+    <article class="flex-1 w-full max-w-[740px] min-w-0">
+      <header class="mb-10 flex flex-col items-start text-left">
+        <div class="flex items-center flex-wrap gap-2 text-[14.5px] font-[500] mb-3 text-text-muted">
+          <a href={`/notes/${post.data.category.toLowerCase()}`} class="text-primary hover:underline font-[500] no-underline">
+            {post.data.category}
+          </a>
+          {post.data.subcategory && (
+            <>
+              <span class="text-text-muted/50 select-none font-[400]">/</span>
+              <a href={`/notes/${post.data.category.toLowerCase()}/${post.data.subcategory.toLowerCase()}`} class="text-primary hover:underline font-[500] no-underline">
+                {post.data.subcategory}
+              </a>
+            </>
+          )}
+          <span class="text-text-muted/50 select-none ml-1 font-[400]">/</span>
+          <time class="text-text-muted font-[400] ml-1">{post.data.date.toLocaleDateString('ko-KR', { year: 'numeric', month: '2-digit', day: '2-digit' }).replace(/\./g, '/').replace(/ /g, '').slice(0, -1)}</time>
+        </div>
+        <h1 class="text-[28px] md:text-[34px] font-[800] text-text-title mb-6 leading-[1.35] break-keep">{post.data.title}</h1>
+      </header>
+
+      <TableOfContents headings={headings} variant="box" />
+
+      <div class="prose dark:prose-invert max-w-none prose-headings:text-text-title prose-p:text-text-body prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-img:rounded-xl">
+        <Content />
+      </div>
+
+      <!-- Footer Area -->
+      <footer class="mt-20 pt-10 border-t border-border/60">
+        {post.data.tags && post.data.tags.length > 0 && (
+          <div class="flex items-center gap-2 mb-12 flex-wrap">
+            {post.data.tags.map((tag: string) => (
+              <a href={`/tags/${tag}`} class="text-[14px] px-4 py-2 bg-surface text-text-secondary border border-border/70 rounded-full hover:border-primary hover:text-primary transition-all shadow-sm no-underline font-[500]">
+                #{tag}
+              </a>
+            ))}
+          </div>
+        )}
+
+        <!-- Related Posts Card -->
+        {relatedPosts.length > 0 && (
+          <div class="bg-surface border border-border/70 rounded-2xl p-6 shadow-sm">
+            <h3 class="text-[18px] font-[700] text-text-title mb-5">
+              {relatedTitle}
+            </h3>
+            <ul class="flex flex-col m-0 p-0 list-none divide-y divide-border/40">
+              {relatedPosts.map(rp => {
+                const isCurrent = rp.id === post.id;
+                return (
+                  <li class="m-0">
+                    <a href={`/notes/${rp.id}`} class={`flex items-center justify-between py-4 group no-underline transition-colors ${isCurrent ? 'bg-primary/5 -mx-4 px-4 rounded-lg' : 'hover:bg-gray-50 dark:hover:bg-slate-800/50 -mx-4 px-4 rounded-lg'}`}>
+                      <span class={`text-[15px] break-keep pr-4 ${isCurrent ? 'text-primary font-[700]' : 'text-text-body group-hover:text-primary font-[500]'}`}>
+                        {rp.data.title}
+                      </span>
+                      <div class="flex items-center gap-3 shrink-0">
+                        {isCurrent && (
+                          <span class="text-[12px] text-primary font-[700]">현재 글</span>
+                        )}
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class={isCurrent ? "text-primary" : "text-text-muted group-hover:text-primary"}><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+                      </div>
+                    </a>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        )}
+      </footer>
+    </article>
+
+    <!-- Right Sidebar for TOC -->
+    <aside class="hidden lg:block w-[220px] shrink-0 sticky top-28 mt-32">
+      <TableOfContents headings={headings} variant="sticky" />
+    </aside>
+
+  </div>
+
+  <!-- Scroll To Top Button -->
+  <button id="scrollToTopBtn" class="fixed bottom-8 right-8 z-50 w-12 h-12 bg-white dark:bg-slate-800 border border-border shadow-md rounded-full flex items-center justify-center text-text-secondary hover:text-primary hover:border-primary transition-all opacity-0 translate-y-4 pointer-events-none" aria-label="맨 위로 가기">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"></path></svg>
+  </button>
+</Layout>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const btn = document.getElementById('scrollToTopBtn');
+    if (!btn) return;
+
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 300) {
+        btn.classList.remove('opacity-0', 'translate-y-4', 'pointer-events-none');
+        btn.classList.add('opacity-100', 'translate-y-0');
+      } else {
+        btn.classList.add('opacity-0', 'translate-y-4', 'pointer-events-none');
+        btn.classList.remove('opacity-100', 'translate-y-0');
+      }
+    });
+
+    btn.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  });
+</script>
+)}

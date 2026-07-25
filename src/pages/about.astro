@@ -2,29 +2,34 @@
 import Layout from '../layouts/Layout.astro';
 import { Image } from 'astro:assets';
 
-import profileImg from '../assets/images/profile-image.png';
+import profileImg from '../assets/images/profile-image-kka.png';
 import workingOnImg from '../assets/images/working-on-illustration.png';
 ---
 
 <Layout title="About">
   <div class="flex flex-col gap-12">
-    <!-- Intro Section -->
-    <section class="relative w-full rounded-[24px] overflow-hidden bg-gray-100 dark:bg-slate-700/50 shadow-sm border border-border/50 min-h-[400px] flex items-center p-8 md:p-12 lg:p-16">
-      <!-- Background Image Layer -->
+    <!-- Intro Section (Method B: Wide Horizontal Banner Layout) -->
+    <section class="relative w-full rounded-[24px] overflow-hidden bg-[#F8F7FD] dark:bg-slate-900 shadow-sm border border-border/50 min-h-[420px] flex items-center p-8 md:p-12 lg:p-16">
+      <!-- Background Image Layer (Showcasing right illustration across the landscape format) -->
       {profileImg.format === 'gif' ? (
-        <img src={profileImg.src} alt="Profile Background" width={profileImg.width} height={profileImg.height} class="absolute inset-0 w-full h-full object-cover" />
+        <img src={profileImg.src} alt="Profile Background" width={profileImg.width} height={profileImg.height} class="absolute inset-0 w-full h-full object-cover object-[85%_center] md:object-right transition-transform duration-500 dark:brightness-[0.85] dark:contrast-[1.05]" />
       ) : (
-        <Image src={profileImg} alt="Profile Background" class="absolute inset-0 w-full h-full object-cover" />
+        <Image src={profileImg} alt="Profile Background" class="absolute inset-0 w-full h-full object-cover object-[85%_center] md:object-right transition-transform duration-500 dark:brightness-[0.85] dark:contrast-[1.05]" />
       )}
       
-      <!-- Gradient Overlay -->
-      <div class="absolute inset-0 bg-gradient-to-r from-white/90 via-white/70 to-transparent dark:from-slate-900/90 dark:via-slate-900/70 dark:to-transparent"></div>
+      <!-- Gradient Overlay for Seamless Readability in Light & Dark Modes -->
+      <div class="absolute inset-0 bg-gradient-to-r from-white/95 via-white/85 via-60% to-transparent dark:from-slate-900 dark:via-slate-900/85 dark:to-slate-900/35"></div>
       
       <!-- Text & Socials Layer -->
-      <div class="relative z-10 flex flex-col gap-6 max-w-xl">
-        <h2 class="text-sm font-bold tracking-widest text-text-secondary uppercase">AI ENGINEER</h2>
+      <div class="relative z-10 flex flex-col gap-5 max-w-xl">
+        <div class="flex flex-col gap-2">
+          <span class="text-sm font-bold tracking-widest text-text-secondary uppercase">AI ENGINEER</span>
+          <h1 class="text-hero-heading mb-0">
+            About <span class="text-gradient-hero">Me</span>
+          </h1>
+        </div>
         
-        <ul class="text-[16px] text-text-body font-[500] leading-relaxed space-y-2 list-disc list-inside">
+        <ul class="text-[16px] text-text-body font-[500] leading-relaxed space-y-2 list-disc list-inside mt-1">
           <li>작은 아이디어를 현실로 만드는 것을 좋아합니다.</li>
           <li>AI를 활용해 사람들의 일상에 도움이 되는 제품을 만들고 싶습니다.</li>
           <li>국어를 가르치던 사람에서 개발자로, 매일 배우고 기록하며 연구합니다.</li>

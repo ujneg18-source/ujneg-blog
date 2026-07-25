@@ -1,0 +1,97 @@
+import noteThumb1Img from '../assets/images/note-thumb-1.png';
+import noteThumb2Img from '../assets/images/note-thumb-2.png';
+import noteThumb3Img from '../assets/images/note-thumb-3.png';
+import noteThumb4Img from '../assets/images/note-thumb-4.png';
+
+export const dummyNotes = [
+  {
+    id: 1,
+    title: 'FastAPI와 Uvicorn의 관계, ASGI',
+    excerpt: '파이썬 백엔드 개발 시 자주 사용하는 조합인 FastAPI와 Uvicorn. 이 둘의 역할 분담과 ASGI(Asynchronous Server Gateway Interface) 스펙에 대해 알아봅니다.',
+    categories: ['Tech', 'Backend', 'Python'],
+    date: '2026. 6. 16.',
+    comments: 2,
+    thumb: noteThumb1Img,
+  },
+  {
+    id: 2,
+    title: 'Next Arc Browser 둘러보기',
+    excerpt: 'The Browser Company에서 만든 새로운 브라우저 Arc. 탭 관리 방식부터 스페이스 개념까지, 기존 크롬과 어떻게 다르고 어떤 점이 편리한지 리뷰해봅니다.',
+    categories: ['Tech', 'Tools'],
+    date: '2026. 6. 15.',
+    comments: 0,
+    thumb: noteThumb2Img,
+  },
+  {
+    id: 3,
+    title: 'Browser 살펴보기 #1',
+    excerpt: '자동화 및 스크래핑 관련 업무를 진행하면서, 브라우저 자체에 대한 이해도가 낮았음을 알 수 있었고, 이를 제대로 살펴봐야겠다 생각했다. 오랜 기간동안 소식이 없던 포스팅도 같이 이어가려고 한다.',
+    categories: ['Tech', 'Etc (Tech)'],
+    date: '2026. 6. 7.',
+    comments: 0,
+    thumb: noteThumb3Img,
+  },
+  {
+    id: 4,
+    title: 'Spark Join Strategy 로컬에서 확인해보기',
+    excerpt: '금일 포스팅에선 Spark의 몇가지 조인 전략에 대해 어떤 상황에서 사용하면 좋은지 실습을 하며 확인한 과정을 공유하고자 한다. 사용한 실습 코드들은 다음 레포에 존재한다.',
+    categories: ['Tech', 'Data Engineering'],
+    date: '2025. 9. 10.',
+    comments: 1,
+    thumb: noteThumb4Img,
+  },
+  {
+    id: 5,
+    title: 'Docker 컨테이너 네트워킹의 기초',
+    excerpt: '도커 브릿지 네트워크부터 호스트 네트워크까지, 컨테이너간 통신이 어떻게 이루어지는지 패킷의 흐름을 따라가 봅니다.',
+    categories: ['Infra', 'Docker'],
+    date: '2025. 8. 21.',
+    comments: 5,
+    thumb: noteThumb1Img,
+  },
+  {
+    id: 6,
+    title: '쿠버네티스 파드(Pod) 라이프사이클 톺아보기',
+    excerpt: '파드가 생성되고 소멸되기까지의 과정, 그리고 Init Container와 Probes(liveness, readiness)의 올바른 활용법을 정리했습니다.',
+    categories: ['Infra', 'Kubernetes'],
+    date: '2025. 8. 10.',
+    comments: 3,
+    thumb: noteThumb2Img,
+  },
+  {
+    id: 7,
+    title: 'Pandas groupby 연산 완벽 가이드',
+    excerpt: '데이터 전처리 과정에서 가장 많이 쓰이는 pandas groupby의 원리와, apply vs transform의 차이점을 실무 예제와 함께 비교합니다.',
+    categories: ['Tech', 'Data Engineering', 'Python'],
+    date: '2025. 7. 05.',
+    comments: 0,
+    thumb: noteThumb3Img,
+  },
+  {
+    id: 8,
+    title: '올해 상반기 회고와 앞으로의 계획',
+    excerpt: '벌써 2025년도 절반이 지났다. 그동안 어떤 프로젝트를 진행했고 무엇을 배웠는지, 하반기에는 어떤 방향으로 나아갈지 개인적인 회고를 적어본다.',
+    categories: ['Me'],
+    date: '2025. 6. 30.',
+    comments: 4,
+    thumb: noteThumb4Img,
+  },
+  {
+    id: 9,
+    title: '백트래킹 알고리즘 최적화 기법',
+    excerpt: 'N-Queen 문제를 비롯한 다양한 백트래킹 알고리즘 문제에서 가지치기(Pruning)를 통해 탐색 공간을 극적으로 줄이는 방법을 알아봅니다.',
+    categories: ['Tech', 'Algorithm'],
+    date: '2025. 5. 12.',
+    comments: 1,
+    thumb: noteThumb1Img,
+  },
+  {
+    id: 10,
+    title: '개발 생산성을 높여주는 터미널 세팅',
+    excerpt: 'Zsh, Oh My Zsh, 그리고 다양한 플러그인들을 활용하여 CLI 환경을 쾌적하게 구성하는 저만의 터미널 환경을 소개합니다.',
+    categories: ['Tech', 'Tools'],
+    date: '2025. 4. 20.',
+    comments: 2,
+    thumb: noteThumb2Img,
+  }
+];
