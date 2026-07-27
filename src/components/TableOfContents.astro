@@ -5,44 +5,104 @@ export interface Props {
 }
 
 const { headings = [], variant = 'box' } = Astro.props;
-// h2와 h3 헤딩만 필터링
 const toc = headings.filter(h => h.depth === 2 || h.depth === 3);
+
+interface TocNode {
+  depth: number;
+  slug: string;
+  text: string;
+  children: TocNode[];
+}
+
+const tocTree: TocNode[] = [];
+let currentH2: TocNode | null = null;
+
+headings.forEach(h => {
+  if (h.depth === 2) {
+    currentH2 = { ...h, children: [] };
+    tocTree.push(currentH2);
+  } else if (h.depth === 3) {
+    if (currentH2) {
+      currentH2.children.push({ ...h, children: [] });
+    } else {
+      tocTree.push({ ...h, children: [] });
+    }
+  }
+});
 ---
 
 {toc.length > 0 && (
   variant === 'box' ? (
     <div class="my-10 p-6 bg-surface border border-border/70 rounded-2xl shadow-sm hover:shadow-md transition-shadow">
-      <div 
-        data-toc-scroll-top
-        class="group flex items-center justify-between gap-2 mb-4 text-text-title font-[700] text-[18px] cursor-pointer hover:text-primary transition-colors select-none"
-        title="맨 위로 가기"
-      >
-        <div class="flex items-center gap-2">
+      <div class="flex items-center justify-between gap-2 mb-4 select-none">
+        <div 
+          data-toc-scroll-top
+          class="group flex items-center gap-2 text-text-title font-[700] text-[18px] cursor-pointer hover:text-primary transition-colors"
+          title="맨 위로 가기"
+        >
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
           <span>목차</span>
         </div>
-        <div class="text-[12.5px] font-[500] text-text-muted group-hover:text-primary flex items-center gap-1 opacity-80 group-hover:opacity-100 transition-all">
-          <span>맨 위로</span>
-          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="group-hover:-translate-y-0.5 transition-transform duration-300"><path d="m18 15-6-6-6 6"></path></svg>
-        </div>
+        <button 
+          type="button" 
+          data-toc-main-toggle 
+          class="p-1.5 text-text-muted hover:text-primary transition-colors rounded hover:bg-black/5 dark:hover:bg-white/5 flex items-center justify-center cursor-pointer"
+          title="전체 목차 접기/펴기"
+        >
+          <svg data-icon class="w-4 h-4 transform transition-transform duration-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </button>
       </div>
-      <ul class="flex flex-col gap-3 list-none m-0 p-0 text-[15px]">
-        {toc.map((heading) => (
-          <li class={heading.depth === 3 ? "pl-6 m-0" : "m-0"}>
-            <a 
-              href={`#${heading.slug}`} 
-              class="text-text-secondary hover:text-primary transition-colors flex items-start gap-2.5 no-underline hover:underline py-0.5"
-            >
-              <span class={`shrink-0 font-[700] select-none mt-[2px] ${heading.depth === 2 ? 'text-primary' : 'text-text-muted'}`}>
-                {heading.depth === 2 ? '> #' : '-'}
-              </span>
-              <span class="flex-1 font-[500] text-text-body hover:text-primary transition-colors leading-[1.5] break-keep">
-                {heading.text}
-              </span>
-            </a>
-          </li>
-        ))}
-      </ul>
+      
+      <div data-toc-main-container class="overflow-hidden transition-all duration-300">
+        <ul class="flex flex-col gap-3 list-none m-0 p-0 text-[15px]">
+          {tocTree.map((item) => (
+            <li class="m-0">
+              <div class="flex items-center justify-between gap-1">
+                <a 
+                  href={`#${item.slug}`} 
+                  class="text-text-secondary hover:text-primary transition-colors flex items-start gap-2.5 no-underline hover:underline py-0.5 flex-1"
+                >
+                  <span class={`shrink-0 font-[700] select-none mt-[2px] ${item.depth === 2 ? 'text-primary' : 'text-text-muted'}`}>
+                    {item.depth === 2 ? '> #' : '-'}
+                  </span>
+                  <span class="font-[500] text-text-body hover:text-primary transition-colors leading-[1.5] break-keep">
+                    {item.text}
+                  </span>
+                </a>
+                {item.children.length > 0 && (
+                  <button 
+                    type="button" 
+                    data-sub-toggle 
+                    class="p-1.5 text-text-muted hover:text-primary rounded hover:bg-black/5 dark:hover:bg-white/5 transition-colors select-none shrink-0 cursor-pointer" 
+                    title="하위 목차 접기/펴기"
+                  >
+                    <svg data-icon class="w-3.5 h-3.5 transform transition-transform duration-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                  </button>
+                )}
+              </div>
+              {item.children.length > 0 && (
+                <div data-sub-container class="overflow-hidden transition-all duration-300 mt-1.5">
+                  <ul class="flex flex-col gap-2 list-none m-0 p-0 text-[14.5px]">
+                    {item.children.map((sub) => (
+                      <li class="pl-6 m-0">
+                        <a 
+                          href={`#${sub.slug}`} 
+                          class="text-text-secondary hover:text-primary transition-colors flex items-start gap-2.5 no-underline hover:underline py-0.5"
+                        >
+                          <span class="shrink-0 font-[700] select-none mt-[2px] text-text-muted">-</span>
+                          <span class="flex-1 font-[500] text-text-body hover:text-primary transition-colors leading-[1.5] break-keep">
+                            {sub.text}
+                          </span>
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   ) : (
     <nav class="sticky top-28 w-64 p-4 max-h-[calc(100vh-140px)] overflow-y-auto hidden xl:block font-sans select-none">
@@ -75,9 +135,8 @@ const toc = headings.filter(h => h.depth === 2 || h.depth === 3);
 )}
 
 <script>
-  // IntersectionObserver 설정 (Sticky TOC 활성화 애니메이션) & 맨 위로 스크롤 이벤트
   document.addEventListener('DOMContentLoaded', () => {
-    // 1. 목차/ON THIS PAGE 클릭 시 맨 위로 스무스 스크롤
+    // 1. 맨 위로 스크롤
     const topTriggers = document.querySelectorAll('[data-toc-scroll-top]');
     topTriggers.forEach(btn => {
       btn.addEventListener('click', () => {
@@ -85,7 +144,46 @@ const toc = headings.filter(h => h.depth === 2 || h.depth === 3);
       });
     });
 
-    // 2. TOC 하이라이트 애니메이션
+    // 2. 전체 목차 접고 펴기 토글 (data-toc-main-toggle)
+    const mainToggles = document.querySelectorAll('[data-toc-main-toggle]');
+    mainToggles.forEach(toggleBtn => {
+      toggleBtn.addEventListener('click', () => {
+        const parent = toggleBtn.closest('div, nav')?.parentElement || toggleBtn.closest('nav') || toggleBtn.parentElement?.parentElement;
+        const container = parent?.querySelector('[data-toc-main-container]') as HTMLElement;
+        const icon = toggleBtn.querySelector('[data-icon]') as HTMLElement;
+        if (container) {
+          if (container.style.display === 'none') {
+            container.style.display = 'block';
+            if (icon) icon.style.transform = 'rotate(0deg)';
+          } else {
+            container.style.display = 'none';
+            if (icon) icon.style.transform = 'rotate(-90deg)';
+          }
+        }
+      });
+    });
+
+    // 3. 하위 목차 접고 펴기 토글 (data-sub-toggle)
+    const subToggles = document.querySelectorAll('[data-sub-toggle]');
+    subToggles.forEach(toggleBtn => {
+      toggleBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const parentLi = toggleBtn.closest('li');
+        const container = parentLi?.querySelector('[data-sub-container]') as HTMLElement;
+        const icon = toggleBtn.querySelector('[data-icon]') as HTMLElement;
+        if (container) {
+          if (container.style.display === 'none') {
+            container.style.display = 'block';
+            if (icon) icon.style.transform = 'rotate(0deg)';
+          } else {
+            container.style.display = 'none';
+            if (icon) icon.style.transform = 'rotate(-90deg)';
+          }
+        }
+      });
+    });
+
+    // 4. TOC 하이라이트 애니메이션
     const tocLinks = document.querySelectorAll('a[data-toc-link]');
     if (tocLinks.length === 0) return;
 
