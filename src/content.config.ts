@@ -21,11 +21,11 @@ const notes = defineCollection({
   loader: glob({ pattern: "**/*.md", base: "./src/content/notes" }),
   schema: ({ image }) => z.object({
     title: z.string(),
-    category: z.enum(['Tech', 'Infra', 'Tools', 'Me']),
-    subcategory: z.string().optional(),
+    category: z.string().default('Tech'),
+    subcategory: z.string().nullable().optional(),
     tags: z.array(z.string()).default([]),
     date: z.coerce.date(),
-    thumbnail: image().optional(),
+    thumbnail: image().nullable().optional(),
   }),
 });
 
@@ -36,9 +36,9 @@ const projects = defineCollection({
     period: z.string(),
     description: z.string(),
     techStack: z.array(z.string()).default([]),
-    githubUrl: z.string().optional(),
-    thumbnail: image().optional(),
-    status: z.enum(['Live', 'Completed']).default('Completed'),
+    githubUrl: z.string().nullable().optional(),
+    thumbnail: image().nullable().optional(),
+    status: z.string().default('Completed'),
   }),
 });
 
@@ -48,9 +48,9 @@ const stories = defineCollection({
     title: z.string(),
     date: z.coerce.date(),
     category: z.string(),
-    description: z.string().optional(),
+    description: z.string().nullable().optional(),
     tags: z.array(z.string()).default([]),
-    thumbnail: image().optional(),
+    thumbnail: image().nullable().optional(),
   }),
 });
 

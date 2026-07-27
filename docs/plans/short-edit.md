@@ -50,4 +50,13 @@
   - **파일명 정제**: 괄호가 포함되어 경로 문제를 일으킬 수 있는 `profile-image(kka).png` 파일을 `profile-image-kka.png`로 하이픈 교체 및 명명 표준화.
   - **와이드 레이아웃 적용 (방법 B 채택)**: 이미지 자체가 좌측 공백과 우측 원형 일러스트로 기획된 가로형이므로, 일부 크롭(방법 A) 대신 **배너 영역 전체를 사용하는 방법 B**로 판단 및 적용. 좌측 공백에는 소개 텍스트가 자연스럽게 올라가고, 우측 공간에는 인물+강아지 일러스트가 위치하는 최적 구도 완성.
   - **라이트/다크모드 완벽 대응 그라데이션**: 라이트모드(`from-white/95 via-white/85 to-transparent`)와 다크모드(`dark:from-slate-900 dark:via-slate-900/85 dark:to-slate-900/35`, `dark:brightness-[0.85]`)용 정교한 그라데이션 오버레이 및 필터를 부착해 배경색과 이질감 없이 고급스럽게 녹아들도록 처리.
-  - **헤더 텍스트 순서 및 스타일 원복**: `"AI ENGINEER"` 텍스트를 블루 알약형(Pill) 배지에서 기존의 심플한 회색 텍스트(`text-sm font-bold tracking-widest text-text-secondary uppercase`)로 복원하고, 위치를 `"About Me"` 제목 바로 위로 상향 배치하여 균형 잡힌 간격(`gap-2`)으로 정렬 완료.
+  - **헤더 텍스트 순서 및 스타일 원복**: `"AI ENGINEER"` 텍스트를 블루 알약형(Pill) 배지에서 기존의 심플한 회색 텍스트(`text-sm font-bold tracking-widest text-text-secondary uppercase`)로 복원하고, 위치를 
+  `"About Me"` 제목 바로 위로 상향 배치하여 균형 잡힌 간격(`gap-2`)으로 정렬 완료.
+
+### 5. 블로그 포스팅 편의성 강화 및 마크다운 본문/목차 UI 대대적 업그레이드
+- **작업 내용**:
+  - **콘텐츠 스키마 유연화 (`src/content.config.ts`)**: `thumbnail`, `githubUrl` 등의 선택 항목이 비어 있거나(`null`), `status`에 커스텀 상태값을 적어도 빌드 오류가 발생하지 않도록 `.nullable()` 및 `z.string().default('Completed')`로 안전망 구축.
+  - **여러 줄 Description 줄바꿈 유지**: `whitespace-pre-line`을 프로젝트 카드 및 상세페이지 설명글(`description`) 영역에 적용하여, YAML의 파이프(`|`) 기호로 줄바꿈한 본문 그대로 화면에 자연스럽게 렌더링되도록 개선.
+  - **마크다운 전용 폰트 크기 및 스타일 정립 (`.prose`)**: Tailwind CSS v4 초기화 룰로 인해 평탄화되었던 마크다운 제목(`# ~ ###`)에 대형 폰트 크기(`28px`, `23px`, `19px`)와 굵기(`800`, `700`), 하단 경계선을 부여하고, 리스트 bullet 색상 고도화 및 백틱(` `) 단어용 코드 칩 배지 스타일링을 `global.css`에 구축.
+  - **TOC 'ON THIS PAGE' 맨위로 이동 버튼 전환**: 목차(TableOfContents)의 우측 측면 메뉴 타이틀(`ON THIS PAGE`) 및 상단 박스 메뉴 타이틀(`목차`) 클릭 시 스무스하게 최상단으로 이동하는 스크롤 기능(`data-toc-scroll-top`)과 마우스 호버 화살표 애니메이션을 탑재해 이동 편의성 극대화.
+  - **포스팅 완강 사용 설명서 마련**: `docs/POSTING_GUIDE.md` 파일을 발간하여 카테고리별 마크다운 문법, 줄바꿈 방법, 이미지 캐러셀 자동 생성 규칙 및 예제 코드를 프로젝트 내에 영구 보존.

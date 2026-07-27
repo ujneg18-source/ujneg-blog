@@ -99,3 +99,47 @@
     @apply bg-gradient-to-br from-indigo-800 via-indigo-500 to-sky-400 dark:from-indigo-400 dark:via-blue-400 dark:to-cyan-300 bg-clip-text text-transparent;
   }
 }
+
+@layer utilities {
+  /* Markdown custom prose styling */
+  .prose h1 {
+    font-size: 28px !important;
+    font-weight: 800 !important;
+    line-height: 1.35 !important;
+    border-bottom: 2px solid var(--color-border);
+    padding-bottom: 0.75rem !important;
+    margin-top: 2.5rem !important;
+    margin-bottom: 1.5rem !important;
+  }
+
+  .prose h2 {
+    font-size: 23px !important;
+    font-weight: 800 !important;
+    line-height: 1.4 !important;
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: 0.5rem !important;
+    margin-top: 2.5rem !important;
+    margin-bottom: 1.25rem !important;
+  }
+
+  .prose h3 {
+    font-size: 19px !important;
+    font-weight: 700 !important;
+    line-height: 1.45 !important;
+    margin-top: 2rem !important;
+    margin-bottom: 0.75rem !important;
+  }
+
+  .prose ul > li::marker {
+    color: var(--color-primary);
+  }
+
+  .prose ol > li::marker {
+    color: var(--color-primary);
+    font-weight: 700;
+  }
+
+  .prose :not(pre) > code {
+    @apply bg-slate-100 dark:bg-slate-800 text-amber-600 dark:text-amber-400 px-1.5 py-0.5 rounded-md text-[0.88em] font-mono border border-slate-200 dark:border-slate-700/80 font-semibold;
+  }
+}
