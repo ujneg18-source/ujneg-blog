@@ -4,7 +4,7 @@ category: 'Tech'
 subcategory: 'Backend'
 tags: ['Python', 'Backend', '웹']
 date: 2026-06-16
-thumbnail: '../../assets/images/note-thumb-1.png'
+thumbnail: '../../assets/images/notes/dummy-1/thumb.png'
 ---
 
 Python Web Server 및 Application Framework의 개념에 대해서 공부하면서 헷갈렸던 개념들을 정리하고자 한다. 현재 회사에서 운영 과정에서 발생하는 수동 업무들을 시스템화하고자 간단한 스택으로 FastAPI와 Uvicorn 조합을 선택했다.

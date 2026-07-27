@@ -4,7 +4,7 @@ category: 'Tech'
 subcategory: 'Python'
 tags: ['Python', 'Data Engineering']
 date: 2025-07-05
-thumbnail: '../../assets/images/note-thumb-1.png'
+thumbnail: '../../assets/images/notes/dummy-1/thumb.png'
 ---
 
 데이터 전처리 과정에서 가장 많이 쓰이는 pandas groupby의 원리와, apply vs transform의 차이점을 실무 예제와 함께 비교합니다.

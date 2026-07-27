@@ -4,7 +4,7 @@ date: "2024-01-09"
 category: "JavaScript"
 description: "외부 무거운 라이브러리 없이 바닐라 자바스크립트와 CSS Transition만을 이용해 부드러운 무한 루프 캐러셀 슬라이드 구조를 직접 고안한 개발 스토리."
 tags: ["JavaScript", "CSS", "슬라이드", "UI"]
-thumbnail: ../../assets/images/story-thumb-3.png
+thumbnail: ../../assets/images/stories/story-3/thumb.png
 ---
 
 ## 왜 라이브러리 대신 직접 구현했나?

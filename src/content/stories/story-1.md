@@ -4,7 +4,7 @@ date: "2024-08-04"
 category: "일상"
 description: "이것저것 하면서 바쁘게 지내는 한 편, 앞으로 블로그를 어떻게 세워나가면 좋을까 고민한 결과를 정리했습니다."
 tags: ["일상", "블로그", "회고"]
-thumbnail: ../../assets/images/story-thumb-1.png
+thumbnail: ../../assets/images/stories/story-1/thumb.png
 ---
 
 ## 새로운 시작과 근황

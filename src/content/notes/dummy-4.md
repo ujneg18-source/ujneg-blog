@@ -3,7 +3,7 @@ title: '올해 상반기 회고와 앞으로의 계획'
 category: 'Me'
 tags: ['회고', '블로그']
 date: 2025-06-30
-thumbnail: '../../assets/images/note-thumb-4.png'
+thumbnail: '../../assets/images/notes/dummy-4/thumb.png'
 ---
 
 벌써 2025년도 절반이 지났다. 그동안 어떤 프로젝트를 진행했고 무엇을 배웠는지, 하반기에는 어떤 방향으로 나아갈지 개인적인 회고를 적어본다.

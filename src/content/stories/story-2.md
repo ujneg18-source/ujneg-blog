@@ -4,7 +4,7 @@ date: "2023-12-04"
 category: "프로젝트"
 description: "Astro 템플릿과 Tailwind CSS를 이용해 개인 기술 블로그 및 포트폴리오를 제작하면서 느낀 장단점을 고성능 관점에서 정리했습니다."
 tags: ["Astro", "프로젝트", "회고"]
-thumbnail: ../../assets/images/story-thumb-2.png
+thumbnail: ../../assets/images/stories/story-2/thumb.png
 ---
 
 ## 1. 왜 Astro였는가?

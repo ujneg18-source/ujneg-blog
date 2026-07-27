@@ -4,7 +4,7 @@ category: 'Tech'
 subcategory: 'Tools'
 tags: ['웹', '브라우저']
 date: 2026-06-15
-thumbnail: '../../assets/images/note-thumb-2.png'
+thumbnail: '../../assets/images/notes/dummy-2/thumb.png'
 ---
 
 The Browser Company에서 만든 새로운 브라우저 Arc. 탭 관리 방식부터 스페이스 개념까지, 기존 크롬과 어떻게 다르고 어떤 점이 편리한지 리뷰해봅니다.

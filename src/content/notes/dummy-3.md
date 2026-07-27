@@ -4,7 +4,7 @@ category: 'Tech'
 subcategory: 'Data Engineering'
 tags: ['Data Engineering', 'Spark']
 date: 2025-09-10
-thumbnail: '../../assets/images/note-thumb-3.png'
+thumbnail: '../../assets/images/notes/dummy-3/thumb.png'
 ---
 
 금일 포스팅에선 Spark의 몇가지 조인 전략에 대해 어떤 상황에서 사용하면 좋은지 실습을 하며 확인한 과정을 공유하고자 한다. 
