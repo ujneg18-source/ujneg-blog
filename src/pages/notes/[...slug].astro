@@ -59,7 +59,7 @@ export async function getStaticPaths() {
   // Group by category and subcategory for routing
   const categories = ['Tech', 'Infra', 'Tools', 'Me'];
   const subcatsMap: Record<string, string[]> = {
-    'Tech': ['Data Engineering', 'Backend', 'Python', 'Algorithm', 'Etc (Tech)'],
+    'Tech': ['Data Engineering', 'Data Analysis', 'Backend', 'Python', 'SQL', 'Algorithm', 'Etc (Tech)'],
     'Infra': ['Cloud', 'Kubernetes', 'Linux', 'Etc (Infra)'],
     'Tools': ['Obsidian', 'Etc (Tools)'],
     'Me': []
@@ -188,7 +188,7 @@ const getCategoryClass = (cat: string, isSub = false) => {
               Tech <span class="text-[13px] text-text-muted font-normal">({getCount('Tech')})</span>
             </a>
             <div class="flex flex-col gap-2.5 pl-3 border-l-2 border-border/50 ml-1.5 mt-3 mb-1">
-              {['Data Engineering', 'Backend', 'Python', 'Algorithm', 'Etc (Tech)'].map(sub => (
+              {['Data Engineering', 'Data Analysis', 'Backend', 'Python', 'SQL', 'Algorithm', 'Etc (Tech)'].map(sub => (
                 <a href={`/notes/tech/${sub.toLowerCase().replace(/\s+/g, '-')}`} class={getCategoryClass(sub, true)}>
                   {sub} <span class="text-[12px] text-text-muted">({getCount('Tech', sub)})</span>
                 </a>

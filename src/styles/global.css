@@ -143,3 +143,102 @@
     @apply bg-slate-100 dark:bg-slate-800 text-amber-600 dark:text-amber-400 px-1.5 py-0.5 rounded-md text-[0.88em] font-mono border border-slate-200 dark:border-slate-700/80 font-semibold;
   }
 }
+
+/* ==========================================================================
+   Notes 본문 보강 (2026-10 SQL 시리즈 추가 시)
+   - prose 클래스에 typography 플러그인이 없어 비어 있던 문단 간격·코드 블록 여백·목록 기호·표·인용 스타일 보강
+   - .sql-result: SQL 원고의 "실행 결과" 표
+   이 블록만 지우면 이전 상태로 돌아갑니다.
+   ========================================================================== */
+.prose p { margin: 0.8em 0; }
+.prose :not(pre) > code { overflow-wrap: anywhere; }
+.prose pre {
+  margin: 1.1rem 0;
+  padding: 0.9em 1.1em;
+  border-radius: 10px;
+  overflow-x: auto;
+  font-size: 14px;
+  line-height: 1.6;
+}
+.prose pre:has(+ .sql-result) {
+  margin-bottom: 0;
+  border-radius: 10px 10px 0 0;
+}
+
+.prose ul { list-style: disc; padding-left: 1.4em; }
+.prose ol { list-style: decimal; padding-left: 1.4em; }
+.prose ul ul { list-style: circle; }
+.prose li { margin: 0.3em 0; }
+.prose li > p { margin: 0.2em 0; }
+
+.prose blockquote {
+  border-left: 3px solid var(--color-primary);
+  background: var(--color-divider);
+  padding: 0.6em 1em;
+  margin: 1.25rem 0;
+  border-radius: 0 8px 8px 0;
+  color: var(--color-text-body);
+}
+.prose blockquote > p { margin: 0.25em 0; }
+
+.prose table {
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
+  border-collapse: collapse;
+  font-size: 14px;
+  margin: 1.25rem 0;
+}
+.prose th,
+.prose td {
+  border: 1px solid var(--color-border);
+  padding: 0.45em 0.8em;
+  text-align: left;
+  vertical-align: top;
+}
+.prose thead th {
+  background: var(--color-divider);
+  color: var(--color-text-title);
+  font-weight: 700;
+}
+
+.prose .sql-result {
+  margin: 0 0 1.6rem;
+  border: 1px solid var(--color-border);
+  border-top: none;
+  border-radius: 0 0 10px 10px;
+  background: var(--color-surface);
+  overflow: hidden;
+}
+.prose .sql-result-meta {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 0.45em 0.9em;
+  color: var(--color-text-secondary);
+  background: var(--color-divider);
+}
+.prose .sql-result-error .sql-result-meta { color: #B91C1C; background: #FEF2F2; }
+.dark .prose .sql-result-error .sql-result-meta { color: #FCA5A5; background: rgba(220, 38, 38, 0.15); }
+.prose .sql-result-scroll { overflow-x: auto; }
+.prose .sql-result table {
+  display: table;
+  margin: 0;
+  min-width: 100%;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 13px;
+}
+.prose .sql-result th,
+.prose .sql-result td {
+  border: none;
+  border-bottom: 1px solid var(--color-border);
+  white-space: pre;
+  padding: 0.35em 0.9em;
+}
+.prose .sql-result tbody tr:last-child td { border-bottom: none; }
+.prose .sql-null { color: var(--color-text-muted); font-style: italic; }
+.prose .sql-result-warn .sql-result-meta { color: #92400E; background: #FFFBEB; }
+.dark .prose .sql-result-warn .sql-result-meta { color: #FCD34D; background: rgba(217, 119, 6, 0.15); }
+.prose .df-result th.idx { color: var(--color-text-secondary); font-weight: 600; background: transparent; }
+.prose .df-result td.ellipsis { text-align: center; color: var(--color-text-muted); }
+/* 띄어쓰기 없이 긴 제목(·로 이은 키워드)이 모바일에서 가로로 넘치지 않게 */
+h1, h2, h3, main a { overflow-wrap: anywhere; }
