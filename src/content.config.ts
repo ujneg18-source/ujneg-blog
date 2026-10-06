@@ -1,10 +1,10 @@
 import { defineCollection } from 'astro:content';
-import { glob } from 'astro/loaders';
 import { z } from 'astro/zod';
 
+import { markdownDirectory } from './content-loader';
+
 const blog = defineCollection({
-	// Load Markdown and MDX files in the `src/content/blog/` directory.
-	loader: glob({ base: './src/content/blog', pattern: '**/*.{md,mdx}' }),
+	loader: markdownDirectory('./src/content/blog'),
 	// Type-check frontmatter using a schema
 	schema: ({ image }) =>
 		z.object({
@@ -18,19 +18,24 @@ const blog = defineCollection({
 });
 
 const notes = defineCollection({
-  loader: glob({ pattern: "**/*.md", base: "./src/content/notes" }),
+  loader: markdownDirectory('./src/content/notes'),
   schema: ({ image }) => z.object({
     title: z.string(),
+    description: z.string().optional(),
     category: z.string().default('Tech'),
     subcategory: z.string().nullable().optional(),
+    series: z.string().nullable().optional(),
+    seriesOrder: z.number().int().positive().optional(),
+    originalNotebook: z.string().nullable().optional(),
     tags: z.array(z.string()).default([]),
     date: z.coerce.date(),
+    updatedDate: z.coerce.date().optional(),
     thumbnail: image().nullable().optional(),
   }),
 });
 
 const projects = defineCollection({
-  loader: glob({ pattern: "**/*.md", base: "./src/content/projects" }),
+  loader: markdownDirectory('./src/content/projects'),
   schema: ({ image }) => z.object({
     title: z.string(),
     period: z.string(),
@@ -43,7 +48,7 @@ const projects = defineCollection({
 });
 
 const stories = defineCollection({
-  loader: glob({ pattern: "**/*.md", base: "./src/content/stories" }),
+  loader: markdownDirectory('./src/content/stories'),
   schema: ({ image }) => z.object({
     title: z.string(),
     date: z.coerce.date(),

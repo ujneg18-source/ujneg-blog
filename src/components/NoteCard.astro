@@ -6,9 +6,9 @@ export interface Props {
 }
 
 const { post } = Astro.props;
-const { title, category, subcategory, date, thumbnail } = post.data;
+const { title, description, category, subcategory, series, seriesOrder, date, thumbnail } = post.data;
 const dateStr = date.toLocaleDateString('ko-KR', { year: 'numeric', month: 'numeric', day: 'numeric' });
-const excerpt = post.body.substring(0, 150) + (post.body.length > 150 ? '...' : '');
+const excerpt = description || (post.body.substring(0, 150) + (post.body.length > 150 ? '...' : ''));
 
 const getCategoryName = () => {
   if (subcategory) return subcategory;
@@ -24,6 +24,11 @@ const getCategoryName = () => {
     <p class="text-[15px] text-text-body leading-[1.7] line-clamp-2">
       {excerpt}
     </p>
+    {series && (
+      <div class="text-[13px] font-[600] text-primary">
+        {series}{seriesOrder ? ` · ${seriesOrder}편` : ''}
+      </div>
+    )}
     <div class="flex items-center gap-2 text-[13px] text-text-muted mt-2 font-[500]">
       <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
       <span>{getCategoryName()}</span>

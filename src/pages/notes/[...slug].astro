@@ -103,6 +103,8 @@ let Content;
 let headings = [];
 let relatedPosts = [];
 let relatedTitle = '';
+let previousSeriesPost: any = null;
+let nextSeriesPost: any = null;
 
 if (type === 'post' && post) {
   const rendered = await render(post);
@@ -111,21 +113,35 @@ if (type === 'post' && post) {
   
   const allPostsTemp = await getCollection('notes');
   
-  // 1순위: 소분류 기준 필터링
-  if (post.data.subcategory) {
-    relatedPosts = allPostsTemp.filter(p => p.data.subcategory === post.data.subcategory);
-    if (relatedPosts.length >= 2) {
-      relatedTitle = `'Notes - ${post.data.subcategory}'의 다른 글`;
+  // 시리즈 글은 명시적인 순서로 묶고 이전/다음 글을 계산한다.
+  if (post.data.series) {
+    relatedPosts = allPostsTemp
+      .filter(p => p.data.series === post.data.series)
+      .sort((a, b) => (a.data.seriesOrder ?? 0) - (b.data.seriesOrder ?? 0));
+    relatedTitle = `'${post.data.series}' 시리즈`;
+
+    const currentIndex = relatedPosts.findIndex(p => p.id === post.id);
+    previousSeriesPost = currentIndex > 0 ? relatedPosts[currentIndex - 1] : null;
+    nextSeriesPost = currentIndex >= 0 && currentIndex < relatedPosts.length - 1
+      ? relatedPosts[currentIndex + 1]
+      : null;
+  } else {
+    // 1순위: 소분류 기준 필터링
+    if (post.data.subcategory) {
+      relatedPosts = allPostsTemp.filter(p => p.data.subcategory === post.data.subcategory);
+      if (relatedPosts.length >= 2) {
+        relatedTitle = `'Notes - ${post.data.subcategory}'의 다른 글`;
+      }
     }
-  }
 
-  // 2순위: 소분류 결과가 2개 미만이거나 소분류가 없으면 대분류 기준으로 자동 확장
-  if (relatedPosts.length < 2) {
-    relatedPosts = allPostsTemp.filter(p => p.data.category === post.data.category);
-    relatedTitle = `'Notes - ${post.data.category}'의 다른 글`;
-  }
+    // 2순위: 소분류 결과가 2개 미만이거나 소분류가 없으면 대분류 기준으로 자동 확장
+    if (relatedPosts.length < 2) {
+      relatedPosts = allPostsTemp.filter(p => p.data.category === post.data.category);
+      relatedTitle = `'Notes - ${post.data.category}'의 다른 글`;
+    }
 
-  relatedPosts = relatedPosts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+    relatedPosts = relatedPosts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+  }
 }
 
 const allPosts = await getCollection('notes');
@@ -248,7 +264,7 @@ const getCategoryClass = (cat: string, isSub = false) => {
 <Layout title={post.data.title}>
   <div class="flex items-start justify-between gap-12 w-full">
     
-    <article class="flex-1 w-full max-w-[740px] min-w-0">
+    <article class="flex-1 w-full max-w-[740px] min-w-0" data-pagefind-body>
       <header class="mb-10 flex flex-col items-start text-left">
         <div class="flex items-center flex-wrap gap-2 text-[14.5px] font-[500] mb-3 text-text-muted">
           <a href={`/notes/${post.data.category.toLowerCase()}`} class="text-primary hover:underline font-[500] no-underline">
@@ -257,7 +273,7 @@ const getCategoryClass = (cat: string, isSub = false) => {
           {post.data.subcategory && (
             <>
               <span class="text-text-muted/50 select-none font-[400]">/</span>
-              <a href={`/notes/${post.data.category.toLowerCase()}/${post.data.subcategory.toLowerCase()}`} class="text-primary hover:underline font-[500] no-underline">
+              <a href={`/notes/${post.data.category.toLowerCase()}/${post.data.subcategory.toLowerCase().replace(/\s+/g, '-')}`} class="text-primary hover:underline font-[500] no-underline">
                 {post.data.subcategory}
               </a>
             </>
@@ -265,7 +281,15 @@ const getCategoryClass = (cat: string, isSub = false) => {
           <span class="text-text-muted/50 select-none ml-1 font-[400]">/</span>
           <time class="text-text-muted font-[400] ml-1">{post.data.date.toLocaleDateString('ko-KR', { year: 'numeric', month: '2-digit', day: '2-digit' }).replace(/\./g, '/').replace(/ /g, '').slice(0, -1)}</time>
         </div>
-        <h1 class="text-[28px] md:text-[34px] font-[800] text-text-title mb-6 leading-[1.35] break-keep">{post.data.title}</h1>
+        {post.data.series && (
+          <div class="text-[13px] font-[700] text-primary tracking-wide mb-3">
+            {post.data.series}{post.data.seriesOrder ? ` · ${post.data.seriesOrder}편` : ''}
+          </div>
+        )}
+        <h1 class="text-[28px] md:text-[34px] font-[800] text-text-title mb-4 leading-[1.35] break-keep">{post.data.title}</h1>
+        {post.data.description && (
+          <p class="text-[16px] text-text-secondary leading-relaxed break-keep">{post.data.description}</p>
+        )}
       </header>
 
       <TableOfContents headings={headings} variant="box" />
@@ -276,6 +300,23 @@ const getCategoryClass = (cat: string, isSub = false) => {
 
       <!-- Footer Area -->
       <footer class="mt-20 pt-10 border-t border-border/60">
+        {(previousSeriesPost || nextSeriesPost) && (
+          <nav class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-10" aria-label="시리즈 이전 글과 다음 글">
+            {previousSeriesPost ? (
+              <a href={`/notes/${previousSeriesPost.id}`} class="p-5 rounded-2xl border border-border/70 bg-surface hover:border-primary/50 transition-colors no-underline">
+                <span class="block text-[12px] font-[700] text-text-muted mb-2">이전 글</span>
+                <span class="block text-[15px] font-[700] text-text-title leading-snug">{previousSeriesPost.data.title}</span>
+              </a>
+            ) : <div />}
+            {nextSeriesPost && (
+              <a href={`/notes/${nextSeriesPost.id}`} class="p-5 rounded-2xl border border-border/70 bg-surface hover:border-primary/50 transition-colors no-underline text-right">
+                <span class="block text-[12px] font-[700] text-text-muted mb-2">다음 글</span>
+                <span class="block text-[15px] font-[700] text-text-title leading-snug">{nextSeriesPost.data.title}</span>
+              </a>
+            )}
+          </nav>
+        )}
+
         {post.data.tags && post.data.tags.length > 0 && (
           <div class="flex items-center gap-2 mb-12 flex-wrap">
             {post.data.tags.map((tag: string) => (
