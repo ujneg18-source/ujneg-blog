@@ -10,154 +10,120 @@ tags: ["Python","Control Flow","Comprehension"]
 date: 2026-04-14
 ---
 
-> 이 글은 SKN31 학습 과정에서 작성한 Jupyter Notebook을 바탕으로 정리했습니다.
-> 당시 작성한 Markdown 필기와 코드 주석은 보존하고, 글의 흐름을 위해 도입·보충 설명·학습 정리를 덧붙였습니다.
-> 원본 노트북: `04_제어문_컴프리헨션.ipynb`
+> SKN31 Python 과정 노트북 `04_제어문_컴프리헨션.ipynb`의 필기를 바탕으로 정리했습니다.
+> 코드는 Python 3.13에서 순서대로 다시 실행한 결과이고, `input()`이 있는 셀은 입력값을 정해서 실행했습니다. 노트북 출력이 코드와 맞지 않던 셀이 몇 개 있어서 해당 위치에 적어 두었습니다. `보충`으로 표시한 부분은 원본 필기에 없던 내용입니다.
 
-## 이 글에서 확인할 내용
+## 이 글에서 다루는 것
 
+- 제어문: 조건문(`if`)과 반복문(`while`, `for in`)
+- 코드블록과 들여쓰기, `pass`
+- `continue`, `break`
+- `range()`, `enumerate()`, `zip()`
+- 컴프리헨션으로 리스트·딕셔너리·셋 만들기
 
+## 제어문
 
-- 조건문으로 상황에 따라 다른 코드를 실행한다.
+프로그램은 기본적으로 **순차 구조**다. 작성한 순서대로 실행된다. 이 흐름을 다른 순서로 바꾸는 문법이 **제어문**이다.
 
-- 반복문과 종료 조건을 이용해 같은 처리를 반복한다.
+| 종류 | 문법 | 하는 일 |
+|---|---|---|
+| 조건문 | `if` | 조건에 따라 흐름을 나눈다 |
+| 반복문 | `while` | 조건이 True인 동안 반복한다 |
+| | `for in` | Iterable의 값을 하나씩 꺼내며 반복한다 |
 
-- `range`와 `enumerate`로 반복 범위와 순번을 함께 다룬다.
+## 조건문: if
 
-- Comprehension으로 변환과 필터링 결과를 새로운 자료구조에 저장한다.
-
-
-
-## 필기를 다시 읽으며 잡은 핵심
-
-
-
-제어문 필기에서는 학점 계산, 사칙연산 계산기, 월별 날짜 수, 아이디 검증처럼 조건이 여러 갈래로 나뉘는 예제를 직접 구성했다. 조건의 순서가 결과에 영향을 주기 때문에 넓은 범위보다 구체적인 조건을 어디에 배치할지도 함께 확인했다.
-
-반복문에서는 리스트 전체에 같은 연산을 적용하고, 사용자 입력을 종료 조건까지 계속 받으며, 양수와 음수를 나누어 저장하는 흐름을 연습했다. `break`와 `continue`는 단순 문법이 아니라 반복을 끝내거나 현재 회차만 건너뛰는 제어 도구로 이해했다.
-
-Comprehension 부분은 기존 반복문과 비교하는 방식으로 기록되어 있다. 결과가 단순한 변환·필터링이면 표현이 명확하지만, 중첩 조건이 많아지면 일반 반복문이 더 읽기 좋다는 기준도 함께 가져가는 것이 중요하다.
-
----
-
-## 제어문(Control flow statement)
-기본적으로 프로그램은 순차구조를 가진다. 즉 작성한 순서대로 실행이 된다.  
-이런 실행흐름을 다른 순서로 제어하기 위한 구문을 만드는 문법이 제어문이다.  
-제어문은 **조건문** 과 **반복문** 두가지 문법이 있다.
-- **조건문**
-    - if 문
-- **반복문**
-    - while 문
-    - for in 문
-
-## 조건문/분기문 (conditional statement)
-- 프로그램이 명령문들을 실행하는 도중 특정 순서에서 **조건에 따라 흐름의 나눠져야 하는 경우 사용한다**
-- 파이썬은 조건문으로 **if문**이 있다.
+실행 도중 **조건에 따라 흐름이 나눠져야 할 때** 쓴다.
 
 ![조건문](/images/python/ch03_01.png)
 
-<center>입력 받은 a 의 값이 0인지 여부에 따라 두가지 흐름으로 분기된다.</center>
+입력받은 a의 값이 0인지에 따라 두 흐름으로 갈린다.
 
-### 구문
+### 코드블록과 들여쓰기
 
-- 조건이 True일 경우만 특정 구문들을 실행 하는 조건문.
+> **코드블록(code block)** 은 여러 명령문을 묶어 놓은 것이다. 묶인 명령문은 같이 실행되거나 같이 실행되지 않는다.
+> Python은 **들여쓰기로 코드블록을 묶는다.** 같은 칸만큼 들여 쓴 명령문이 한 블록이고, 관례적으로 **공백 4칸**을 쓴다.
+
+> **pass**
+> 제어문이나 함수의 body는 비워 둘 수 없다. 명령문이 최소 하나는 있어야 한다. 아직 쓸 내용이 없을 때 `pass`(또는 `...`)를 넣는다.
+
+### if
+
+조건이 True일 때만 블록을 실행한다.
+
 ```python
-if 조건:    # 조건은 bool 표현식을 기술한다. 조건선언 다음에 : 으로 선언해서 코드블록을 구분한다.
-    명령문1  # 조건이 True이면 실행할 구문들을 코드블럭에 기술한다.
-    명령문2  # 코드 블록은 들여쓰기를 이용해 묶어준다. 보통 공백 4칸으로 들여쓰기를 한다.
-    ...
+if 조건:     # 조건은 bool 표현식. 끝에 : 을 붙여 코드블록을 시작한다
+    명령문1  # 조건이 True면 실행할 구문
+    명령문2
 ```
-> ### 파이썬의 코드블록(code block)  
-> 코드블록이란 **여러 명령문들을 묶어놓은 것을** 말한다. 코드블록으로 묶이면 실행시 같이 다 실행되고 실행이 안되면 같이 다 실행이 안된다.    
-> 파이썬에서는 코드블록을 작성할 때 **들여쓰기를 이용해 묶어준다.**   
-> 같은 칸만큼 들여쓰기를 한 명령문들이 같은 블록으로 묶인다.
-> 들여쓰기는 관례적으로 **공백 4칸을** 사용한다. 
 
-> ### pass 키워드(예약어)
-> - 빈 구현부를 만들때 사용
->     - 제어문, 함수의 body 코드블럭은 비울 수 없다. 반드시 명령문을 한개 이상 작성해야한다. 
->     - 작성할 내용이 없을 경우 사용하는 키워드로 `pass`를 사용한다. 
->     - `...` 을 대신 사용할 수 있다.
-
-````python
-print("숫자를 입력받습니다.")  # 1번
-num = int(input("숫자:"))     # 2번
-# 3번째
-if num == 0: # 조건문의 선언부
-    print("0입니다.") # 3-1
-    print("Zero")     # 3-2
-print("종료")   # 4번
-````
-
-````python
-print("숫자를 입력받습니다.")  # 1번
-num = int(input("숫자:"))     # 2번
-# 3번째
-if num == 0: 
-    pass
-print("종료")
-````
-
-````python
-print("숫자를 입력받습니다.")  # 1번
-num = int(input("숫자:"))     # 2번
-# 3번째
-if num == 0 : print("Zero") 
-   #True일 때 실행할 명령문이 1개일때는 한줄에 작성가능. if 조건 : 명령문
-    
-print("종료")
-````
-
-- **조건이 True일때 실행할 구문과 False일때 실행하는 조건문.**
 ```python
-if 조건:     
-    명령문1_1 # 조건이 True일 경우 실행할 구문들
-    명령문1_2
-    ...
+print("숫자를 입력받습니다.")  # 1번
+num = int(input("숫자:"))      # 2번
+if num == 0:                   # 3번: 조건문의 선언부
+    print("0입니다.")          # 3-1
+    print("Zero")              # 3-2
+print("종료")                  # 4번
+```
+
+```text
+숫자를 입력받습니다.
+숫자:0
+0입니다.
+Zero
+종료
+```
+
+```python
+print("숫자를 입력받습니다.")
+num = int(input("숫자:"))
+if num == 0:
+    pass  # 할 일이 없어도 블록은 비울 수 없다
+print("종료")
+```
+
+```text
+숫자를 입력받습니다.
+숫자:5
+종료
+```
+
+실행할 명령문이 하나면 `if num == 0: print("Zero")`처럼 한 줄에 써도 된다.
+
+### if - else
+
+```python
+if 조건:
+    명령문1  # 조건이 True일 때
 else:
-    명령문2_1 # 조건이 False일 경우 실행할 구문들
-    명령문2_2
-    ...
+    명령문2  # 조건이 False일 때
 ```
 
-````python
-num = 10  # 1번 - 숫자 입력받기
-# 2. 
+```python
+num = 10
 if num == 0:
     print("0입니다.")
     print("Zero")
-else: # num == 0 이 False인 경우 할일
+else:  # num == 0 이 False인 경우 할 일
     print("0이 아닙니다.")
     print("Not Zero")
-
-print("종료") # 3
-````
-
-- **조건이 여러 개인 조건문.**
-```python
-if 조건1:
-    명령문1_1  # 조건1이 True일 경우 실행할 코드블록. 
-    명령문1_2
-    ...
-elif 조건2:    # 다음 조건으로 앞의 조건들이 모드 False일 경우 비교한다.
-    명령문2_1  # 조건2가 True일 경우 실행할 코드블록.
-    명령문2_2
-    ...
-elif 조건3 :
-    명령문3_1
-    명령문3_2
-    ...
-else:         # 위의 모든 조건이 False일 경우 실행하는 코드블록. 생략 가능하다.
-    명령문4
+print("종료")
 ```
 
-````python
-# 1 숫자 입력
+```text
+0이 아닙니다.
+Not Zero
+종료
+```
+
+### if - elif - else
+
+조건이 여러 개면 `elif`를 쓴다. **위에서부터 차례로** 비교하다가 처음 True인 블록 하나만 실행한다. `else`는 생략할 수 있다.
+
+```python
 num1, num2 = 10, 20
-# 연산자 입력
-# oper = input("사칙연산자(+, -, *, /):").strip()
-oper = 'X'
-# 연산 -> 연산자에 따라서 다른 연산 실행
+oper = "X"  # 원래는 input("사칙연산자(+, -, *, /):").strip()
+
 if oper == "+":
     result = num1 + num2
 elif oper == "-":
@@ -170,12 +136,19 @@ else:
     result = f"{oper} 은 잘못된 연산자 입니다."
 
 print("결과: ", result)
-# print(f"{num1} {oper} {num2} = {result}")
-````
+```
 
-````python
+```text
+결과:  X 은 잘못된 연산자 입니다.
+```
+
+### 중첩 if: 월별 일수
+
+월을 입력받아 그 달이 며칠까지 있는지 출력하는 셀이다. 필기의 코드 그대로다.
+
+```python
 month_str = input("월:")
-if month_str.isdigit():  # 문자열이 정수 형태인지?
+if month_str.isdigit():  # 문자열이 숫자로만 돼 있는지
     month = int(month_str)
     # 1, 3, 5, 7, 8, 10, 12 -> 31일
     # 4, 6, 9, 11 -> 30일
@@ -188,161 +161,265 @@ if month_str.isdigit():  # 문자열이 정수 형태인지?
         print(f"{month}월 은 28/29일까지 있습니다.")
     else:
         print(f"{month}는 잘못된 월입니다.")
-````
+```
 
-````python
+```text
+월:10
+10는 잘못된 월입니다.
+```
+
+> **보충 · 리스트에 10 대신 9가 들어가 있다**
+> 주석에는 31일인 달을 `1, 3, 5, 7, 8, 10, 12`로 적었는데 코드에는 `[1, 3, 5, 7, 8, 9, 12]`라고 썼다. 그래서 **10월은 "잘못된 월"** 이 되고, **9월은 31일**이라고 나온다. 9가 30일 리스트에도 있지만 위의 조건이 먼저 걸리기 때문이다. 노트북에는 이 셀의 출력이 `False`로 남아 있어서 드러나지 않았다.
+
+```python
+month = int(input("월:"))
+if month in [1, 3, 5, 7, 8, 9, 12]:
+    print(f"{month}월 은 31일까지 있습니다.")
+elif month in [4, 6, 9, 11]:
+    print(f"{month}월 은 30일까지 있습니다.")
+```
+
+```text
+월:9
+9월 은 31일까지 있습니다.
+```
+
+고친 버전이다. 모든 달을 넣어 확인했다.
+
+```python
+for month in [2, 9, 10, 13]:
+    if month in [1, 3, 5, 7, 8, 10, 12]:
+        print(f"{month}월 은 31일까지 있습니다.")
+    elif month in [4, 6, 9, 11]:
+        print(f"{month}월 은 30일까지 있습니다.")
+    elif month == 2:
+        print(f"{month}월 은 28/29일까지 있습니다.")
+    else:
+        print(f"{month}는 잘못된 월입니다.")
+```
+
+```text
+2월 은 28/29일까지 있습니다.
+9월 은 30일까지 있습니다.
+10월 은 31일까지 있습니다.
+13는 잘못된 월입니다.
+```
+
+### 조건 자리에 bool이 아닌 값
+
+조건 자리에 다른 타입이 오면 bool로 바뀐다. 빈 자료구조, 0글자 문자열, 0, None은 False다.
+
+```python
 if []:
     print("A")
-
 print("종료")
-````
+```
 
-````python
+```text
+종료
+```
+
+```python
 cust_id = ""  # ID를 입력
-# if len(cust_id) > 0:   # 만약에 ID를 입력받았다면 가입처리
-if cust_id:  # 0 글자: False, 1글자 이상: True
+# if len(cust_id) > 0:  와 같은 의미
+if cust_id:  # 0글자: False, 1글자 이상: True
     print("가입처리")
-````
+print("끝")
+```
 
-## 반복문 (Loop statement)
+```text
+끝
+```
 
-특정 구문들을 반복해서 실행할 때 사용한다. 동일한 코드를 여러번 반복하거나 값이 일정하게 변하는 코드를 반복할 경우 사용한다.  
-단순 반복을 처리하는 **while문**과 iterable객체가 제공하는 값들을 반복 조회하는 **for in문** 두가지 문법이 있다.
+빈 문자열이라 "가입처리"는 출력되지 않는다.
+
+> **보충** 노트북에는 이 셀 출력이 "가입처리"로 남아 있었다. `cust_id`에 값이 있던 상태로 실행하고 나서 `""`로 바꾼 것으로 보인다.
+
+## 반복문
+
+같은 코드를 여러 번 실행하거나, 일정하게 변하는 값으로 같은 코드를 반복할 때 쓴다.
 
 ![반복문](/images/python/ch03_02.png)
-<center>count의 값이 limit의 값보다 크거나 같을때 까지 count의 값을 1증가 후 출력하는 구문을 반복한다. </center>
 
-### while문
-- 조건이 True인 동안 구문을 반복해서 실행한다.
+count가 limit보다 크거나 같아질 때까지 count를 1씩 늘리며 출력한다.
 
-#### 구문
+### while 문
+
+**조건이 True인 동안** 블록을 반복한다.
+
 ```python
-while 조건:       # 조건은 bool 표현식을 기술한다. 조건선언 다음에 : 으로 선언해서 코드블록을 구분한다
-    반복할 구문1  # 반복할 구문을 코드블록으로 작성한다.  
+while 조건:
+    반복할 구문1
     반복할 구문2
-    ...
 ```
 
-````python
+```python
 limit = int(input("정수:"))  # 1번
 count = 0                    # 2번
-# 3번: count가 limit 보다 작은 동안 반복
-while count < limit:
+while count < limit:         # 3번: count가 limit보다 작은 동안 반복
     print(count, "번 라인")
-    count += 1  #  count = count + 1
-
-print("종료") # 4번
-````
-
-### for  in 문
-- Iterable 객체를 순환조회하는 구문
-    - for in문은 Iterable 타입의 객체가 가지고 있는 값들을 하나씩 처리하는 구문을 작성할 때 사용한다.
-
-> - **Iterable**
->    - 반복가능한 객체. 반복문(for in)을 이용해 일련의 값들을 반복적으로 각각 제공하는 객체를 말한다. 
->    - 대표적으로 List, Tuple, Dictionary, Set, 문자열 등이 있다.
-
-#### 구문
-```python
-for 변수 in Iterable: # for in 선언후 : 으로 선언부와 구현부를 나눈다.
-    반복구문          # Iterable이 반복시 제공하는 값을 가지는 "변수"를 이용해 값들을 처리하는 구문을 코드블록으로 작성한다.
-    반복구문
+    count += 1               # count = count + 1
+print("종료")                # 4번
 ```
 
-````python
-# list의 모든 정수에 10을 더한 값을 출력 ==> 일괄처리
-l = [ 10, -2, 5, 90]
+```text
+정수:5
+0 번 라인
+1 번 라인
+2 번 라인
+3 번 라인
+4 번 라인
+종료
+```
 
-for value in l: # for 선언부 - value: 조회한 원소를 저장할 변수.
+`count += 1`을 빼먹으면 조건이 영원히 True라서 끝나지 않는다(무한 루프).
+
+### for in 문
+
+**Iterable**이 가진 값을 하나씩 꺼내 처리한다. Iterable은 List, Tuple, Dictionary, Set, 문자열처럼 값을 하나씩 제공하는 객체다.
+
+```python
+for 변수 in Iterable:
+    반복구문  # 변수에 이번 차례의 값이 들어 있다
+```
+
+```python
+# list의 모든 정수에 10을 더한 값을 출력 → 일괄처리
+l = [10, -2, 5, 90]
+for value in l:  # value: 꺼낸 원소를 저장할 변수
     result = value + 10
     print(result)
-````
+```
 
-````python
+```text
+20
+8
+15
+100
+```
+
+결과를 모으려면 반복 전에 빈 리스트를 만들고 `append`한다.
+
+```python
 t = (100, 200, -300)
-# t의 원소들 + 10 한 값들(결과들)을 모아서 저장 -> list에 저장.
-result = []  # list() 빈리스트
+result = []
 for v in t:
     result.append(v + 10)
-
 print("최종결과:", result)
-````
+```
 
-````python
+```text
+최종결과: [110, 210, -290]
+```
+
+Dictionary를 돌리면 **key**를 준다.
+
+```python
 d = dict(a=1, b=2, c=3)
-for key in d: # key을 제공
+for key in d:
     print(key, d[key])
-````
+```
 
-````python
-# 중첩 자료 구조. 원소가 자료구조 -> 원소 자료구조의 개수가 모두 동일한 경우
+```text
+a 1
+b 2
+c 3
+```
+
+원소가 자료구조이고 개수가 모두 같으면, 받는 변수를 여러 개 써서 바로 풀 수 있다(튜플 대입).
+
+```python
 a = [(1, 2), (2, 3), (4, 5), (6, 7)]
-
-# for v in a:
-for v1, v2 in a:   # 받은 값이 자료구조 대입(튜플대입)이 가능할 경우 적용할 수있다.
-    # print(type(v), v)
+for v1, v2 in a:
     print(v1, v2, v1 + v2)
-````
+```
 
-### continue와 break를 이용한 반복문 제어
-- **continue**
-    - 실행 블록에서 continue가 실행되면 현재 반복을 중단하고 다음 반복을 진행한다.
-    - 특정 조건에서 처리를 멈추고 다음 처리를 반복할 때 사용한다.
-- **break**
-    - 반복문 실행을 중단한다.
-    - 특정 조건에서 반복문을 중간에 중지할때 사용한다.
-- continue와 break는 특정 조건에서 실행되야 하는 경우가 대부분이므로 if문 안에 작성한다.
+```text
+1 2 3
+2 3 5
+4 5 9
+6 7 13
+```
 
-````python
-l = [1, 2, 3, 'quit', 4, 5]
+### continue와 break
 
+| 키워드 | 동작 |
+|---|---|
+| `continue` | **이번 반복**을 중단하고 다음 반복으로 넘어간다 |
+| `break` | **반복문 전체**를 중단한다 |
+
+보통 특정 조건에서 실행하므로 `if` 안에 쓴다.
+
+```python
+l = [1, 2, 3, "quit", 4, 5]
 for v in l:
     print(v)
-    if v == 'quit':
+    if v == "quit":
         break
-````
+```
 
-````python
+```text
+1
+2
+3
+quit
+```
+
+```python
 l = [1, 2, 3, 4, 5, 6, 7, 8]
 # 3의 배수만 출력
 for v in l:
-    if v%3 != 0: # 3의 배수가 아닌조건
+    if v % 3 != 0:  # 3의 배수가 아닌 조건
         continue
-
     print(v)
-````
+```
 
-````python
-# 사용자로 부터 문자열을 계속 입력받는다.
-# 사용자가 입력한 문자열 값들 중에서 정수 형태만 저장. !q를 입력받으면 종료
+```text
+3
+6
+```
+
+사용자가 `!q`를 입력할 때까지 받으면서, 숫자 형태인 것만 저장하는 예다.
+
+```python
 print("종료하려면 '!q'를 입력하세요")
-
 num = input("입력")
 result = []
 
-while num != '!q':
-    if not num.isdigit():  # 양수가 아니면
+while num != "!q":
+    if not num.isdigit():  # 숫자 형태가 아니면
         num = input("입력")
         continue
-
     result.append(num)
     num = input("입력")
-````
 
-````python
-result
-````
+print(result)
+```
 
-````python
-from random import randint
+```text
+종료하려면 '!q'를 입력하세요
+입력1
+입력abc
+입력29
+입력-5
+입력233
+입력!q
+['1', '29', '233']
+```
 
-# randint(-100, 100)  # -100 ~ 100 사이의 랜덤 정수를 반환
+> **보충** `isdigit()`은 **모든 글자가 숫자인지**를 본다. 그래서 `-5`는 `-` 때문에 False가 돼 저장되지 않았다. 음수까지 받으려면 `int()`로 바꿔 보고 실패하면 건너뛰는 방식(예외 처리)을 쓴다. 또 저장된 값은 여전히 문자열(`'1'`)이다.
+
+`while True`로 무한 반복을 만들고, 조건이 맞을 때 `break`로 빠져나오는 패턴도 많이 쓴다.
+
+```python
+from random import randint, seed
+
+seed(8)  # 보충: 글에서 같은 결과가 나오도록 고정. 노트북에는 없다
 pos = []
 neg = []
-# -100 ~ 100 사이의 랜덤값을 생성-양수: pos, 음수: neg 에 담기. 0이면 종료
-
+# -100 ~ 100 사이 랜덤값 생성. 양수는 pos, 음수는 neg에 담고 0이면 종료
 while True:
-    v = randint(-100, 100)
+    v = randint(-100, 100)  # -100 ~ 100 사이의 랜덤 정수
     if v > 0:
         pos.append(v)
     elif v < 0:
@@ -350,409 +427,533 @@ while True:
     else:
         print("0이므로 종료")
         break
-````
 
-````python
-pos
-````
+print(len(pos), len(neg))
+print(pos[:10])
+```
 
-````python
-neg
-````
+```text
+0이므로 종료
+100 112
+[80, 29, 2, 64, 17, 24, 16, 26, 46, 3]
+```
 
-### for in 문 연관 내장 함수
+-100 ~ 100은 201개라서 0이 나올 확률은 매번 1/201이다. 평균 200번쯤 돌아야 끝나니 리스트가 꽤 길어진다. 노트북에서도 양수·음수가 각각 100개 넘게 쌓였다.
 
-#### range()
-- 일정한 간격의 연속된 정수를 제공하는 반복가능 객체 생성한다.
-- 구문
-    - `range([시작값], 멈춤값, [증감값])`
-        - 시작값, 멈춤값, 증감값 모두 정수만 가능하다.
-        - 시작값 > 멈춤값 이고 증감값이 음수이면 내림차순으로 값을 제공한다.
-        1. 전달값이 **1개: 멈춤값**. 
-            - 0 ~ (멈춤값-1)까지 1씩 증가하는 정수를 제공
-        2. 전달값이 **2개: 시작값, 멈춤값**. 
-            - 시작값 ~ (멈춤값-1) 까지 1씩 증가하는 정수 제공
-        3. 전달값이 **3개: 시작값, 멈춤값, 증감값(간격)**. 
-            - 시작값 ~ (멈춤값-1)까지 증감값만큼 증가하는 정수를 제공.
+## for in 문과 함께 쓰는 내장 함수
 
-````python
-range(20)
-````
+### range()
 
-````python
+일정한 간격의 연속된 정수를 제공하는 Iterable을 만든다. 값은 모두 정수만 된다.
+
+| 호출 | 제공하는 값 |
+|---|---|
+| `range(멈춤)` | 0 ~ 멈춤-1 |
+| `range(시작, 멈춤)` | 시작 ~ 멈춤-1 |
+| `range(시작, 멈춤, 간격)` | 시작 ~ 멈춤-1, 간격만큼 증가. 간격이 음수면 내림차순 |
+
+```python
+print(range(20))
 for v in range(10, 20, 2):
     print(v, end="\t")
-````
-
-````python
+print()
 for v in range(10, 20):
     print(v, end="\t")
-````
-
-````python
+print()
 for v in range(10):
     print(v, end="\t")
-````
+```
 
-````python
-for _ in range(5):
+```text
+range(0, 20)
+10	12	14	16	18	
+10	11	12	13	14	15	16	17	18	19	
+0	1	2	3	4	5	6	7	8	9	
+```
+
+값을 쓰지 않고 횟수만 반복할 때는 변수 이름을 `_`로 쓰는 관례가 있다.
+
+```python
+for _ in range(3):
     print("반복할 내용")
-````
+```
 
-````python
-# range() -> iterable 
-l = list(range(1, 101, 5))
-l
-````
+```text
+반복할 내용
+반복할 내용
+반복할 내용
+```
 
-````python
-tuple(range(10))
-````
+`range()`도 Iterable이라 리스트나 튜플로 바꿀 수 있다.
+
+```python
+print(list(range(1, 101, 5)))
+print(tuple(range(10)))
+print(list(range(10, 0, -3)))  # 보충: 간격이 음수면 거꾸로
+```
+
+```text
+[1, 6, 11, 16, 21, 26, 31, 36, 41, 46, 51, 56, 61, 66, 71, 76, 81, 86, 91, 96]
+(0, 1, 2, 3, 4, 5, 6, 7, 8, 9)
+[10, 7, 4, 1]
+```
 
 ### enumerate()
 
-- 구문
-    - `enumerate(Iterable,  [, start=정수])`
-        - 현재 몇번째 값을 제공하는 지(현재 몇번째 반복인지)를 나타내는 **index**와 제공하는 **원소**를 tuple로 묶어서 반환
-        - Iterable
-            - 값을 제공할 Iterable객체
-        - start: 정수
-            - index 시작 값. 생략하면 0부터 시작한다.
+`enumerate(Iterable, start=0)`: **몇 번째 값인지(index)와 값**을 튜플로 묶어서 준다. `start`로 시작 번호를 정한다.
 
-````python
+```python
 l = [100, -20, 200, 30, 7]
-for v in enumerate(l):   #   (몇번째 제공되는 값인지, value): tuple
+for v in enumerate(l):  # (몇 번째인지, 값)
     print(v)
-````
+```
 
-````python
-for i, v in enumerate(l): # 튜플대입으로 받기
-    print(f"{i+1}. {v}")
-````
+```text
+(0, 100)
+(1, -20)
+(2, 200)
+(3, 30)
+(4, 7)
+```
 
-````python
-for i, v in enumerate(l, start=100): # start 값 부터 시작
+```python
+for i, v in enumerate(l):  # 튜플 대입으로 받기
+    print(f"{i + 1}. {v}")
+```
+
+```text
+1. 100
+2. -20
+3. 200
+4. 30
+5. 7
+```
+
+```python
+for i, v in enumerate(l, start=100):
     print(f"{i}. {v}")
-````
+```
+
+```text
+100. 100
+101. -20
+102. 200
+103. 30
+104. 7
+```
 
 ### zip()
-- 여러 개의 Iterable 객체를 받아 반복시 같은 index의 값끼리 튜플로 묶어 반환한다.
-- 구문
-    - `zip(Iterable1, Iterable2, Iterable3 [, .......])`
-        - Iterable 2개이상.전달한다.
-- 각 Iterable이 제공하는 원소의 개수가가 다를 경우 가장 적은 것의 개수에 맞춰 반복한다.
 
-````python
-names = ['홍길동', '이순신', '유관순']
+`zip(Iterable1, Iterable2, ...)`: 여러 Iterable에서 **같은 index의 값끼리** 튜플로 묶는다. 개수가 다르면 **가장 짧은 것에 맞춘다.**
+
+```python
+names = ["홍길동", "이순신", "유관순"]
 ages = [20, 30, 40, 50, 60, 70]
-addresses = ['서울', '부산', '병천']
-````
+addresses = ["서울", "부산", "병천"]
 
-````python
-for info in zip(names, ages, addresses): # 같은 index의 값들을 tuple로 묶어서 반환.
+for info in zip(names, ages, addresses):
     print(info)
-````
 
-````python
 for name, age, address in zip(names, ages, addresses):
     print(f"이름: {name}, 나이: {age}, 주소: {address}")
-````
+```
 
-## 컴프리헨션(Comprehension)
+```text
+('홍길동', 20, '서울')
+('이순신', 30, '부산')
+('유관순', 40, '병천')
+이름: 홍길동, 나이: 20, 주소: 서울
+이름: 이순신, 나이: 30, 주소: 부산
+이름: 유관순, 나이: 40, 주소: 병천
+```
 
-- 기존 Iterable의 원소들을 이용해서 새로운 자료구조(List, Dictionary, Set)를 생성하는 구문.
-    - 기존 Iterable의 **원소들을 처리한 결과**나  **특정 조건이 True인 값들을** 새로운 자료구조에 넣을때 사용.
-    - 결과를 넣을 새로운 자료구조 타입에 따라 다음 세가지가 있다.
-        - 리스트 컴프리헨션
-        - 딕셔너리  컴프리헨션
-        - 셋  컴프리헨션
-- **튜플 컴프리헨션**은 tuple() 함수를 이용해서 만든다.
-- **딕셔너리 컴프리헨션**과 **셋 컴프리헨션**은 파이썬 3 에 새로 추가되었다.
--   컴프리헨션 문법은 iterable 을 타입을 넣는 곳에서는 다 적용할 수있다.
+`ages`는 6개지만 3개까지만 쓰였다. 남는 값은 **조용히 버려진다.**
 
-````python
+> **보충** 개수가 다르면 에러를 내게 하려면 `zip(..., strict=True)`를 준다(Python 3.10~).
+
+```python
+list(zip(names, ages, strict=True))
+```
+
+<div class="sql-result sql-result-error"><div class="sql-result-meta">에러 · ValueError: zip() argument 2 is longer than argument 1</div></div>
+
+## 컴프리헨션 (Comprehension)
+
+기존 Iterable의 원소로 **새 자료구조를 만드는 구문**이다.
+
+- 원소를 **처리한 결과**나, **조건이 True인 원소**를 새 자료구조에 담을 때 쓴다.
+- 만들 자료구조에 따라 리스트, 딕셔너리, 셋 컴프리헨션이 있다. 딕셔너리·셋 컴프리헨션은 Python 3에서 추가됐다.
+- 튜플 컴프리헨션은 없고 `tuple()` 함수로 만든다.
+
+| 형태 | 결과 |
+|---|---|
+| `[식 for 변수 in Iterable]` | list |
+| `{식 for 변수 in Iterable}` | set |
+| `{키식: 값식 for 변수 in Iterable}` | dict |
+| `(식 for 변수 in Iterable)` | **generator** (tuple 아님) |
+
+### 처리한 결과 담기
+
+```python
 l = list(range(1, 11))
-l
-````
 
-````python
-# l의 모든 값들에 * 5 한 것을 다른 list에 추가. -> 일괄처리 후 그 결과를 저장.
+# for 문으로: l의 모든 값에 * 5 한 것을 다른 list에 추가
 result = []
 for v in l:
     result.append(v * 5)
-
 print(result)
-````
 
-````python
-# v * 5 for v in l : 컴프리헨션
+# 컴프리헨션으로
 result2 = [v * 5 for v in l]
 print(result2)
-````
+```
 
-````python
-result3 = {v * 5 for v in l}  
-result3
-````
+```text
+[5, 10, 15, 20, 25, 30, 35, 40, 45, 50]
+[5, 10, 15, 20, 25, 30, 35, 40, 45, 50]
+```
 
-````python
-result4 = {f"{v}번" : v * 5 for v in l}  # {k : v}
-result4
-````
+> **보충** 노트북의 `result2` 셀에는 `[1, 2, ..., 10]`이 출력돼 있었다. 이 셀을 `[v for v in l]`로 먼저 실행한 뒤 고친 것으로 보인다. 다시 실행하면 for 문과 같은 결과가 나온다.
 
-````python
-# 컴프리헨션 구문(식) ==> iterable 타입
-list(v * 5 for v in l)
-````
+```python
+result3 = {v * 5 for v in l}              # set
+result4 = {f"{v}번": v * 5 for v in l}     # dict {k: v}
+print(result3)
+print(result4)
+```
 
-````python
-# l의 원소 중에서 짝수만 추출해서 저장.
+```text
+{35, 5, 40, 10, 45, 15, 50, 20, 25, 30}
+{'1번': 5, '2번': 10, '3번': 15, '4번': 20, '5번': 25, '6번': 30, '7번': 35, '8번': 40, '9번': 45, '10번': 50}
+```
+
+### 조건에 맞는 것만 담기
+
+```python
+# for 문으로: l의 원소 중 짝수만 추출해서 저장
 result_even = []
 for v in l:
     if v % 2 == 0:
         result_even.append(v)
+print(result_even)
 
-result_even
-````
-
-````python
+# 컴프리헨션으로
 result_even2 = [v for v in l if v % 2 == 0]
-result_even2
-````
+print(result_even2)
+```
 
-````python
-# [컴프리헨션]
-# {컴프리헨션}
-# {k:v 컴프리헨션}
-# (컴프리헨션)
-````
+```text
+[2, 4, 6, 8, 10]
+[2, 4, 6, 8, 10]
+```
 
-````python
-(v for v in l)
-````
+for 문과 컴프리헨션은 이렇게 대응한다.
 
-````python
-# 튜플 컴프리헨션 -> tuple() 함수이용
-tuple(v for v in l)
-````
-
-````python
+```python
+l2 = []
 for v in l:
     if 조건:
         l2.append(v)
 
 l2 = [v for v in l if 조건]
-````
+```
 
-````python
-l = [
-    [1, 2], [3, 4]
-]
+### ( )는 튜플이 아니다
 
+```python
+(v for v in l)
+```
+
+```text
+<generator object <genexpr> at 0x7f55da479480>
+```
+
+소괄호로 감싸면 튜플이 아니라 **generator**가 나온다. 값을 미리 만들지 않고 요청할 때마다 하나씩 만드는 Iterable이다. 그래서 컴프리헨션 식은 Iterable을 받는 함수에 바로 넣을 수 있다.
+
+```python
+print(tuple(v for v in l))  # 튜플 컴프리헨션은 tuple() 함수로
+print(list(v * 5 for v in l))
+print(sum(v for v in l))    # 보충: 합계처럼 결과를 저장할 필요가 없을 때 유용
+```
+
+```text
+(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+[5, 10, 15, 20, 25, 30, 35, 40, 45, 50]
+55
+```
+
+### 중첩 for
+
+for를 두 번 쓰면 바깥 for가 먼저 온다. 아래 주석의 for 문과 같은 순서로 쓰면 된다.
+
+```python
+l = [[1, 2], [3, 4]]
+
+# r = []
 # for v in l:
 #     for value in v:
 #         if value > 0:
 #             r.append(value)
 
 [value for v in l for value in v if value > 0]
-````
+```
 
-## TODO
+```text
+[1, 2, 3, 4]
+```
 
-````python
-#(1) 다음 점수 구간에 맞게 학점을 출력하세요.
-# 91 ~ 100 : A학점
-# 81 ~ 90 :  B학점
-# 71 ~ 80 :  C학점
-# 61 ~ 70 :  D학점
-# 60이하   :  F학점
+## 연습 문제
 
-jumsu = 55
+```python
+# (1) 점수 구간에 맞게 학점을 출력하세요.
+# 91 ~ 100: A, 81 ~ 90: B, 71 ~ 80: C, 61 ~ 70: D, 60 이하: F
+for jumsu in [55, 91, 90, 101]:
+    if jumsu < 0 or jumsu > 100:
+        print(f"{jumsu}는 잘못된 점수입니다. 0 ~ 100 사이의 점수를 입력하세요.")
+    elif jumsu >= 91:
+        print(f"{jumsu}: A학점")
+    elif jumsu >= 81:
+        print(f"{jumsu}: B학점")
+    elif jumsu >= 71:
+        print(f"{jumsu}: C학점")
+    elif jumsu >= 61:
+        print(f"{jumsu}: D학점")
+    else:
+        print(f"{jumsu}: F학점")
+```
 
-if jumsu < 0 or jumsu > 100:
-    print(f"{jumsu}는 잘못된 점수입니다. 0 ~ 100 사이의 점수를 입력하세요.")
-elif jumsu >= 91:
-    print(f"{jumsu}: A학점")
-elif jumsu >= 81:
-    print(f"{jumsu}: B학점")
-elif jumsu >= 71:
-    print(f"{jumsu}: C학점")
-elif jumsu >=61:
-    print(f"{jumsu}: D학점")
-else:
-    print(f"{jumsu}: F학점")
-````
+```text
+55: F학점
+91: A학점
+90: B학점
+101는 잘못된 점수입니다. 0 ~ 100 사이의 점수를 입력하세요.
+```
 
-````python
-#(2) 사용자로 부터 ID를 입력 받은 뒤 입력받은 ID가 5글자 이상이면 "사용할 수 있습니다."를 
-# 5글자 미만이면 "사용할 수 없는 ID입니다."를 출력하세요.
+경계값(90, 91)과 범위 밖 값을 같이 넣어 확인했다. 범위 검사를 맨 앞에 둬서 `jumsu >= 91`에 101이 걸리지 않게 한 게 포인트다.
 
+```python
+# (2) ID가 5글자 이상이면 "사용할 수 있습니다." 미만이면 "사용할 수 없는 ID입니다."
 cust_id = input("ID:").strip()
 if len(cust_id) >= 5:
     print("사용할 수 있습니다.")
 else:
     print("사용할 수 없는 ID 입니다.")
-````
+```
 
-````python
-#(3) 사용자로부터 우리나라 도시명을 입력 받은 뒤 입력받은 도시명이 서울이면 "특별시"를 
-# 인천,부산,광주,대구,대전,울산 이면 "광역시"를 나머지는 "특별시나 광역시가 아닙니다."를 출력하세요.
+```text
+ID:  python  
+사용할 수 있습니다.
+```
 
+```python
+# (3) 서울이면 "특별시", 인천·부산·광주·대구·대전·울산이면 "광역시", 나머지는 "특별시나 광역시가 아닙니다."
 city = input("도시명:")
 if city == "서울":
     print(f"{city}는 특별시")
-elif city in ["인천","부산","광주","대구","대전","울산"]:
+elif city in ["인천", "부산", "광주", "대구", "대전", "울산"]:
     print(f"{city}는 광역시")
 else:
     print(f"{city}는 특별시나 광역시가 아닙니다.")
-````
+```
 
-````python
-#(4-5)
-#(4) 아래 리스트의 평균을 구하시오. 
+```text
+도시명:독산
+독산는 특별시나 광역시가 아닙니다.
+```
+
+```python
+# (4) 리스트의 평균을 구하시오.
 jumsu = [100, 90, 100, 80, 70, 100, 80, 90, 95, 85]
 
 sum_result = 0
 for value in jumsu:
-    sum_result = sum_result + value # sum_result += value
-
+    sum_result = sum_result + value  # sum_result += value
 print(f"총합: {sum_result}")
 
 avg_result = sum_result / len(jumsu)
 print(f"평균점수: {avg_result}")
-````
+print(sum(jumsu) / len(jumsu))  # 보충: 내장 함수 sum()으로 한 줄
+```
 
-````python
-cnt = 1
-for v in jumsu:
-    print(cnt, "Pass" if v >= avg_result else "Fail")
-    cnt += 1
-````
+```text
+총합: 890
+평균점수: 89.0
+89.0
+```
 
-````python
-#(5) 위 jumsu리스트에서 평균점수이상은 pass, 미만은 fail을 index번호와 함께 출력하시오. 
-# (ex: 0-pass, 1-pass, 2-fail)
-
+```python
+# (5) 평균 이상은 pass, 미만은 fail을 번호와 함께 출력하시오. (ex: 0-pass, 1-pass, 2-fail)
 for idx, v in enumerate(jumsu, start=1):
-    print(f"{idx}-{"pass" if v >= avg_result else "fail"} {v}점")
-````
+    print(f"{idx}-{'pass' if v >= avg_result else 'fail'} {v}점")
+```
 
-````python
-#(6) 아래 리스트 값들 중 최대값을 조회해 출력하시오.
+```text
+1-pass 100점
+2-pass 90점
+3-pass 100점
+4-fail 80점
+5-fail 70점
+6-pass 100점
+7-fail 80점
+8-pass 90점
+9-pass 95점
+10-fail 85점
+```
+
+> **보충 · f-string 안의 따옴표**
+> 노트북에는 `f"{idx}-{"pass" if ...}"`처럼 **바깥과 같은 큰따옴표**를 f-string 안에 썼다. 이건 Python 3.12부터 허용된 문법이라 3.11 이하에서는 SyntaxError가 난다. 안쪽을 작은따옴표로 바꾸면 버전과 상관없이 동작한다.
+> 처음 버전은 `cnt` 변수를 직접 1씩 늘렸는데, `enumerate(start=1)`로 바꾸니 번호 관리 코드가 사라졌다.
+
+```python
+# (6) 리스트 값들 중 최대값을 조회해 출력하시오.
 jumsu = [60, 90, 80, 80, 70, 55, 80, 90, 95, 85]
-
 
 max_value = jumsu[0]
 for v in jumsu:
     if v > max_value:
         max_value = v
+print(f"최고점수: {max_value}")
+print(max(jumsu))  # 보충: 내장 함수 max()
+```
 
-print(f"최고점수:{max_value}")
-````
+```text
+최고점수: 95
+95
+```
 
-````python
-#(7) 다음 리스트 중에서 "쥐"와 "토끼" 제외한 나머지를 출력하세요.
+```python
+# (7) "쥐"와 "토끼"를 제외한 나머지를 출력하세요.
 str_list = ["쥐", "소", "호랑이", "토끼", "용", "토끼", "뱀", "돼지", "호랑이"]
-
-
 for v in str_list:
-    if v not in ['쥐', '토끼']:
-        print(v)
-````
+    if v not in ["쥐", "토끼"]:
+        print(v, end=" ")
+```
 
-````python
-#(8) 사용자로부터 정수를 입력받아 그 정수 단의 구구단을 출력하시오. 
-# ex) 
-# 단을 입력하시오 : 2  
-# 2 x 1 = 2
-# 2 x 2 = 4
-#..
-# 2 x 9 = 18
+```text
+소 호랑이 용 뱀 돼지 호랑이 
+```
 
+```python
+# (8) 정수를 입력받아 그 단의 구구단을 출력하시오. (2 x 1 = 2 ... 2 x 9 = 18)
 num_str = input("단을 입력하세요:").strip()
-if num_str.isdigit(): 
+if num_str.isdigit():
     num = int(num_str)
-    for value in range(1, 9): # 1 ~ 9, 1씩 증가
+    for value in range(1, 9):  # 1 ~ 9, 1씩 증가
         print(f"{num} X {value} = {num * value}")
 else:
     print("단은 정수만 입력하세요.")
-````
+```
 
-````python
-#컴프리헨션
+```text
+단을 입력하세요:7
+7 X 1 = 7
+7 X 2 = 14
+7 X 3 = 21
+7 X 4 = 28
+7 X 5 = 35
+7 X 6 = 42
+7 X 7 = 49
+7 X 8 = 56
+```
 
-#(9) 다음 리스트가 가진 값에 두배(* 2)를 가지는 새로운 리스트를 만드시오. (리스트 컴프리헨션 이용)
+> **보충 · `range(1, 9)`는 8까지다**
+> 주석에는 "1 ~ 9"라고 적었지만 `range`는 멈춤값을 포함하지 않으니 **8까지만** 나온다. 위 결과에도 `7 X 9`가 없다. 노트북에는 9줄이 출력돼 있었는데, `range(1, 10)`으로 실행한 뒤 코드를 다시 바꾼 것으로 보인다. 9까지 하려면 `range(1, 10)`이다.
+
+```python
+for value in range(1, 10):
+    print(f"7 X {value} = {7 * value}")
+```
+
+```text
+7 X 1 = 7
+7 X 2 = 14
+7 X 3 = 21
+7 X 4 = 28
+7 X 5 = 35
+7 X 6 = 42
+7 X 7 = 49
+7 X 8 = 56
+7 X 9 = 63
+```
+
+### 컴프리헨션 문제
+
+```python
+# (9) 값에 두 배(* 2)를 가지는 새로운 리스트를 만드시오.
 lst = [10, 10, 10, 30, 70, 5, 120, 700, 1, 35]
+print([v * 2 for v in lst])
+print({v * 2 for v in lst})  # set으로 하면 중복이 사라지고 순서가 바뀐다
+```
 
+```text
+[20, 20, 20, 60, 140, 10, 240, 1400, 2, 70]
+{2, 70, 10, 140, 240, 20, 1400, 60}
+```
 
-result = [v * 2 for v in lst]
-print(result)
-{v * 2 for v in lst}
-````
-
-````python
-#(10) 다음 리스트가 가진 값에 10배의 값을 가지는 값을 (원래값, 10배값) 의 튜플 묶음으로 가지는 리스트를 만드시오 (리스트 컴프리헨션 이용)
-# Ex) [(10,100), (30,300), .., (35, 350)]
+```python
+# (10) (원래값, 10배값) 튜플 묶음을 가지는 리스트를 만드시오.
 lst = [10, 30, 70, 5, 5, 120, 700, 1, 35, 35]
+print([(v, v * 10) for v in lst])
+```
 
+```text
+[(10, 100), (30, 300), (70, 700), (5, 50), (5, 50), (120, 1200), (700, 7000), (1, 10), (35, 350), (35, 350)]
+```
 
-result = [(v, v * 10) for v in lst]
-print(result)
-````
+```python
+# (11) 3의 배수만 가지는 리스트를 만드시오.
+lst2 = [3, 20, 33, 21, 33, 8, 11, 10, 7, 17, 60, 120, 2]
+print([v for v in lst2 if v % 3 == 0])  # 특정 조건의 값들만 선택할 때
+```
 
-````python
-#(11) 다음 리스트가 가진 값들 중 3의 배수만 가지는 리스트를 만드시오. (리스트 컴프리헨션 이용)
-lst2 = [ 3, 20, 33, 21, 33, 8, 11, 10, 7, 17, 60, 120, 2]
+```text
+[3, 33, 21, 33, 60, 120]
+```
 
+```python
+# (12) 확장자가 exe인 파일만 골라서 새로운 리스트에 담으시오.
+file_names = ["test.txt", "a.exe", "jupyter.bat", "function.exe", "b.exe", "cat.jpg", "dog.png", "run.exe", "i.dll"]
+[file_name for file_name in file_names if file_name.endswith(".exe")]
+```
 
-result = [v for v in lst2 if v % 3 == 0]  # 특정 조건의 값들만 선택할 때.
-print(result)
-````
+```text
+['a.exe', 'function.exe', 'b.exe', 'run.exe']
+```
 
-````python
-#(12) 다음 파일이름들을 담은 리스트에서 확장자가 exe인 파일만 골라서 새로운 리스트에 담으시오.(string의 endswith()함수 이용)
-file_names=["test.txt", "a.exe", "jupyter.bat", "function.exe", "b.exe", "cat.jpg", "dog.png", "run.exe", "i.dll"]
+```python
+# (13) 10글자 이상인 파일명(확장자 포함)만 가지는 리스트를 만드시오.
+file_names = ["mystory.txt", "a.exe", "jupyter.bat", "function.exe", "b.exe", "cat.jpg", "dog.png", "run.exe", "i.dll"]
+print([f for f in file_names if len(f) >= 10])
+print({f: len(f) for f in file_names if len(f) >= 10})  # 글자 수 확인용으로 dict
+```
 
+```text
+['mystory.txt', 'jupyter.bat', 'function.exe']
+{'mystory.txt': 11, 'jupyter.bat': 11, 'function.exe': 12}
+```
 
-result = [file_name for file_name in file_names if file_name.endswith(".exe")]
-result
-````
+```python
+# (14) 소문자만 가지는 새로운 리스트를 만드시오.
+print("abcdE".islower(), "abcd".islower(), "ABC".isupper(), "aABC".isupper())
 
-````python
-#(13) 다음 중 10글자 이상인 파일명(확장자포함)만 가지는 리스트를 만드시오.
-file_names=["mystory.txt", "a.exe", "jupyter.bat", "function.exe", "b.exe", "cat.jpg", "dog.png", "run.exe", "i.dll"]
-
-# result = [file_name for file_name in file_names if len(file_name)>=10]
-result = {file_name:len(file_name) for file_name in file_names if len(file_name)>=10}
-result
-````
-
-````python
-"abcdE".islower()
-"abcd".islower()
-
-"ABC".isupper()
-"aABC".isupper()
-````
-
-````python
-#(14) 다음 리스트에서 소문자만 가지는 새로운 리스트를 만드시오.
 str_list = ["A", "B", "c", "D", "E", "F", "g", "h", "I", "J", "k"]
+[v for v in str_list if v.islower()]
+```
 
-result = [v for v in str_list if v.islower()]
-result
-````
+```text
+False True True False
+```
 
----
+```text
+['c', 'g', 'h', 'k']
+```
 
-## 학습 정리
+## 정리
 
-
-
-- 조건문의 분기 순서와 반복문의 종료 조건을 명확하게 설계해야 한다.
-
-- `range`는 숫자 범위를 만들고 `enumerate`는 값과 순번을 함께 제공한다.
-
-- Comprehension은 변환과 필터링이 간단할 때 가장 읽기 좋다.
-
-- 복잡한 중첩 로직은 짧게 줄이는 것보다 명확하게 작성하는 것이 우선이다.
+- Python은 **들여쓰기로 코드블록**을 만든다. 블록을 비워 둘 땐 `pass`.
+- `if-elif`는 위에서부터 처음 맞는 조건 하나만 실행한다. 그래서 조건 순서가 결과를 바꾼다(월별 일수 버그).
+- `while`은 조건이 True인 동안, `for in`은 Iterable의 값이 남아 있는 동안 반복한다.
+- `range(a, b)`는 b를 포함하지 않는다. 구구단 버그의 원인이다.
+- `enumerate()`는 번호를, `zip()`은 같은 index끼리 묶은 값을 준다. `zip()`은 짧은 쪽에 맞추고 나머지를 버린다.
+- 컴프리헨션: `[식 for 변수 in Iterable if 조건]`. `( )`로 감싸면 튜플이 아니라 generator다.
+- 노트북은 셀 수정 후 다시 실행하지 않으면 **출력이 코드와 어긋난다.** 정리할 때는 처음부터 다시 실행해 보는 게 좋다.
