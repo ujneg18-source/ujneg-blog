@@ -316,7 +316,7 @@ having count(*) >= 20;
 
 <div class="sql-result"><div class="sql-result-meta">실행 결과 · 2행</div><div class="sql-result-scroll"><table><thead><tr><th>year(hire_date)</th><th>avg(salary)</th><th>count(*)</th></tr></thead><tbody><tr><td>2005</td><td>6824.137931</td><td>29</td></tr><tr><td>2006</td><td>5045.833333</td><td>24</td></tr></tbody></table></div></div>
 
-**평균 급여가 $5,000 이상인 부서의 이름과 평균 급여, 직원 수를 조회**
+**평균 급여가 \$5,000 이상인 부서의 이름과 평균 급여, 직원 수를 조회**
 
 ```sql
 select dept_name,
@@ -330,7 +330,7 @@ order by 2;
 
 <div class="sql-result"><div class="sql-result-meta">실행 결과 · 9행</div><div class="sql-result-scroll"><table><thead><tr><th>dept_name</th><th>avg(salary)</th><th>count(*)</th></tr></thead><tbody><tr><td>IT</td><td>5760.000000</td><td>5</td></tr><tr><td>Human Resources</td><td>6500.000000</td><td>1</td></tr><tr><td><span class="sql-null">NULL</span></td><td>7366.666667</td><td>3</td></tr><tr><td>Finance</td><td>8601.333333</td><td>6</td></tr><tr><td>Sales</td><td>8863.636364</td><td>33</td></tr><tr><td>Marketing</td><td>9500.000000</td><td>2</td></tr><tr><td>Public Relations</td><td>10000.000000</td><td>1</td></tr><tr><td>Accounting</td><td>10154.000000</td><td>2</td></tr><tr><td>Executive</td><td>19333.333333</td><td>3</td></tr></tbody></table></div></div>
 
-**평균 급여가 $5,000 이상이고 소속 직원 수가 열 명 이상인 부서의 이름은?**
+**평균 급여가 \$5,000 이상이고 소속 직원 수가 열 명 이상인 부서의 이름은?**
 
 ```sql
 select dept_name, avg(salary), count(*)
@@ -341,7 +341,7 @@ having avg(salary) >= 5000 and count(*) >= 10;
 
 <div class="sql-result"><div class="sql-result-meta">실행 결과 · 1행</div><div class="sql-result-scroll"><table><thead><tr><th>dept_name</th><th>avg(salary)</th><th>count(*)</th></tr></thead><tbody><tr><td>Sales</td><td>8863.636364</td><td>33</td></tr></tbody></table></div></div>
 
-**커미션이 있는 직원들의 입사 연도별 평균 급여를 조회. 단, 평균 급여가 $9,000 이상인 연도만**
+**커미션이 있는 직원들의 입사 연도별 평균 급여를 조회. 단, 평균 급여가 \$9,000 이상인 연도만**
 
 ```sql
 select year(hire_date), avg(salary)

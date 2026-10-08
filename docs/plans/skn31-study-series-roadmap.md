@@ -46,7 +46,7 @@
 | 02 SQL | Tech / SQL | 이번에 subcategory 목록에 추가 |
 | 03 웹 크롤링 | Tech / Data Engineering | 기존 |
 | 04 Pandas, 05 시각화 | Tech / Data Analysis | Pandas 시리즈 때 추가 |
-| 06 머신러닝, 07 딥러닝 | Tech / Machine Learning | 추가 필요 |
+| 06 머신러닝, 07 딥러닝 | Tech / Machine Learning | 머신러닝 시리즈 때 추가 |
 | 08 NLP, 09 Hugging Face | Tech / NLP | 추가 필요 |
 | 10 AI Agent, 11 sLLM | Tech / LLM | 추가 필요 |
 | 12 웹 프론트, 13 Django | Tech / Backend | 기존 (프론트는 Etc (Tech)도 가능) |
@@ -97,12 +97,12 @@ subcategory 추가는 `src/pages/notes/[...slug].astro`의 목록 두 곳에 이
 5. 정렬과 집계: sort·agg·groupby·pivot_table·cut·apply
 6. DataFrame 합치기: concat·join·merge
 
-### 05. 데이터 시각화 (3편)
+### 05. 데이터 시각화 (3편) — 초안 완료 (`visualization/`, series '데이터 시각화')
 1. Matplotlib 개요: Figure·Axes와 두 가지 그리기 방식
 2. Matplotlib 주요 그래프: 선·산점도·막대·파이·히스토그램·상자
 3. Pandas 시각화: plot()으로 바로 그리는 그래프
 
-### 06. 머신러닝 (16편)
+### 06. 머신러닝 (16편) — 초안 완료 (`ml/`, series '머신러닝', subcategory 'Machine Learning'): 1~16 초안 완료
 1. NumPy 기초: ndarray 생성과 파일 저장
 2. NumPy 배열 다루기: 인덱싱·형태 변경·벡터 연산
 3. 머신러닝 개요: 지도·비지도 학습과 개발 절차
@@ -120,7 +120,7 @@ subcategory 추가는 `src/pages/notes/[...slug].astro`의 목록 두 곳에 이
 15. 로지스틱 회귀: 확률로 분류하기
 16. 군집: K-Means와 실루엣 점수
 
-### 07. 딥러닝 (8편)
+### 07. 딥러닝 (8편) — 초안 완료: 1~8 초안 완료
 1. 딥러닝 개요: 머신러닝과의 차이와 PyTorch 설치
 2. Tensor 다루기: 생성·조회·연산
 3. PyTorch 선형 회귀: 직접 구현에서 nn.Linear까지

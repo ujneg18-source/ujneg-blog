@@ -142,7 +142,7 @@ from   emp;
 
 <div class="sql-result"><div class="sql-result-meta">실행 결과 · 전체 107행 중 3행</div><div class="sql-result-scroll"><table><thead><tr><th>emp_name</th><th>salary</th><th>연봉</th></tr></thead><tbody><tr><td>Steven</td><td>24000.00</td><td>288000.00</td></tr><tr><td>Neena</td><td>17000.00</td><td>204000.00</td></tr><tr><td>Lex</td><td>17000.00</td><td>204000.00</td></tr></tbody></table></div></div>
 
-**직원의 이름(emp_name), 급여(salary)를 조회하는데 급여 앞에 '$'를 붙여서 조회**
+**직원의 이름(emp_name), 급여(salary)를 조회하는데 급여 앞에 '\$'를 붙여서 조회**
 
 ```sql
 select emp_name,
@@ -223,7 +223,7 @@ select count(*) from emp where binary dept_name = 'sales';
 
 <div class="sql-result"><div class="sql-result-meta">실행 결과 · 1행</div><div class="sql-result-scroll"><table><thead><tr><th>count(*)</th></tr></thead><tbody><tr><td>0</td></tr></tbody></table></div></div>
 
-**급여(salary)가 $10,000를 초과하는 직원의 ID, 이름, 급여를 조회**
+**급여(salary)가 \$10,000를 초과하는 직원의 ID, 이름, 급여를 조회**
 
 ```sql
 select emp_id, emp_name, salary
@@ -376,7 +376,7 @@ where 조건1 and (조건2 or 조건3)
 -- or 를 먼저 하려면 괄호로 묶는다
 ```
 
-**'SA_REP' 업무를 담당하는 직원들 중 급여가 $9,000인 직원들을 조회**
+**'SA_REP' 업무를 담당하는 직원들 중 급여가 \$9,000인 직원들을 조회**
 
 ```sql
 select *
@@ -386,7 +386,7 @@ where  job = 'SA_REP' and salary = 9000;
 
 <div class="sql-result"><div class="sql-result-meta">실행 결과 · 2행</div><div class="sql-result-scroll"><table><thead><tr><th>emp_id</th><th>emp_name</th><th>job</th><th>mgr_id</th><th>hire_date</th><th>salary</th><th>comm_pct</th><th>dept_name</th></tr></thead><tbody><tr><td>152</td><td>Peter</td><td>SA_REP</td><td>145</td><td>2005-08-20</td><td>9000.00</td><td>0.25</td><td>Sales</td></tr><tr><td>158</td><td>Allan</td><td>SA_REP</td><td>146</td><td>2004-08-01</td><td>9000.00</td><td>0.35</td><td>Sales</td></tr></tbody></table></div></div>
 
-**업무가 'FI_ACCOUNT'거나 급여가 $8,000 이상인 직원들을 조회**
+**업무가 'FI_ACCOUNT'거나 급여가 \$8,000 이상인 직원들을 조회**
 
 ```sql
 select *
@@ -478,7 +478,7 @@ order by 3 asc, 4 desc; -- select절의 컬럼 순번을 사용할 수 있다 (1
 
 `AC_ACCOUNT`, `AC_MGR`, `AD_ASST`처럼 업무가 알파벳순으로 나오고, `AD_VP`처럼 같은 업무 안에서는 급여가 높은 순으로 나온다.
 
-**급여가 $5,000을 넘는 직원의 ID, 이름, 급여를 급여가 높은 순서부터 조회**
+**급여가 \$5,000을 넘는 직원의 ID, 이름, 급여를 급여가 높은 순서부터 조회**
 
 ```sql
 select emp_id, emp_name, salary
