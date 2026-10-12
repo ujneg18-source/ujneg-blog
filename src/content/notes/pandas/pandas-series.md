@@ -6,8 +6,9 @@ subcategory: 'Data Analysis'
 series: 'Pandas'
 seriesOrder: 1
 originalNotebook: "01_Pandas_Series.ipynb"
-tags: ["Python","Pandas","Series"]
-date: 2026-04-29
+tags: ["Data Analysis","Pandas"]
+date: 2026-04-29T11:00:00+09:00
+thumbnail: '../../../assets/images/notes/pandas/pandas-series.webp'
 ---
 
 > SKN31 데이터 분석 실습 노트북 `01_Pandas_Series.ipynb`의 필기를 바탕으로 정리했습니다.

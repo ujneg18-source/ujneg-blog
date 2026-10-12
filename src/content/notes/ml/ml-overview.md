@@ -4,10 +4,11 @@ description: "인공지능·머신러닝·딥러닝의 관계, 전통적 프로�
 category: 'Tech'
 subcategory: 'Machine Learning'
 series: '머신러닝'
-seriesOrder: 3
+seriesOrder: 1
 originalNotebook: "01_머신러닝개요.ipynb"
-tags: ["Python","Machine Learning","scikit-learn"]
-date: 2026-05-13
+tags: ["Machine Learning","scikit-learn"]
+date: 2026-05-13T10:00:00+09:00
+thumbnail: '../../../assets/images/notes/ml/ml-overview.webp'
 ---
 
 > SKN31 머신러닝 과정 노트북 `01_머신러닝개요.ipynb`의 필기를 바탕으로 정리했습니다.

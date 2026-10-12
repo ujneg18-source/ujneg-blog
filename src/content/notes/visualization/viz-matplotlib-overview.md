@@ -6,8 +6,9 @@ subcategory: 'Data Analysis'
 series: '데이터 시각화'
 seriesOrder: 1
 originalNotebook: "01_matplotlib 개요.ipynb"
-tags: ["Python","Matplotlib","Visualization"]
-date: 2026-05-06
+tags: ["Data Analysis","Matplotlib"]
+date: 2026-05-06T11:00:00+09:00
+thumbnail: '../../../assets/images/notes/visualization/viz-matplotlib-overview.webp'
 ---
 
 > SKN31 데이터 분석 실습 노트북 `01_matplotlib 개요.ipynb`의 필기를 바탕으로 정리했습니다.

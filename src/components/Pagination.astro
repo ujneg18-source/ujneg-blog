@@ -8,9 +8,19 @@ const { page, baseUrl } = Astro.props;
 
 // Helper to remove double slashes while keeping valid routes
 const sanitizeUrl = (url: string) => url.replace(/([^:]\/)\/+/g, "$1");
+
+// 페이지가 많을 때: 1 … (현재-2 ~ 현재+2) … 마지막 형태로 줄여서 보여준다
+const total: number = page.lastPage;
+const current: number = page.currentPage;
+const WINDOW = 2;
+const items: (number | 'gap')[] = [];
+for (let n = 1; n <= total; n++) {
+  if (n === 1 || n === total || Math.abs(n - current) <= WINDOW) items.push(n);
+  else if (items[items.length - 1] !== 'gap') items.push('gap');
+}
 ---
 
-<div class="flex items-center justify-center gap-2 my-2">
+<div class="flex flex-wrap items-center justify-center gap-1 sm:gap-2 my-2">
   {page.url.prev ? (
     <a href={sanitizeUrl(page.url.prev)} class="w-10 h-10 rounded-full flex items-center justify-center border border-border text-text-secondary hover:bg-surface hover:text-primary transition-colors hover:border-primary/50 shadow-sm no-underline" aria-label="이전 페이지">
       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"></path></svg>
@@ -22,8 +32,10 @@ const sanitizeUrl = (url: string) => url.replace(/([^:]\/)\/+/g, "$1");
   )}
 
   <!-- Pages -->
-  {Array.from({ length: page.lastPage }).map((_, i) => {
-    const pageNum = i + 1;
+  {items.map((pageNum) => {
+    if (pageNum === 'gap') return (
+      <span class="w-8 h-10 flex items-center justify-center text-text-secondary select-none" aria-hidden="true">…</span>
+    );
     const isCurrent = page.currentPage === pageNum;
     
     const pageUrl = sanitizeUrl(pageNum === 1 ? baseUrl : `${baseUrl}/${pageNum}`);

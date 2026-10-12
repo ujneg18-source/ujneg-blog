@@ -2,12 +2,13 @@
 title: "PyTorch 선형 회귀: 직접 구현에서 nn.Linear까지"
 description: "온도·강수량·습도로 사과와 오렌지 수확량을 예측하는 다중 입력·다중 출력 선형 회귀를 PyTorch로 구현합니다. weight와 bias를 tensor로 직접 만들고 autograd로 학습시킨 뒤, 같은 모델을 nn.Linear·MSELoss·SGD optimizer로 다시 만들어 학습 루프의 5단계를 정리합니다."
 category: 'Tech'
-subcategory: 'Machine Learning'
+subcategory: 'Deep Learning'
 series: '딥러닝'
 seriesOrder: 3
 originalNotebook: "03_pytorch_linear_regression.ipynb"
-tags: ["Python","PyTorch","Linear Regression","nn.Linear","Optimizer"]
-date: 2026-06-04
+tags: ["Deep Learning","PyTorch"]
+date: 2026-05-26T11:00:00+09:00
+thumbnail: '../../../assets/images/notes/dl/dl-linear-regression.webp'
 ---
 
 > SKN31 딥러닝 과정 노트북 `03_pytorch_linear_regression.ipynb`를 바탕으로 정리했습니다.

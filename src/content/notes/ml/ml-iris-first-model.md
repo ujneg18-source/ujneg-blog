@@ -4,10 +4,11 @@ description: "머신러닝의 Hello World인 Iris 데이터셋으로 scikit-lear
 category: 'Tech'
 subcategory: 'Machine Learning'
 series: '머신러닝'
-seriesOrder: 4
+seriesOrder: 2
 originalNotebook: "02_첫번째 머신러닝 분석 - Iris_분석.ipynb"
-tags: ["Python","scikit-learn","Decision Tree","Iris"]
-date: 2026-05-14
+tags: ["Machine Learning","scikit-learn"]
+date: 2026-05-14T10:00:00+09:00
+thumbnail: '../../../assets/images/notes/ml/ml-iris-first-model.webp'
 ---
 
 > SKN31 머신러닝 과정 노트북 `02_첫번째 머신러닝 분석 - Iris_분석.ipynb`의 필기를 바탕으로 정리했습니다.

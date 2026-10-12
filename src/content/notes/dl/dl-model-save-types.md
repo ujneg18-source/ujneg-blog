@@ -2,12 +2,13 @@
 title: "모델 저장과 문제 유형별 모델: 회귀·다중 분류·이진 분류"
 description: "torch.save로 모델 전체와 state_dict를 저장하고 불러오는 방법, checkpoint, torchinfo summary, 그리고 Boston Housing 회귀·Fashion MNIST 다중 분류·유방암 이진 분류 MLP를 직접 학습시키며 출력층·활성 함수·손실 함수가 문제 유형에 따라 어떻게 달라지는지 정리합니다. 학습 중 best model 저장과 조기 종료도 다룹니다."
 category: 'Tech'
-subcategory: 'Machine Learning'
+subcategory: 'Deep Learning'
 series: '딥러닝'
 seriesOrder: 7
 originalNotebook: "07_모델저장_문제 유형별 모델 생성.ipynb"
-tags: ["Python","PyTorch","state_dict","Early Stopping","MLP"]
-date: 2026-06-10
+tags: ["Deep Learning","PyTorch"]
+date: 2026-05-30T10:00:00+09:00
+thumbnail: '../../../assets/images/notes/dl/dl-model-save-types.webp'
 ---
 
 > SKN31 딥러닝 과정 노트북 `07_모델저장_문제 유형별 모델 생성.ipynb`를 바탕으로 정리했습니다.

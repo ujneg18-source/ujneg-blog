@@ -2,12 +2,13 @@
 title: "Tensor 다루기: 생성·조회·연산"
 description: "PyTorch의 기본 자료구조인 Tensor를 생성하고, dtype·shape·device를 다루고, 인덱싱·reshape·축 추가와 제거·합치기·transpose/permute, element-wise 연산과 행렬곱, 기술통계 함수, 그리고 autograd로 gradient를 자동 계산하는 방법까지 실행 결과와 함께 정리합니다."
 category: 'Tech'
-subcategory: 'Machine Learning'
+subcategory: 'Deep Learning'
 series: '딥러닝'
 seriesOrder: 2
 originalNotebook: "02. tensor 다루기.ipynb"
-tags: ["Python","PyTorch","Tensor","autograd"]
-date: 2026-06-03
+tags: ["Deep Learning","PyTorch"]
+date: 2026-05-23T11:00:00+09:00
+thumbnail: '../../../assets/images/notes/dl/dl-tensor.webp'
 ---
 
 > SKN31 딥러닝 과정 노트북 `02. tensor 다루기.ipynb`를 바탕으로 정리했습니다.

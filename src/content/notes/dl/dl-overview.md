@@ -2,12 +2,13 @@
 title: "딥러닝 개요: 머신러닝과의 차이와 PyTorch 설치"
 description: "강 인공지능과 약 인공지능, 딥러닝이 비정형 데이터에 강한 이유(특성 추출을 모델이 함께 학습), 머신러닝과 딥러닝의 처리 과정 비교, 딥러닝의 학습·평가 단계, PyTorch 소개와 설치 및 사용 가능한 장치(CPU·CUDA·MPS) 확인까지 정리합니다."
 category: 'Tech'
-subcategory: 'Machine Learning'
+subcategory: 'Deep Learning'
 series: '딥러닝'
 seriesOrder: 1
 originalNotebook: "01_딥러닝 개요.ipynb"
-tags: ["Python","Deep Learning","PyTorch"]
-date: 2026-06-02
+tags: ["Deep Learning","PyTorch"]
+date: 2026-05-22T11:00:00+09:00
+thumbnail: '../../../assets/images/notes/dl/dl-overview.webp'
 ---
 
 > SKN31 딥러닝 과정 노트북 `01_딥러닝 개요.ipynb`를 바탕으로 정리했습니다.

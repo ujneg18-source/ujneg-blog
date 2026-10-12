@@ -4,10 +4,11 @@ description: "선형 회귀의 가중합에 시그모이드(로지스틱) 함수
 category: 'Tech'
 subcategory: 'Machine Learning'
 series: '머신러닝'
-seriesOrder: 15
+seriesOrder: 13
 originalNotebook: "13_선형모델_로지스틱회귀.ipynb"
-tags: ["Python","scikit-learn","Logistic Regression","Cross Entropy"]
-date: 2026-05-29
+tags: ["Machine Learning","scikit-learn"]
+date: 2026-05-25T10:00:00+09:00
+thumbnail: '../../../assets/images/notes/ml/ml-logistic-regression.webp'
 ---
 
 > SKN31 머신러닝 과정 노트북 `13_선형모델_로지스틱회귀.ipynb`의 필기를 바탕으로 정리했습니다.

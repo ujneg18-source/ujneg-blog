@@ -2,12 +2,13 @@
 title: "첫 번째 딥러닝: MLP로 MNIST 분류하기"
 description: "PyTorch 개발 프로세스(데이터 준비 → 모델 정의 → 학습 → 평가)를 따라 손글씨 숫자 MNIST를 분류하는 MLP를 만듭니다. Dataset과 DataLoader, ToTensor 전처리, nn.Module로 모델 정의, CrossEntropyLoss와 Adam, epoch·step·batch 개념, 학습·검증 루프, 모델 저장과 새 이미지 추론까지 실행 결과와 함께 다룹니다."
 category: 'Tech'
-subcategory: 'Machine Learning'
+subcategory: 'Deep Learning'
 series: '딥러닝'
 seriesOrder: 4
 originalNotebook: "04_첫번째 딥러닝-MLP 구현.ipynb"
-tags: ["Python","PyTorch","MLP","MNIST","Classification"]
-date: 2026-06-05
+tags: ["Deep Learning","PyTorch"]
+date: 2026-05-27T10:00:00+09:00
+thumbnail: '../../../assets/images/notes/dl/dl-mnist-mlp.webp'
 ---
 
 > SKN31 딥러닝 과정 노트북 `04_첫번째 딥러닝-MLP 구현.ipynb`를 바탕으로 정리했습니다.

@@ -6,8 +6,9 @@ subcategory: 'SQL'
 series: 'SQL 기초'
 seriesOrder: 7
 originalNotebook: "06_subquery.sql"
-tags: ["SQL","MySQL","Subquery"]
-date: 2026-04-23
+tags: ["SQL"]
+date: 2026-04-27T10:00:00+09:00
+thumbnail: '../../../assets/images/notes/sql/sql-subquery.webp'
 ---
 
 > SKN31 SQL 실습 파일 `06_subquery.sql`의 필기를 바탕으로 정리했습니다.

@@ -6,8 +6,9 @@ subcategory: 'Python'
 series: 'Python 기초'
 seriesOrder: 1
 originalNotebook: "01_개요.ipynb"
-tags: ["Python","REPL","Programming"]
-date: 2026-04-14
+tags: ["Python"]
+date: 2026-04-14T10:00:00+09:00
+thumbnail: '../../../assets/images/notes/python/python-overview-repl.webp'
 ---
 
 > SKN31 Python 과정 첫 노트북 `01_개요.ipynb`와 Jupyter 연습 파일 `test.ipynb`의 필기를 바탕으로 정리했습니다.

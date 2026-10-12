@@ -4,10 +4,11 @@ description: "약한 학습기를 순서대로 이어 앞 모델의 오차를 �
 category: 'Tech'
 subcategory: 'Machine Learning'
 series: '머신러닝'
-seriesOrder: 12
+seriesOrder: 10
 originalNotebook: "10_앙상블_부스팅.ipynb"
-tags: ["Python","scikit-learn","Boosting","Gradient Boosting","XGBoost"]
-date: 2026-05-26
+tags: ["Machine Learning","scikit-learn"]
+date: 2026-05-22T10:00:00+09:00
+thumbnail: '../../../assets/images/notes/ml/ml-boosting.webp'
 ---
 
 > SKN31 머신러닝 과정 노트북 `10_앙상블_부스팅.ipynb`의 필기를 바탕으로 정리했습니다.

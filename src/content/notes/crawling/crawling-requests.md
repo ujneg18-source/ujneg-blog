@@ -2,12 +2,13 @@
 title: "requests: 웹 요청을 보내고 응답 데이터 받기"
 description: "HTTP 요청 방식과 요청 파라미터·헤더의 개념을 정리하고, requests로 웹 페이지와 이미지를 받아 BeautifulSoup으로 파싱한 뒤 CSV로 저장하는 흐름을 다룹니다."
 category: 'Tech'
-subcategory: 'Data Engineering'
+subcategory: 'Web Crawling'
 series: '데이터 수집'
 seriesOrder: 2
 originalNotebook: "02_requests.ipynb"
-tags: ["Python","Crawling","requests","HTTP"]
-date: 2026-04-24
+tags: ["Web Crawling"]
+date: 2026-04-25T11:00:00+09:00
+thumbnail: '../../../assets/images/notes/crawling/crawling-requests.webp'
 ---
 
 > SKN31 웹 크롤링 실습 노트북 `02_requests.ipynb`의 필기를 바탕으로 정리했습니다.

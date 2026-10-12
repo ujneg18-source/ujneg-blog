@@ -4,10 +4,11 @@ description: "결정 트리의 분기 원리와 가지치기 하이퍼파라미�
 category: 'Tech'
 subcategory: 'Machine Learning'
 series: '머신러닝'
-seriesOrder: 11
+seriesOrder: 9
 originalNotebook: "09_결정트리와 랜덤포레스트.ipynb"
-tags: ["Python","scikit-learn","Decision Tree","Random Forest","Ensemble"]
-date: 2026-05-25
+tags: ["Machine Learning","scikit-learn"]
+date: 2026-05-21T10:00:00+09:00
+thumbnail: '../../../assets/images/notes/ml/ml-tree-randomforest.webp'
 ---
 
 > SKN31 머신러닝 과정 노트북 `09_결정트리와 랜덤포레스트.ipynb`의 필기를 바탕으로 정리했습니다.

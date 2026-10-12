@@ -4,10 +4,11 @@ description: "결측치 삭제와 대체(SimpleImputer·KNNImputer), IQR 기준 
 category: 'Tech'
 subcategory: 'Machine Learning'
 series: '머신러닝'
-seriesOrder: 6
+seriesOrder: 4
 originalNotebook: "04_데이터_전처리.ipynb"
-tags: ["Python","scikit-learn","Preprocessing","Encoding","Scaling"]
-date: 2026-05-18
+tags: ["Machine Learning","scikit-learn"]
+date: 2026-05-16T10:00:00+09:00
+thumbnail: '../../../assets/images/notes/ml/ml-preprocessing.webp'
 ---
 
 > SKN31 머신러닝 과정 노트북 `04_데이터_전처리.ipynb`의 필기를 바탕으로 정리했습니다.

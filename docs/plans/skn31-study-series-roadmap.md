@@ -40,18 +40,25 @@
 
 ## 2. Notes 카테고리 매핑
 
-| SKN31 챕터 | category / subcategory | 비고 |
-|---|---|---|
-| 01 Python, Streamlit | Tech / Python | 기존 |
-| 02 SQL | Tech / SQL | 이번에 subcategory 목록에 추가 |
-| 03 웹 크롤링 | Tech / Data Engineering | 기존 |
-| 04 Pandas, 05 시각화 | Tech / Data Analysis | Pandas 시리즈 때 추가 |
-| 06 머신러닝, 07 딥러닝 | Tech / Machine Learning | 머신러닝 시리즈 때 추가 |
-| 08 NLP, 09 Hugging Face | Tech / NLP | 추가 필요 |
-| 10 AI Agent, 11 sLLM | Tech / LLM | 추가 필요 |
-| 12 웹 프론트, 13 Django | Tech / Backend | 기존 (프론트는 Etc (Tech)도 가능) |
-| 14 AWS, Docker 입문 | Infra / Cloud | 기존 |
-| 15 SW 엔지니어링 | Tech / Etc (Tech) | 기존 |
+기술 스택별로 잘게 나눈다. 같은 날짜 글은 frontmatter `date`에 숨은 시간(`T10:00:00+09:00`부터 1시간씩)을 넣어 시리즈 순서를 맞춘다. 화면에는 날짜만 보인다.
+
+| category / subcategory | series (편수) |
+|---|---|
+| Tech / Python | Python 기초 (9), Streamlit (3) |
+| Tech / SQL | SQL 기초 (9) |
+| Tech / Web Crawling | 데이터 수집 (3) |
+| Tech / Data Analysis | NumPy (2), Pandas (6), 데이터 시각화 (3) |
+| Tech / Machine Learning | 머신러닝 (14) |
+| Tech / Deep Learning | 딥러닝 (8) |
+| Tech / NLP | 자연어 처리 (11), Hugging Face (2) |
+| Tech / LLM | LangChain 기초 (5), RAG (6), Agent·LangGraph (3), GraphRAG (6), sLLM 파인튜닝 (3) |
+| Tech / Web Frontend | HTML·CSS·JavaScript (4) |
+| Tech / Django | Django (7) |
+| Tech / SW Engineering | 소프트웨어 공학 (4) |
+| Infra / AWS | AWS (4) |
+| Infra / Docker | 단독 글 (docker-basics) |
+
+제목에는 "(n)" 번호를 붙이지 않는다. 순서는 seriesOrder가 맡는다. 썸네일은 `src/assets/images/notes/<dir>/<slug>.webp`(600×600, 시리즈별 색·패턴).
 
 subcategory 추가는 `src/pages/notes/[...slug].astro`의 목록 두 곳에 이름을 넣는 한 줄 작업이다.
 
@@ -102,7 +109,7 @@ subcategory 추가는 `src/pages/notes/[...slug].astro`의 목록 두 곳에 이
 2. Matplotlib 주요 그래프: 선·산점도·막대·파이·히스토그램·상자
 3. Pandas 시각화: plot()으로 바로 그리는 그래프
 
-### 06. 머신러닝 (16편) — 초안 완료 (`ml/`, series '머신러닝', subcategory 'Machine Learning'): 1~16 초안 완료
+### 06. 머신러닝 (14편 + NumPy 2편 분리) — 초안 완료 (`ml/`, series '머신러닝', subcategory 'Machine Learning'): 1~14 초안 완료
 1. NumPy 기초: ndarray 생성과 파일 저장
 2. NumPy 배열 다루기: 인덱싱·형태 변경·벡터 연산
 3. 머신러닝 개요: 지도·비지도 학습과 개발 절차
@@ -120,7 +127,7 @@ subcategory 추가는 `src/pages/notes/[...slug].astro`의 목록 두 곳에 이
 15. 로지스틱 회귀: 확률로 분류하기
 16. 군집: K-Means와 실루엣 점수
 
-### 07. 딥러닝 (8편) — 초안 완료: 1~8 초안 완료
+### 07. 딥러닝 (8편) — 초안 완료 (Tech/Deep Learning): 1~8 초안 완료
 1. 딥러닝 개요: 머신러닝과의 차이와 PyTorch 설치
 2. Tensor 다루기: 생성·조회·연산
 3. PyTorch 선형 회귀: 직접 구현에서 nn.Linear까지
@@ -130,7 +137,7 @@ subcategory 추가는 `src/pages/notes/[...slug].astro`의 목록 두 곳에 이
 7. 모델 저장과 문제 유형별 모델: 회귀·이진 분류·다중 분류
 8. 성능 개선: Dropout·Batch Normalization·학습률 조정 (08_1 + 08_2)
 
-### 08. 자연어 처리 (11편)
+### 08. 자연어 처리 (11편) — 초안 완료 (`nlp/`, series '자연어 처리', subcategory 'NLP'): 1~11 초안 완료
 1. 자연어 처리 개요: 문제 영역과 처리 단계 (+ 텍스트 전처리)
 2. 정규 표현식: 패턴으로 문자열 찾기
 3. 토큰화: 형태소 분석기와 WordCloud
@@ -143,11 +150,11 @@ subcategory 추가는 `src/pages/notes/[...slug].astro`의 목록 두 곳에 이
 10. Attention: Seq2Seq의 병목 해결하기
 11. Transformer: Self-Attention과 모델 계열
 
-### 09. Hugging Face (2편)
+### 09. Hugging Face (2편) — 초안 완료 (`hf/`, series 'Hugging Face', subcategory 'NLP'): 1~2 초안 완료
 1. 전이 학습과 Hugging Face: 사전 학습 모델과 파인튜닝 전략
 2. Hugging Face Pipeline: 태스크별 모델 바로 쓰기
 
-### 10. LLM 애플리케이션 (20편, 네 묶음)
+### 10. LLM (20편) — 초안 완료 (`llm/`, subcategory 'LLM', series는 LangChain 기초 / RAG / Agent·LangGraph / GraphRAG로 분리): 1~20 초안 완료 (GraphRAG는 개요 / Cypher 기초 / Cypher 심화 / 모델링 / 벡터·Text2Cypher / Agent로 재구성)
 
 **LangChain 기초**
 1. LLM과 LangChain 개요: 구성 요소 한눈에 보기
@@ -178,41 +185,39 @@ subcategory 추가는 `src/pages/notes/[...slug].astro`의 목록 두 곳에 이
 19. 벡터 검색과 Text2Cypher: 자연어로 그래프 조회하기 (05 + 06)
 20. GraphRAG Agent: 도구로 묶어 질문에 답하기
 
-### 11. sLLM 파인튜닝 (3편)
-1. LLM 파인튜닝 개요: 양자화·PEFT·LoRA
-2. 파인튜닝 데이터셋: HuggingFace Datasets로 만들기
-3. 파인튜닝 실습: SFT와 LoRA 모델 사용
+### 11. sLLM 파인튜닝 (3편) — 초안 완료 (`llm/`, series 'sLLM 파인튜닝', Tech/LLM)
+1. LLM 파인튜닝 개요: 양자화·PEFT·LoRA (`sllm-finetuning-overview`)
+2. 파인튜닝 데이터셋: HuggingFace Datasets로 만들기 (`sllm-dataset`)
+3. 파인튜닝 실습: SFT와 LoRA 모델 사용 (`sllm-finetuning-lab`)
 
-### 12. 웹 프론트엔드 (4편)
-1. HTML·CSS와 Bootstrap: 그리드 시스템으로 레이아웃 잡기
-2. JavaScript(1): 실행 방식과 기본 문법
-3. JavaScript(2): 이벤트와 DOM
-4. Fetch API와 Form: 서버와 데이터 주고받기
+### 12. 웹 프론트엔드 (4편) — 초안 완료 (`web/`, series 'HTML·CSS·JavaScript', Tech/Web Frontend)
+1. HTML·CSS와 Bootstrap (`web-html-css-bootstrap`)
+2. JavaScript(1): 파이썬과 비교하며 익히는 기본 문법 (`web-javascript-basics`)
+3. JavaScript(2): 이벤트 처리와 DOM 조작 (`web-javascript-dom-events`)
+4. JavaScript(3): 폼 처리와 Fetch API (`web-form-fetch`)
 
-### 13. Django (6편)
-1. Django 시작하기: 프로젝트·앱·MTV 구조
-2. Form과 ModelForm: 입력 검증 자동화
-3. ORM: 조회·집계·JOIN·CRUD
-4. 페이징: Paginator로 목록 나누기
-5. 사용자 인증: 회원가입과 로그인
-6. SSE 스트리밍 채팅: StreamingHttpResponse로 응답 흘려보내기
+### 13. Django (7편) — 초안 완료 (`django/`, series 'Django', Tech/Django). mypoll 투표앱은 Projects 대신 이 시리즈에서 다룸
+1. 웹 요청의 흐름과 프로젝트·앱·MVT 구조 (`django-getting-started`)
+2. Model과 ORM으로 데이터 다루기 (`django-model-orm`)
+3. View와 Template으로 설문 앱 만들기 (`django-polls-views`)
+4. Form과 FormSet으로 입력 검증하기 (`django-form-formset`)
+5. Paginator로 목록 페이지 나누기 (`django-pagination`)
+6. 회원 가입·로그인과 쿠키·세션 (`django-auth`)
+7. 정적 파일과 SSE 스트리밍 채팅 (`django-sse-chat`)
 
-### 14. AWS (5편) + Docker
-1. 클라우드 개요와 AWS 시작하기: 서비스 유형과 계정 보안
-2. EC2: VPC·인스턴스 생성과 접속 (+ 탄력적 IP)
-3. EC2 개발 환경: uv·VSCode 원격 접속·Docker
-4. RDS: 데이터베이스 서버 분리하기
-5. 배포: EC2에서 Streamlit·Django 서비스하기 (nginx·Gunicorn)
-- 별도: Docker 입문: 이미지·컨테이너 기본 명령어
+### 14. AWS (4편) — 초안 완료 (`aws/`, series 'AWS', Infra/AWS) + Docker
+1. 클라우드 개요와 AWS 계정 시작하기 (`aws-cloud-overview`)
+2. VPC와 EC2 인스턴스 만들고 SSH로 접속하기 (+ 탄력적 IP) (`aws-ec2`)
+3. EC2 개발 환경 구성과 RDS로 DB 분리하기 (`aws-ec2-dev-rds`)
+4. EC2에 Django 배포하기 (NGINX·Gunicorn·RDS) (`aws-django-deploy`)
+- 별도: Docker 입문 — 초안 완료 (`devops/docker-basics`, 사용자 요청으로 Tech/Etc (Tech))
 
-### 15. 소프트웨어 공학 (6편)
-1. 요구사항 분석: 수집 기법과 산출물
-2. 유즈케이스: 명세서 작성법
-3. 화면 설계: 와이어프레임과 메뉴 구조도
-4. 테이블 정의서: 컬럼·제약조건·인덱스 정리
-5. 테스트 설계: 테스트 케이스 작성법
-6. 시스템 구성도: 아키텍처 다이어그램 그리기
+### 15. 소프트웨어 공학 (4편) — 초안 완료 (`swe/`, series '소프트웨어 공학', Tech/SW Engineering). 예시는 mypoll에 적용
+1. 요구사항 분석과 요구사항 명세서 (`swe-requirements`)
+2. 유즈케이스 명세서 쓰기 (`swe-usecase`)
+3. 메뉴 구조도·화면 설계서·테이블 정의서 (`swe-screen-table`)
+4. 테스트 케이스 설계와 시스템 구성도 (`swe-test-architecture`)
 
 ## 4. 범위 밖
-- `00_단위프로젝트`, `주유소가격 데이터 분석 실습`, `mypoll`(루트) → 나중에 Projects 컬렉션에서 다룬다
+- `00_단위프로젝트`, `주유소가격 데이터 분석 실습` → 나중에 Projects 컬렉션에서 다룬다 (`mypoll`은 Django 시리즈로 이동)
 - `SKN31-inst`, `jdk-21_windows-x64_bin`, `새 폴더` → 블로그 대상 아님

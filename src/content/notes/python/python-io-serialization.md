@@ -6,8 +6,9 @@ subcategory: 'Python'
 series: 'Python 기초'
 seriesOrder: 9
 originalNotebook: "09_입출력.ipynb"
-tags: ["Python","IO","Serialization"]
-date: 2026-04-21
+tags: ["Python"]
+date: 2026-04-22T10:00:00+09:00
+thumbnail: '../../../assets/images/notes/python/python-io-serialization.webp'
 ---
 
 > SKN31 Python 과정 노트북 `09_입출력.ipynb`와 `simple_memo.py`를 바탕으로 정리했습니다.

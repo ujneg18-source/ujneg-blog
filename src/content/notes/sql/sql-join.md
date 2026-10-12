@@ -6,8 +6,9 @@ subcategory: 'SQL'
 series: 'SQL 기초'
 seriesOrder: 6
 originalNotebook: "05_join.sql"
-tags: ["SQL","MySQL","JOIN","Foreign Key"]
-date: 2026-04-23
+tags: ["SQL"]
+date: 2026-04-26T10:00:00+09:00
+thumbnail: '../../../assets/images/notes/sql/sql-join.webp'
 ---
 
 > SKN31 SQL 실습 파일 `05_join.sql`의 필기를 바탕으로 정리했습니다. Foreign Key 부분은 수업 자료(`SQL.pdf`) 내용을 함께 정리했습니다.

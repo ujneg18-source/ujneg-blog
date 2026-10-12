@@ -2,12 +2,13 @@
 title: "Selenium: 브라우저를 움직여 동적 페이지 수집하기"
 description: "requests로 받을 수 없는 동적 페이지를 Selenium으로 수집하는 방법을 정리합니다. WebDriver 생성, 요소 조회와 입력·클릭, headless 모드, 대기, 무한 스크롤 처리까지 다룹니다."
 category: 'Tech'
-subcategory: 'Data Engineering'
+subcategory: 'Web Crawling'
 series: '데이터 수집'
 seriesOrder: 3
 originalNotebook: "03_Selenium.ipynb"
-tags: ["Python","Crawling","Selenium"]
-date: 2026-04-27
+tags: ["Web Crawling"]
+date: 2026-04-27T11:00:00+09:00
+thumbnail: '../../../assets/images/notes/crawling/crawling-selenium.webp'
 ---
 
 > SKN31 웹 크롤링 실습 노트북 `03_Selenium.ipynb`의 필기를 바탕으로 정리했습니다.

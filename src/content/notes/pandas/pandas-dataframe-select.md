@@ -1,13 +1,14 @@
 ---
-title: "DataFrame 조회: 열 선택·loc·iloc·boolean indexing·query"
+title: "DataFrame 조회: loc·iloc·boolean indexing"
 description: "DataFrame에서 열을 고르는 방법(이름, fancy indexing, select_dtypes, filter)과 행을 고르는 loc·iloc, 조건으로 행을 고르는 boolean indexing과 query()를 영화 데이터 실습과 함께 정리합니다."
 category: 'Tech'
 subcategory: 'Data Analysis'
 series: 'Pandas'
 seriesOrder: 4
 originalNotebook: "02_Pandas_DataFrame.ipynb (3)"
-tags: ["Python","Pandas","DataFrame","loc","query"]
-date: 2026-05-04
+tags: ["Data Analysis","Pandas"]
+date: 2026-05-04T10:00:00+09:00
+thumbnail: '../../../assets/images/notes/pandas/pandas-dataframe-select.webp'
 ---
 
 > SKN31 데이터 분석 실습 노트북 `02_Pandas_DataFrame.ipynb`의 뒷부분(행·열 조회)을 바탕으로 정리했습니다.

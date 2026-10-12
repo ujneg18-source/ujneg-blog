@@ -1,13 +1,14 @@
 ---
-title: "성능 개선: 모델 크기·Dropout·Batch Normalization·학습률 스케줄러"
+title: "성능 개선: Dropout·BatchNorm·학습률 스케줄러"
 description: "과대적합과 과소적합을 구분하고, MNIST에서 작은 모델·큰 모델·Dropout 모델·Batch Normalization 모델을 같은 조건으로 학습시켜 train/validation 곡선을 비교합니다. 학습 함수를 모듈로 분리하는 방법과 StepLR·CosineAnnealingLR·CosineAnnealingWarmRestarts 학습률 스케줄러도 정리합니다."
 category: 'Tech'
-subcategory: 'Machine Learning'
+subcategory: 'Deep Learning'
 series: '딥러닝'
 seriesOrder: 8
 originalNotebook: "08_1_딥러닝모델_성능개선.ipynb, 08_2_딥러닝모델_성능개선_예제.ipynb"
-tags: ["Python","PyTorch","Overfitting","Dropout","BatchNorm","LR Scheduler"]
-date: 2026-06-11
+tags: ["Deep Learning","PyTorch"]
+date: 2026-06-01T10:00:00+09:00
+thumbnail: '../../../assets/images/notes/dl/dl-performance.webp'
 ---
 
 > SKN31 딥러닝 과정 노트북 `08_1_딥러닝모델_성능개선.ipynb`, `08_2_딥러닝모델_성능개선_예제.ipynb`를 바탕으로 정리했습니다.

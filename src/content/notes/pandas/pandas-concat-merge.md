@@ -6,8 +6,9 @@ subcategory: 'Data Analysis'
 series: 'Pandas'
 seriesOrder: 6
 originalNotebook: "04_Pandas_DataFrame_합치기.ipynb"
-tags: ["Python","Pandas","merge","concat"]
-date: 2026-05-06
+tags: ["Data Analysis","Pandas"]
+date: 2026-05-07T10:00:00+09:00
+thumbnail: '../../../assets/images/notes/pandas/pandas-concat-merge.webp'
 ---
 
 > SKN31 데이터 분석 실습 노트북 `04_Pandas_DataFrame_합치기.ipynb`의 필기를 바탕으로 정리했습니다.

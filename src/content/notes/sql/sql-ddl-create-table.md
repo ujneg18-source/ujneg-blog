@@ -6,8 +6,9 @@ subcategory: 'SQL'
 series: 'SQL 기초'
 seriesOrder: 2
 originalNotebook: "01_DDL.sql"
-tags: ["SQL","MySQL","DDL","Constraint"]
-date: 2026-04-21
+tags: ["SQL"]
+date: 2026-04-22T12:00:00+09:00
+thumbnail: '../../../assets/images/notes/sql/sql-ddl-create-table.webp'
 ---
 
 > SKN31 SQL 실습 파일 `01_DDL.sql`의 필기를 바탕으로 정리했습니다.

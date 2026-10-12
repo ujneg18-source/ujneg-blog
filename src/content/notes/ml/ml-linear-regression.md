@@ -4,10 +4,11 @@ description: "선형 회귀 모델의 가중치와 절편의 의미, LinearRegre
 category: 'Tech'
 subcategory: 'Machine Learning'
 series: '머신러닝'
-seriesOrder: 14
+seriesOrder: 12
 originalNotebook: "12_선형모델_선형회귀.ipynb"
-tags: ["Python","scikit-learn","Linear Regression","Ridge","Lasso"]
-date: 2026-05-28
+tags: ["Machine Learning","scikit-learn"]
+date: 2026-05-24T10:00:00+09:00
+thumbnail: '../../../assets/images/notes/ml/ml-linear-regression.webp'
 ---
 
 > SKN31 머신러닝 과정 노트북 `12_선형모델_선형회귀.ipynb`의 필기를 바탕으로 정리했습니다.

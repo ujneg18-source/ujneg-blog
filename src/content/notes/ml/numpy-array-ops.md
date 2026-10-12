@@ -2,12 +2,13 @@
 title: "NumPy 배열 다루기: 인덱싱·형태 변경·벡터 연산"
 description: "NumPy 배열에서 인덱싱·팬시 인덱싱·슬라이싱·boolean 인덱싱으로 원소를 조회하고, reshape·newaxis·squeeze·transpose로 형태를 바꾸고, 벡터 연산·내적·행렬곱·기술통계·브로드캐스팅까지 실행 결과와 함께 정리합니다."
 category: 'Tech'
-subcategory: 'Machine Learning'
-series: '머신러닝'
+subcategory: 'Data Analysis'
+series: 'NumPy'
 seriesOrder: 2
 originalNotebook: "00_2_Numpy_배열 원소 조회_배열 형태변경_연산.ipynb"
-tags: ["Python","NumPy","Broadcasting"]
-date: 2026-05-12
+tags: ["Data Analysis","NumPy"]
+date: 2026-05-12T10:00:00+09:00
+thumbnail: '../../../assets/images/notes/ml/numpy-array-ops.webp'
 ---
 
 > SKN31 머신러닝 과정 노트북 `00_2_Numpy_배열 원소 조회…ipynb`의 필기를 바탕으로 정리했습니다.

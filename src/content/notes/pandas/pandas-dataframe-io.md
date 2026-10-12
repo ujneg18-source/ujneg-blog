@@ -6,8 +6,9 @@ subcategory: 'Data Analysis'
 series: 'Pandas'
 seriesOrder: 2
 originalNotebook: "02_Pandas_DataFrame.ipynb (1)"
-tags: ["Python","Pandas","DataFrame","CSV"]
-date: 2026-04-30
+tags: ["Data Analysis","Pandas"]
+date: 2026-04-30T10:00:00+09:00
+thumbnail: '../../../assets/images/notes/pandas/pandas-dataframe-io.webp'
 ---
 
 > SKN31 데이터 분석 실습 노트북 `02_Pandas_DataFrame.ipynb`의 앞부분(생성과 입출력)을 바탕으로 정리했습니다. 노트북이 길어서 생성·입출력, 기본 정보·변경, 조회의 세 글로 나눴습니다.

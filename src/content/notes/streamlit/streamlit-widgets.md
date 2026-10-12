@@ -6,8 +6,9 @@ subcategory: 'Python'
 series: 'Streamlit'
 seriesOrder: 2
 originalNotebook: "streamlit/02_table_metric.py, 03_input_widget.py"
-tags: ["Python","Streamlit","Widget"]
-date: 2026-04-21
+tags: ["Python","Streamlit"]
+date: 2026-04-22T10:40:00+09:00
+thumbnail: '../../../assets/images/notes/streamlit/streamlit-widgets.webp'
 ---
 
 > SKN31 Python 과정의 Streamlit 실습 파일 `02_table_metric.py`, `03_input_widget.py`를 바탕으로 정리했습니다.

@@ -4,10 +4,11 @@ description: "머신러닝에서 최적화의 의미와 손실함수(Loss Functi
 category: 'Tech'
 subcategory: 'Machine Learning'
 series: '머신러닝'
-seriesOrder: 13
+seriesOrder: 11
 originalNotebook: "11_최적화-경사하강법.ipynb"
-tags: ["Python","Optimization","Gradient Descent","Loss Function"]
-date: 2026-05-27
+tags: ["Machine Learning","scikit-learn"]
+date: 2026-05-23T10:00:00+09:00
+thumbnail: '../../../assets/images/notes/ml/ml-gradient-descent.webp'
 ---
 
 > SKN31 머신러닝 과정 노트북 `11_최적화-경사하강법.ipynb`의 필기를 바탕으로 정리했습니다.

@@ -6,8 +6,9 @@ subcategory: 'Python'
 series: 'Streamlit'
 seriesOrder: 3
 originalNotebook: "streamlit/04_layout_cache.py, 05_sidebar.py, 06_paging.py"
-tags: ["Python","Streamlit","Cache"]
-date: 2026-04-21
+tags: ["Python","Streamlit"]
+date: 2026-04-22T11:00:00+09:00
+thumbnail: '../../../assets/images/notes/streamlit/streamlit-app-structure.webp'
 ---
 
 > SKN31 Python 과정의 Streamlit 실습 파일 `04_layout_cache.py`, `05_sidebar.py`, `06_paging.py`와 `pages__` 폴더를 바탕으로 정리했습니다.

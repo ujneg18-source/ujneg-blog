@@ -4,10 +4,11 @@ description: "서포트 벡터 머신(SVM)의 결정경계와 마진, Hard/Soft 
 category: 'Tech'
 subcategory: 'Machine Learning'
 series: '머신러닝'
-seriesOrder: 9
+seriesOrder: 7
 originalNotebook: "07_SVM.ipynb"
-tags: ["Python","scikit-learn","SVM","Kernel"]
-date: 2026-05-21
+tags: ["Machine Learning","scikit-learn"]
+date: 2026-05-19T10:00:00+09:00
+thumbnail: '../../../assets/images/notes/ml/ml-svm.webp'
 ---
 
 > SKN31 머신러닝 과정 노트북 `07_SVM.ipynb`의 필기를 바탕으로 정리했습니다.

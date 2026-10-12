@@ -2,12 +2,13 @@
 title: "NumPy 기초: ndarray 생성과 파일 저장"
 description: "머신러닝 데이터의 기본 자료구조인 NumPy 배열(ndarray)의 축·랭크·shape 개념을 정리하고, array·zeros·ones·full·arange·linspace·난수 함수로 배열을 만들고 npy·npz·csv로 저장하고 불러오는 방법을 실행 결과와 함께 다룹니다."
 category: 'Tech'
-subcategory: 'Machine Learning'
-series: '머신러닝'
+subcategory: 'Data Analysis'
+series: 'NumPy'
 seriesOrder: 1
 originalNotebook: "00_1_Numpy개요_배열생성.ipynb"
-tags: ["Python","NumPy","ndarray"]
-date: 2026-05-11
+tags: ["Data Analysis","NumPy"]
+date: 2026-05-11T10:00:00+09:00
+thumbnail: '../../../assets/images/notes/ml/numpy-basics.webp'
 ---
 
 > SKN31 머신러닝 과정 노트북 `00_1_Numpy개요_배열생성.ipynb`의 필기를 바탕으로 정리했습니다.

@@ -4,10 +4,11 @@ description: "비지도 학습인 군집(Clustering)의 쓰임새와 K-Means 알
 category: 'Tech'
 subcategory: 'Machine Learning'
 series: '머신러닝'
-seriesOrder: 16
+seriesOrder: 14
 originalNotebook: "14 군집_Clustering.ipynb"
-tags: ["Python","scikit-learn","Clustering","K-Means","Unsupervised Learning"]
-date: 2026-06-01
+tags: ["Machine Learning","scikit-learn"]
+date: 2026-05-26T10:00:00+09:00
+thumbnail: '../../../assets/images/notes/ml/ml-clustering.webp'
 ---
 
 > SKN31 머신러닝 과정 노트북 `14 군집_Clustering.ipynb`의 필기를 바탕으로 정리했습니다.

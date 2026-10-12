@@ -6,8 +6,9 @@ subcategory: 'Data Analysis'
 series: '데이터 시각화'
 seriesOrder: 3
 originalNotebook: "03_Pandas 시각화.ipynb"
-tags: ["Python","Pandas","Matplotlib","Visualization"]
-date: 2026-05-08
+tags: ["Data Analysis","Matplotlib"]
+date: 2026-05-08T10:00:00+09:00
+thumbnail: '../../../assets/images/notes/visualization/viz-pandas-plot.webp'
 ---
 
 > SKN31 데이터 분석 실습 노트북 `03_Pandas 시각화.ipynb`의 필기를 바탕으로 정리했습니다.

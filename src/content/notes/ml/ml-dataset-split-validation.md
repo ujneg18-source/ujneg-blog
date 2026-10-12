@@ -4,10 +4,11 @@ description: "Train·Validation·Test 데이터셋의 역할과 하이퍼파라�
 category: 'Tech'
 subcategory: 'Machine Learning'
 series: '머신러닝'
-seriesOrder: 5
+seriesOrder: 3
 originalNotebook: "03_데이터셋 나누기와 모델검증.ipynb"
-tags: ["Python","scikit-learn","Cross Validation","KFold"]
-date: 2026-05-15
+tags: ["Machine Learning","scikit-learn"]
+date: 2026-05-15T10:00:00+09:00
+thumbnail: '../../../assets/images/notes/ml/ml-dataset-split-validation.webp'
 ---
 
 > SKN31 머신러닝 과정 노트북 `03_데이터셋 나누기와 모델검증.ipynb`의 필기를 바탕으로 정리했습니다.

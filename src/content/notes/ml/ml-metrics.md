@@ -4,10 +4,11 @@ description: "불균형 데이터에서 정확도의 한계를 확인하고, 혼
 category: 'Tech'
 subcategory: 'Machine Learning'
 series: '머신러닝'
-seriesOrder: 7
+seriesOrder: 5
 originalNotebook: "05_평가지표.ipynb"
-tags: ["Python","scikit-learn","Metrics","Precision","Recall","ROC"]
-date: 2026-05-19
+tags: ["Machine Learning","scikit-learn"]
+date: 2026-05-17T10:00:00+09:00
+thumbnail: '../../../assets/images/notes/ml/ml-metrics.webp'
 ---
 
 > SKN31 머신러닝 과정 노트북 `05_평가지표.ipynb`와 수업 중 만든 `metrics.py` 모듈을 바탕으로 정리했습니다.

@@ -7,7 +7,8 @@ series: 'Streamlit'
 seriesOrder: 1
 originalNotebook: "streamlit/00_streamlit.md, 01_write.py"
 tags: ["Python","Streamlit"]
-date: 2026-04-20
+date: 2026-04-22T10:20:00+09:00
+thumbnail: '../../../assets/images/notes/streamlit/streamlit-getting-started.webp'
 ---
 
 > SKN31 Python 과정에서 정리한 `streamlit/00_streamlit.md`와 실습 파일 `01_write.py`를 바탕으로 정리했습니다.

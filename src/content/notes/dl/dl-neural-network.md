@@ -2,12 +2,13 @@
 title: "신경망 구조: 레이어·활성 함수·손실 함수·역전파"
 description: "신경망의 구성요소인 유닛과 레이어, 은닉층에 비선형성을 주는 활성 함수(Sigmoid·Tanh·ReLU·Leaky ReLU·Softmax), 문제 유형별 출력층과 손실 함수, 계산 그래프와 연쇄 법칙으로 이해하는 역전파, 미니배치 경사하강법과 Adam 등 옵티마이저를 정리하고, Universal Approximation Theorem을 직접 실험합니다."
 category: 'Tech'
-subcategory: 'Machine Learning'
+subcategory: 'Deep Learning'
 series: '딥러닝'
 seriesOrder: 5
 originalNotebook: "05_신경망 구조.ipynb, 05_Universal_Approximation_Theorem.ipynb"
-tags: ["Python","PyTorch","Activation Function","Backpropagation","Optimizer"]
-date: 2026-06-08
+tags: ["Deep Learning","PyTorch"]
+date: 2026-05-28T10:00:00+09:00
+thumbnail: '../../../assets/images/notes/dl/dl-neural-network.webp'
 ---
 
 > SKN31 딥러닝 과정 노트북 `05_신경망 구조.ipynb`와 `05_Universal_Approximation_Theorem.ipynb`를 바탕으로 정리했습니다.

@@ -6,8 +6,9 @@ subcategory: 'Python'
 series: 'Python 기초'
 seriesOrder: 2
 originalNotebook: "02_변수와 데이터타입.ipynb"
-tags: ["Python","Variable","Data Type"]
-date: 2026-04-13
+tags: ["Python"]
+date: 2026-04-15T10:00:00+09:00
+thumbnail: '../../../assets/images/notes/python/python-variables-data-types.webp'
 ---
 
 > SKN31 Python 과정 노트북 `02_변수와 데이터타입.ipynb`의 필기를 바탕으로 정리했습니다.

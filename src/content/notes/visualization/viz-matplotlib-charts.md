@@ -1,13 +1,14 @@
 ---
-title: "Matplotlib 주요 그래프: 선·산점도·막대·파이·히스토그램·상자"
+title: "Matplotlib 주요 그래프 6가지"
 description: "삼성전자·삼성바이오로직스 주가로 선 그래프와 이중 Y축을, 다이아몬드 데이터로 산점도와 상관계수를, 강수량·브라우저 점유율·팁 데이터로 막대·파이·히스토그램·상자 그래프를 그려 보며 그래프마다 언제 쓰는지 정리합니다."
 category: 'Tech'
 subcategory: 'Data Analysis'
 series: '데이터 시각화'
 seriesOrder: 2
 originalNotebook: "02_matplotlib_주요그래프.ipynb"
-tags: ["Python","Matplotlib","Visualization"]
-date: 2026-05-07
+tags: ["Data Analysis","Matplotlib"]
+date: 2026-05-07T11:00:00+09:00
+thumbnail: '../../../assets/images/notes/visualization/viz-matplotlib-charts.webp'
 ---
 
 > SKN31 데이터 분석 실습 노트북 `02_matplotlib_주요그래프.ipynb`의 필기를 바탕으로 정리했습니다.

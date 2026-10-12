@@ -6,8 +6,9 @@ subcategory: 'Data Analysis'
 series: 'Pandas'
 seriesOrder: 3
 originalNotebook: "02_Pandas_DataFrame.ipynb (2)"
-tags: ["Python","Pandas","DataFrame"]
-date: 2026-04-30
+tags: ["Data Analysis","Pandas"]
+date: 2026-05-01T10:00:00+09:00
+thumbnail: '../../../assets/images/notes/pandas/pandas-dataframe-modify.webp'
 ---
 
 > SKN31 데이터 분석 실습 노트북 `02_Pandas_DataFrame.ipynb`의 중간 부분(기본 정보 조회부터 파생변수까지)을 바탕으로 정리했습니다.

@@ -6,8 +6,9 @@ subcategory: 'Python'
 series: 'Python 기초'
 seriesOrder: 5
 originalNotebook: "05_함수.ipynb"
-tags: ["Python","Function","Lambda"]
-date: 2026-04-16
+tags: ["Python"]
+date: 2026-04-18T10:00:00+09:00
+thumbnail: '../../../assets/images/notes/python/python-functions.webp'
 ---
 
 > SKN31 Python 과정 노트북 `05_함수.ipynb`의 필기를 바탕으로 정리했습니다.

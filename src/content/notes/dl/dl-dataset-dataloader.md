@@ -2,12 +2,13 @@
 title: "Dataset과 DataLoader: 데이터를 모델에 공급하기"
 description: "torchvision 내장 데이터셋(MNIST, CIFAR10)과 transform(ToTensor, Normalize, Compose), DataLoader의 batch·shuffle·drop_last, __len__과 __getitem__으로 만드는 Custom Dataset, 메모리 데이터를 감싸는 TensorDataset, Subset과 random_split으로 train/validation 나누기까지 실행 결과와 함께 정리합니다."
 category: 'Tech'
-subcategory: 'Machine Learning'
+subcategory: 'Deep Learning'
 series: '딥러닝'
 seriesOrder: 6
 originalNotebook: "06_Dataset과 DataLoader.ipynb"
-tags: ["Python","PyTorch","Dataset","DataLoader","torchvision"]
-date: 2026-06-09
+tags: ["Deep Learning","PyTorch"]
+date: 2026-05-29T10:00:00+09:00
+thumbnail: '../../../assets/images/notes/dl/dl-dataset-dataloader.webp'
 ---
 
 > SKN31 딥러닝 과정 노트북 `06_Dataset과 DataLoader.ipynb`를 바탕으로 정리했습니다.

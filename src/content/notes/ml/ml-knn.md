@@ -4,10 +4,11 @@ description: "K-최근접 이웃(KNN)이 분류와 회귀에서 추론하는 방
 category: 'Tech'
 subcategory: 'Machine Learning'
 series: '머신러닝'
-seriesOrder: 10
+seriesOrder: 8
 originalNotebook: "08_최근접이웃.ipynb"
-tags: ["Python","scikit-learn","KNN"]
-date: 2026-05-22
+tags: ["Machine Learning","scikit-learn"]
+date: 2026-05-20T10:00:00+09:00
+thumbnail: '../../../assets/images/notes/ml/ml-knn.webp'
 ---
 
 > SKN31 머신러닝 과정 노트북 `08_최근접이웃.ipynb`의 필기를 바탕으로 정리했습니다.

@@ -7,6 +7,7 @@ description: |
   DB 설계와 드라이버 순위 페이지를 단독 담당.
 techStack: ["Python", "Streamlit", "MySQL", "Pandas", "BeautifulSoup", "Plotly"]
 githubUrl: "https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN31-1st-2Team"
+thumbnail: ../../assets/images/projects/f1-dashboard/1.jpg
 status: "Completed"
 ---
 

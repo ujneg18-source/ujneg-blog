@@ -6,8 +6,9 @@ subcategory: 'Data Analysis'
 series: 'Pandas'
 seriesOrder: 5
 originalNotebook: "03_Pandas_정렬_집계.ipynb"
-tags: ["Python","Pandas","groupby","pivot_table"]
-date: 2026-05-06
+tags: ["Data Analysis","Pandas"]
+date: 2026-05-06T10:00:00+09:00
+thumbnail: '../../../assets/images/notes/pandas/pandas-sort-aggregate.webp'
 ---
 
 > SKN31 데이터 분석 실습 노트북 `03_Pandas_정렬_집계.ipynb`의 필기를 바탕으로 정리했습니다.

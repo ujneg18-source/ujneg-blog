@@ -4,10 +4,11 @@ description: "일반화·과대적합·과소적합의 개념과 규제 하이�
 category: 'Tech'
 subcategory: 'Machine Learning'
 series: '머신러닝'
-seriesOrder: 8
+seriesOrder: 6
 originalNotebook: "06_과적합_일반화_그리드서치_파이프라인.ipynb"
-tags: ["Python","scikit-learn","Overfitting","GridSearchCV","Pipeline"]
-date: 2026-05-20
+tags: ["Machine Learning","scikit-learn"]
+date: 2026-05-18T10:00:00+09:00
+thumbnail: '../../../assets/images/notes/ml/ml-gridsearch-pipeline.webp'
 ---
 
 > SKN31 머신러닝 과정 노트북 `06_과적합_일반화_그리드서치_파이프라인.ipynb`의 필기를 바탕으로 정리했습니다.

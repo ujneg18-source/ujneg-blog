@@ -6,8 +6,9 @@ subcategory: 'SQL'
 series: 'SQL 기초'
 seriesOrder: 3
 originalNotebook: "02_basic_select.sql"
-tags: ["SQL","MySQL","SELECT","WHERE"]
-date: 2026-04-22
+tags: ["SQL"]
+date: 2026-04-23T10:00:00+09:00
+thumbnail: '../../../assets/images/notes/sql/sql-select-basics.webp'
 ---
 
 > SKN31 SQL 실습 파일 `02_basic_select.sql`의 필기를 바탕으로 정리했습니다.

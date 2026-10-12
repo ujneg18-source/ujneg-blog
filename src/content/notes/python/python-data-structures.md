@@ -6,8 +6,9 @@ subcategory: 'Python'
 series: 'Python 기초'
 seriesOrder: 3
 originalNotebook: "03_자료구조.ipynb"
-tags: ["Python","List","Tuple","Dictionary","Set"]
-date: 2026-04-13
+tags: ["Python"]
+date: 2026-04-16T10:00:00+09:00
+thumbnail: '../../../assets/images/notes/python/python-data-structures.webp'
 ---
 
 > SKN31 Python 과정 노트북 `03_자료구조.ipynb`의 필기를 바탕으로 정리했습니다.
