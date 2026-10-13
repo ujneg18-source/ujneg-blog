@@ -1,6 +1,6 @@
 ---
 title: "KKBOX 구독자 이탈 예측"
-period: "2026.06.02 - 2026.06.04"
+period: "2026.05.28 - 2026.06.04"
 description: |
   아시아 음악 스트리밍 서비스 KKBOX의 실제 구독자 데이터로 고객 이탈을 예측하는 머신러닝 모델.
   LightGBM · XGBoost · Decision Tree를 비교하고, 결과를 Streamlit 대시보드로 시각화했다.
@@ -8,6 +8,7 @@ techStack: ["Python", "Pandas", "LightGBM", "XGBoost", "scikit-learn", "Streamli
 githubUrl: "https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN31-2nd-4Team"
 thumbnail: ../../assets/images/projects/kkbox-churn/1.jpg
 status: "Completed"
+type: "toy"
 ---
 
 ## 1. 프로젝트 개요
@@ -16,7 +17,7 @@ KKBOX가 Kaggle에 공개한 실제 구독자 데이터로, **구독 만료 후 
 
 | 항목 | 내용 |
 |------|------|
-| 수행 기간 | 2026.06.02 ~ 06.04 (3일) |
+| 수행 기간 | 2026.05.28 ~ 06.04 (공식 일정 06.02 ~ 06.04) |
 | 팀 | 영크크Box (5인) · SK네트웍스 Family AI 캠프 2차 프로젝트 |
 | 담당 | 데이터 전처리, LightGBM 모델링, 데이터·모델 산출물 작성 |
 
@@ -41,16 +42,41 @@ KKBOX가 Kaggle에 공개한 실제 구독자 데이터로, **구독 만료 후 
 
 ## 3. 모델링
 
-LightGBM, XGBoost, Decision Tree를 비교하고, Kaggle 공식 지표인 Log Loss를 기준으로 최종 모델을 골랐다. 최종 모델은 LightGBM이다.
+### 학습 데이터
 
-| 지표 | LightGBM (최종) |
+| 항목 | 내용 |
 |------|------|
-| Test AUC | 0.9927 |
-| F1 | 0.8738 |
+| 학습 / 검증 / 평가 | 516,580 / 172,193 / 172,194 행 |
+| 사용 피처 | 32개 |
+| 이탈률 | 약 9.46% (클래스 불균형) |
+| 불균형 대응 | `scale_pos_weight = 9.57`, `class_weight='balanced'` |
+| 튜닝 | GridSearchCV (5-fold, AUC 기준) |
+
+### 모델 비교
+
+| 모델 | AUC | F1 | Log Loss |
+|------|------|------|------|
+| **LightGBM (최종)** | **0.9927** | **0.8752** | **0.0733** |
+| XGBoost | 0.9918 | 0.8568 | 0.0915 |
+| Decision Tree | 0.9691 | 0.6859 | 0.2154 |
+
+AUC는 LightGBM과 XGBoost가 거의 같았지만, F1과 Log Loss에서 LightGBM이 앞섰다. SHAP으로 변수 영향을 설명할 수 있다는 점까지 고려해 LightGBM을 최종 모델로 골랐다.
 
 ### 이탈 요인 분석 (SHAP)
 
-가장 영향이 큰 변수는 `expire_day`(만료일), `is_auto_renew`(자동 갱신 여부), `is_cancel`(구독 취소 클릭)이었다.
+| 순위 | 변수 | 의미 |
+|------|------|------|
+| 1 | `expire_day` | 구독 만료일 |
+| 2 | `is_auto_renew` | 자동 갱신 여부 |
+| 3 | `expire_weekday` | 만료 요일 |
+| 4 | `trans_day` | 결제일 |
+| 5 | `is_cancel` | 구독 취소 클릭 |
+
+상위 변수 대부분이 결제·구독 관련 변수였다. 자동 갱신을 쓰지 않거나(`is_auto_renew=0`) 취소를 누른 고객(`is_cancel=1`)일수록 이탈 확률이 높아지는 방향으로 작용했다.
+
+### 위험군 분류
+
+예측 확률로 고객을 10개 구간(Risk Decile)으로 나눴다. **고위험군의 실제 이탈률은 31.5%로 전체 이탈률(9.46%)의 약 3.3배**였다. 모델이 이탈할 고객을 실제로 골라낸다는 뜻이다.
 
 ---
 

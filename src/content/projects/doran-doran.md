@@ -1,12 +1,12 @@
 ---
 title: "도란도란"
-period: "2026.06 - 2026.10"
+period: "2026.07 - 진행 중"
 description: |
   아이의 문해력 수준에 맞춰 우리 전래동화를 다시 써 주는 AI 플랫폼.
   진단 · 생성 · 학습 세 단계로 아이의 읽기를 돕는다.
   문화체육관광부 AI·데이터 활용 공모전 대상(장관상) 수상.
 techStack: ["React", "FastAPI", "LangGraph", "Gemini", "Qdrant", "Supabase", "Naver Clova TTS"]
-githubUrl: "https://github.com/doran-doran-ai/doran-doran"
+githubUrl: "https://github.com/doran-doran-ai/doran-doran-public"
 thumbnail: ../../assets/images/projects/doran-doran/1.jpg
 status: "Live"
 ---
@@ -17,6 +17,7 @@ status: "Live"
 
 | 항목 | 내용 |
 |------|------|
+| 기간 | 2026.07 ~ 진행 중 |
 | 팀 | 도란도란 (3인) |
 | 역할 | 팀장 · PM · 서비스 기획 · 발표 |
 | 담당 | 서비스 기획, 데이터 전처리, 문해력 단계 설계, LMS 기획, 프롬프트 엔지니어링 |

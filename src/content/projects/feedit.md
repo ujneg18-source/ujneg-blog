@@ -1,12 +1,12 @@
 ---
 title: "FEEDiT"
-period: "2026.08 - 2026.10"
+period: "2026.08.10 - 2026.10.06"
 description: |
   패션의 흐름을 읽고, 나에게 맞는 선택으로.
   패션 상품·리뷰·영상·댓글·검색 신호를 모아 트렌드 분석, AI 스타일 대화, 구매 판단(살!말?)으로 연결하는 서비스.
   SK네트웍스 Family AI 캠프 파이널 프로젝트.
 techStack: ["Vite", "Django", "Python", "PostgreSQL", "Celery", "Redis", "AWS EC2", "Vercel"]
-githubUrl: "https://github.com/feedit-official/feedit"
+githubUrl: "https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN31-FINAL-4Team"
 thumbnail: ../../assets/images/projects/feedit/1.jpg
 status: "Live"
 ---
@@ -17,10 +17,17 @@ status: "Live"
 
 | 항목 | 내용 |
 |------|------|
-| 팀 | FEEDiT (5인 · PM 1, 백엔드 2, 프론트엔드 2) |
-| 역할 | PM · 서비스 기획 |
+| 기간 | 2026.08.10 ~ 10.06 (38일) · SK네트웍스 Family AI 캠프 최종 프로젝트 |
+| 팀 | FEEDiT (5인 · PM 1, DB·백엔드 2, 프론트엔드·AI 에이전트 2) |
+| 역할 | PM · 총괄 · 서비스 기획 |
 | 서비스 | [fee-di-t-frontend.vercel.app](https://fee-di-t-frontend.vercel.app) |
-| 저장소 | [feedit-official/feedit](https://github.com/feedit-official/feedit) · [스타일 분류기](https://github.com/ujneg18-source/feedit-style-classifier) |
+| 저장소 | [feedit-official/feedit](https://github.com/feedit-official/feedit) · [제출 저장소](https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN31-FINAL-4Team) · [스타일 분류기](https://github.com/ujneg18-source/feedit-style-classifier) |
+
+### 해결하려는 문제
+
+- **감에 의존하는 트렌드 판단**: 언급과 관심의 변화를 숫자로 확인하기 어렵다.
+- **흩어진 구매 정보**: 가격, 콘텐츠 반응, 리세일 시세가 서로 다른 서비스에 있다.
+- **구매 직전의 망설임**: 내 취향과 지금 트렌드를 함께 고려한 근거가 부족하다.
 
 ---
 
@@ -48,7 +55,7 @@ status: "Live"
 
 ## 4. 패션 스타일 분류기
 
-상품 이미지를 14개 한국 패션 스타일로 자동 분류하는 모델이다. ZooClaw 임베딩과 Linear Classifier를 학습하며 베이스 모델을 비교했다.
+상품 이미지를 14개 한국 패션 스타일로 자동 분류하는 모델로, 데이터 파이프라인의 이미지 스타일 태깅 단계에 쓰인다. ZooClaw 임베딩과 Linear Classifier를 학습하며 베이스 모델을 비교했다.
 
 ### 데이터
 
@@ -74,7 +81,40 @@ status: "Live"
 
 ---
 
-## 5. 시스템 구성
+## 5. 데이터와 지표
+
+### 데이터 흐름
+
+| 단계 | 내용 |
+|------|------|
+| 수집 | 패션 커머스, 리세일 플랫폼, YouTube, 검색 신호를 각각 수집 |
+| 정규화 | 플랫폼마다 다른 상품·용어를 FEEDiT 표준 상품과 패션 사전에 연결 |
+| 저장 | 상품·브랜드 같은 기준 정보(Master)와 가격·랭킹 같은 변하는 값(Snapshot)을 분리, 수집 원본은 S3에 보관 |
+| 분석 | 정기 작업으로 지표를 계산해 API와 챗봇 도구에 제공 |
+
+### 여섯 가지 트렌드 지표
+
+언급량·온도, 연관어, 구매의향(리뷰·댓글의 긍부정), 수명주기(태동·확산·정점·쇠퇴), 할인율 변화, 리세일 시세. **수치가 없는 항목을 임의의 0으로 채우지 않고**, 관측이 부족하거나 추정된 값은 화면과 챗봇에서 구분해 표시한다.
+
+### 살말지수
+
+살!말? 모드는 상품과 취향 정보를 받아 다섯 신호를 모으고, 점수는 코드로 계산한다. 챗봇은 점수를 만들지 않고 이유와 부족한 근거를 설명한다.
+
+| 신호 | 가중치 | 보는 것 |
+|------|------:|------|
+| 취향 | 35% | 스타일·키워드와의 일치 |
+| 행동 | 25% | 검색·찜 등 사용자 활동 |
+| 트렌드 | 20% | 관심도와 변화 방향 |
+| 가격 | 15% | 현재 가격·할인 정보 |
+| 투표 | 5% | 커뮤니티의 살/말 의견 |
+
+- 없는 신호는 50점으로 채우지 않고 계산 분모에서 뺀다.
+- 지표·가격·상품 URL은 모델이 만들어내지 않고 데이터 도구의 결과만 쓴다.
+- 근거가 좁으면 낮은 신뢰도로 표시한다.
+
+---
+
+## 6. 시스템 구성
 
 ```
 사용자 → Vercel(프론트엔드 · Serverless API) → EC2 / nginx ─┬─ Django API ──── RDS PostgreSQL
@@ -87,7 +127,7 @@ Celery Beat → Redis → Celery Worker → 수집·텍스트 분석 → RDS · 
 
 ---
 
-## 6. 기술 스택
+## 7. 기술 스택
 
 | 분류 | 기술 |
 |------|------|

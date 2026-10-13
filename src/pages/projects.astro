@@ -6,7 +6,9 @@ import { Image } from 'astro:assets';
 const allProjects = await getCollection('projects');
 
 // Order projects (newest period first)
-const projects = allProjects.sort((a, b) => b.data.period.localeCompare(a.data.period));
+const sorted = allProjects.sort((a, b) => b.data.period.localeCompare(a.data.period));
+const mainProjects = sorted.filter((p) => p.data.type !== 'toy');
+const toyProjects = sorted.filter((p) => p.data.type === 'toy');
 ---
 
 <Layout title="Projects">
@@ -18,20 +20,26 @@ const projects = allProjects.sort((a, b) => b.data.period.localeCompare(a.data.p
         <span class="text-gradient-hero">MADE REAL.</span>
       </h1>
       
-      <h2 class="font-bold text-text-title mt-16 tracking-wide uppercase" style="font-size: 36px;">
-        {projects.length} PROJECTS
-      </h2>
+      <div class="flex flex-wrap gap-3 mt-16" role="tablist">
+        <button type="button" class="project-tab is-active" data-tab="main" role="tab" aria-selected="true">
+          서비스 <span class="tab-count">{mainProjects.length}</span>
+        </button>
+        <button type="button" class="project-tab" data-tab="toy" role="tab" aria-selected="false">
+          단기 프로젝트 <span class="tab-count">{toyProjects.length}</span>
+        </button>
+      </div>
+      <p data-panel="main" class="project-panel mt-5 text-[15px] text-text-secondary">기획부터 실제 배포까지 마친 프로젝트입니다.</p>
+      <p data-panel="toy" class="project-panel mt-5 text-[15px] text-text-secondary" style="display: none;">짧은 기간 동안 하나의 주제에 집중해 진행한 프로젝트입니다.</p>
     </div>
 
     <!-- Grid Projects -->
-    <div id="projects-list" class="grid grid-cols-1 md:grid-cols-2 gap-8" data-pagefind-body>
+    <div id="projects-list" data-panel="main" class="project-panel grid grid-cols-1 md:grid-cols-2 gap-8" data-pagefind-body>
       
-      {projects.map((project, idx) => {
+      {mainProjects.map((project) => {
         const isLive = project.data.status === 'Live';
         return (
           <div 
             class="project-item bg-surface rounded-[var(--radius-card)] overflow-hidden shadow-sm border border-border/60 flex flex-col group transition-all duration-300 hover:shadow-md"
-            style={idx >= 4 ? 'display: none;' : ''}
           >
             <!-- Thumbnail -->
             <div class="w-full bg-gray-100 dark:bg-slate-800/80 relative border-b border-border/60 flex flex-col items-center justify-center overflow-hidden aspect-[16/10]">
@@ -109,63 +117,72 @@ const projects = allProjects.sort((a, b) => b.data.period.localeCompare(a.data.p
 
     </div>
 
-    <!-- View More Toggle Button Container -->
-    <div id="projects-view-more-container" class="w-full flex justify-center mt-2 mb-8" style={projects.length <= 4 ? 'display: none;' : ''}>
-      <button 
-        id="projects-view-more-btn" 
-        class="inline-flex items-center gap-2.5 px-8 py-3.5 rounded-full bg-surface border border-border/80 hover:border-primary text-text-title text-[15px] font-[700] hover:text-primary transition-all shadow-sm hover:shadow-md cursor-pointer select-none group"
-      >
-        <span>View More</span>
-        <svg id="projects-view-more-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="text-primary transition-transform duration-300 ease-in-out"><path d="m6 9 6 6 6-6"></path></svg>
-      </button>
-    </div>
+    <!-- Toy Projects -->
+    {toyProjects.length > 0 && (
+      <section data-panel="toy" class="project-panel" style="display: none;">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6" data-pagefind-body>
+          {toyProjects.map((project) => (
+            <a
+              href={`/projects/${project.id}`}
+              class="group flex gap-5 items-center bg-surface rounded-[var(--radius-card)] p-5 shadow-sm border border-border/60 hover:shadow-md hover:border-primary/40 transition-all no-underline"
+            >
+              <div class="w-28 h-20 shrink-0 rounded-lg overflow-hidden bg-gray-100 dark:bg-slate-800/80 border border-border/60">
+                {project.data.thumbnail && (
+                  <Image src={project.data.thumbnail} alt={project.data.title} class="w-full h-full object-cover" />
+                )}
+              </div>
+              <div class="min-w-0 flex-1">
+                <h3 class="text-[17px] font-[700] text-text-title group-hover:text-primary transition-colors truncate">{project.data.title}</h3>
+                <div class="text-[13px] text-text-muted font-medium mt-0.5">{project.data.period}</div>
+                <div class="flex flex-wrap gap-1.5 mt-2.5">
+                  {project.data.techStack.slice(0, 4).map((tech: string) => (
+                    <span class="px-2 py-0.5 rounded-full bg-gray-100 dark:bg-slate-700/60 text-text-secondary text-[12px] font-[500]">{tech}</span>
+                  ))}
+                </div>
+              </div>
+            </a>
+          ))}
+        </div>
+      </section>
+    )}
   </div>
 </Layout>
 
+<style>
+  .project-tab {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 10px 22px; border-radius: 9999px;
+    border: 1px solid var(--color-border, #e5e7eb);
+    background: var(--color-surface, #fff);
+    color: var(--color-text-secondary, #6b7280);
+    font-size: 15px; font-weight: 700; cursor: pointer;
+    transition: all .2s;
+  }
+  .project-tab:hover { color: var(--color-text-title, #111827); }
+  .project-tab.is-active {
+    background: var(--color-text-title, #111827);
+    border-color: var(--color-text-title, #111827);
+    color: var(--color-surface, #fff);
+  }
+  .tab-count { font-size: 13px; font-weight: 600; opacity: .6; }
+</style>
+
 <script>
-  function setupProjectsViewMore() {
-    const container = document.getElementById('projects-list');
-    const btn = document.getElementById('projects-view-more-btn') as HTMLElement | null;
-    const btnContainer = document.getElementById('projects-view-more-container') as HTMLElement | null;
-    const icon = document.getElementById('projects-view-more-icon') as HTMLElement | null;
-    
-    if (!container || !btn || !btnContainer) return;
-    
-    let isExpanded = false;
-    
-    function updateVisibility() {
-      const items = Array.from(container!.querySelectorAll('.project-item')) as HTMLElement[];
-      
-      if (items.length <= 4) {
-        btnContainer!.style.display = 'none';
-        items.forEach(item => item.style.display = '');
-        return;
-      }
-
-      btnContainer!.style.display = 'flex';
-
-      items.forEach((item, idx) => {
-        if (!isExpanded && idx >= 4) {
-          item.style.display = 'none';
-        } else {
-          item.style.display = '';
-        }
+  function setupProjectTabs() {
+    const tabs = document.querySelectorAll<HTMLButtonElement>('.project-tab');
+    const panels = document.querySelectorAll<HTMLElement>('.project-panel');
+    tabs.forEach((tab) => {
+      tab.addEventListener('click', () => {
+        const key = tab.dataset.tab;
+        tabs.forEach((t) => {
+          const on = t === tab;
+          t.classList.toggle('is-active', on);
+          t.setAttribute('aria-selected', String(on));
+        });
+        panels.forEach((p) => { p.style.display = p.dataset.panel === key ? '' : 'none'; });
       });
-      
-      if (icon) {
-        icon.style.transform = isExpanded ? 'rotate(180deg)' : 'rotate(0deg)';
-      }
-    }
-    
-    // Initial check
-    updateVisibility();
-    
-    btn.addEventListener('click', () => {
-      isExpanded = !isExpanded;
-      updateVisibility();
     });
   }
-
-  document.addEventListener('DOMContentLoaded', setupProjectsViewMore);
-  document.addEventListener('astro:page-load', setupProjectsViewMore);
+  document.addEventListener('astro:page-load', setupProjectTabs);
+  document.addEventListener('DOMContentLoaded', setupProjectTabs);
 </script>

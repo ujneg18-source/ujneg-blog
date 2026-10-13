@@ -44,6 +44,7 @@ const projects = defineCollection({
     githubUrl: z.string().nullable().optional(),
     thumbnail: image().nullable().optional(),
     status: z.string().default('Completed'),
+    type: z.enum(['main', 'toy']).default('main'),
   }),
 });
 
