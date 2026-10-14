@@ -1,4 +1,5 @@
 ---
+import { SHOW_STORIES } from '../config/features';
 const pathname = new URL(Astro.request.url).pathname;
 const currentPath = pathname.slice(1); // remove leading slash
 ---
@@ -18,7 +19,7 @@ const currentPath = pathname.slice(1); // remove leading slash
       <a href="/about" class={`transition-colors hover:text-text-title ${currentPath === 'about' ? 'text-primary border-b-2 border-primary py-1' : 'text-text-secondary'}`}>About</a>
       <a href="/projects" class={`transition-colors hover:text-text-title ${currentPath === 'projects' ? 'text-primary border-b-2 border-primary py-1' : 'text-text-secondary'}`}>Projects</a>
       <a href="/notes" class={`transition-colors hover:text-text-title ${currentPath === 'notes' ? 'text-primary border-b-2 border-primary py-1' : 'text-text-secondary'}`}>Notes</a>
-      <a href="/stories" class={`transition-colors hover:text-text-title ${currentPath === 'stories' ? 'text-primary border-b-2 border-primary py-1' : 'text-text-secondary'}`}>Stories</a>
+      {SHOW_STORIES && <a href="/stories" class={`transition-colors hover:text-text-title ${currentPath === 'stories' ? 'text-primary border-b-2 border-primary py-1' : 'text-text-secondary'}`}>Stories</a>}
       <a href="/tags" class={`transition-colors hover:text-text-title ${currentPath === 'tags' ? 'text-primary border-b-2 border-primary py-1' : 'text-text-secondary'}`}>Tags</a>
       <a href="/contact" class={`transition-colors hover:text-text-title ${currentPath === 'contact' ? 'text-primary border-b-2 border-primary py-1' : 'text-text-secondary'}`}>Contact</a>
     </nav>

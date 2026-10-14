@@ -1,4 +1,5 @@
 ---
+import { SHOW_STORIES } from '../config/features';
 import { getCollection } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
 import { Image } from 'astro:assets';
@@ -9,7 +10,7 @@ import thumbBg from '../data/thumb-bg.json';
 // Fetch all content collections for real stats & latest updates
 const allProjects = await getCollection('projects');
 const allNotes = await getCollection('notes');
-const allStories = await getCollection('stories');
+const allStories = SHOW_STORIES ? await getCollection('stories') : [];
 
 const projectsCount = allProjects.length;
 const notesCount = allNotes.length;
@@ -114,11 +115,13 @@ const latestUpdates = unifiedItems.sort((a, b) => b.timestamp - a.timestamp).sli
             개인 공부 기록
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ml-1 opacity-50"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
           </a>
+          {SHOW_STORIES && (
           <a href="/stories" class="flex items-center gap-2 px-6 py-3 rounded-[var(--radius-btn)] bg-surface border border-border shadow-sm hover:shadow-[var(--shadow-card-hover)] hover:border-primary/30 transition-all font-medium text-sm no-underline text-text-title">
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary"><path d="M12 19l7-7 3 3-7 7-3-3z"></path><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path><path d="M2 2l7.586 7.586"></path><circle cx="11" cy="11" r="2"></circle></svg>
             스토리 보기
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ml-1 opacity-50"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
           </a>
+          )}
         </div>
       </div>
     </div>
@@ -126,7 +129,7 @@ const latestUpdates = unifiedItems.sort((a, b) => b.timestamp - a.timestamp).sli
 
   <!-- Stats Section (Connected to live data) -->
   <section class="py-12 border-t border-b border-border border-dashed">
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-8 divide-x divide-transparent md:divide-border/50">
+    <div class={`grid grid-cols-2 ${SHOW_STORIES ? 'md:grid-cols-4' : 'md:grid-cols-3'} gap-8 divide-x divide-transparent md:divide-border/50`}>
       
       <div class="flex flex-col items-center justify-center text-center">
         <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary mb-3"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
@@ -140,11 +143,13 @@ const latestUpdates = unifiedItems.sort((a, b) => b.timestamp - a.timestamp).sli
         <span class="text-[14.5px] font-[600] text-text-secondary">Notes</span>
       </div>
 
+      {SHOW_STORIES && (
       <div class="flex flex-col items-center justify-center text-center">
         <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary mb-3"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-0.5-5.006L20 17"></path></svg>
         <span class="text-[36px] font-[800] text-text-title leading-none mb-1">{storiesCount}</span>
         <span class="text-[14.5px] font-[600] text-text-secondary">Stories</span>
       </div>
+      )}
 
       <div class="flex flex-col items-center justify-center text-center">
         <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary mb-3"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>

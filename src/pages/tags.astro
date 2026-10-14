@@ -1,11 +1,12 @@
 ---
+import { SHOW_STORIES } from '../config/features';
 import { getCollection } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
 
 // Fetch all Content Collections
 const allProjects = await getCollection('projects');
 const allNotes = await getCollection('notes');
-const allStories = await getCollection('stories');
+const allStories = SHOW_STORIES ? await getCollection('stories') : [];
 
 const formattedProjects = allProjects.sort((a, b) => b.data.period.localeCompare(a.data.period)).map(item => ({
   date: item.data.period.split(' - ')[0] || item.data.period,
@@ -57,7 +58,7 @@ function getTagStyles(freq: number) {
     
     <!-- Top Section: Projects / Notes / Stories Columns -->
     <section class="mb-6">
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 md:gap-6">
+      <div class={`grid grid-cols-1 ${SHOW_STORIES ? 'lg:grid-cols-3' : 'lg:grid-cols-2'} gap-8 md:gap-6`}>
         
         <!-- Projects Column -->
         <div class="flex flex-col min-w-0">
@@ -90,6 +91,7 @@ function getTagStyles(freq: number) {
         </div>
 
         <!-- Stories Column -->
+        {SHOW_STORIES && (
         <div class="flex flex-col min-w-0">
           <h2 class="text-[22px] font-[800] text-text-title mb-5 border-b border-border/60 pb-3">Stories</h2>
           <ul class="flex flex-col gap-1.5 m-0 p-0 list-none">
@@ -103,6 +105,7 @@ function getTagStyles(freq: number) {
             ))}
           </ul>
         </div>
+        )}
 
       </div>
     </section>

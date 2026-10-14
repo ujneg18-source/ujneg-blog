@@ -1,4 +1,5 @@
 ---
+import { SHOW_STORIES } from '../../../config/features';
 import { getCollection } from 'astro:content';
 import { Image } from 'astro:assets';
 import Layout from '../../../layouts/Layout.astro';
@@ -8,7 +9,7 @@ import Pagination from '../../../components/Pagination.astro';
 export async function getStaticPaths({ paginate }) {
   const allNotes = await getCollection('notes');
   const allProjects = await getCollection('projects');
-  const allStories = await getCollection('stories');
+  const allStories = SHOW_STORIES ? await getCollection('stories') : [];
   
   const combinedItems = [
     ...allNotes.map(post => ({

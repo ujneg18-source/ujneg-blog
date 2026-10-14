@@ -1,4 +1,5 @@
 ---
+import { SHOW_STORIES } from '../config/features';
 import { getCollection } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
 import { Image } from 'astro:assets';
@@ -84,7 +85,7 @@ function formatDate(date: Date): string {
     </div>
 
     <!-- Stories List -->
-    <div id="stories-list" class="flex flex-col gap-6 mt-4" data-pagefind-body>
+    <div id="stories-list" class="flex flex-col gap-6 mt-4" data-pagefind-body={SHOW_STORIES ? '' : undefined}>
       
       {stories.map((story, idx) => {
         const formattedDate = formatDate(story.data.date);
