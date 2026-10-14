@@ -123,11 +123,19 @@
   }
 
   .prose h3 {
-    font-size: 19px !important;
+    font-size: 20px !important;
     font-weight: 700 !important;
     line-height: 1.45 !important;
     margin-top: 2rem !important;
     margin-bottom: 0.75rem !important;
+  }
+
+  .prose h4 {
+    font-size: 18.5px !important;
+    font-weight: 700 !important;
+    line-height: 1.5 !important;
+    margin-top: 1.75rem !important;
+    margin-bottom: 0.6rem !important;
   }
 
   .prose ul > li::marker {
@@ -242,3 +250,9 @@
 .prose .df-result td.ellipsis { text-align: center; color: var(--color-text-muted); }
 /* 띄어쓰기 없이 긴 제목(·로 이은 키워드)이 모바일에서 가로로 넘치지 않게 */
 h1, h2, h3, main a { overflow-wrap: anywhere; }
+
+/* 짧은 표 셀은 한 줄 유지 (rehype-table-nowrap) */
+.prose td.nowrap,
+.prose th.nowrap {
+  white-space: nowrap;
+}

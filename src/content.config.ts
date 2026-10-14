@@ -45,6 +45,8 @@ const projects = defineCollection({
     thumbnail: image().nullable().optional(),
     status: z.string().default('Completed'),
     type: z.enum(['main', 'toy']).default('main'),
+    affiliation: z.string().optional(),
+    order: z.number().optional(),
   }),
 });
 

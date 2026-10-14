@@ -50,6 +50,9 @@ const isLive = post.data.status === 'Live';
           {post.data.title}
         </h1>
 
+        {post.data.affiliation && (
+          <div class="text-[15px] font-[600] text-primary mb-2 break-keep">{post.data.affiliation}</div>
+        )}
         <!-- Description only (Tags & GitHub button moved to bottom) -->
         <p class="text-[16px] md:text-[17px] text-text-secondary leading-[1.7] mb-2 break-keep whitespace-pre-line">
           {post.data.description}
